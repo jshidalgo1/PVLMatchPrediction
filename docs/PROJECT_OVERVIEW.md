@@ -4,7 +4,7 @@
 
 Your complete volleyball match prediction system is now ready! Here's everything that was built:
 
-### 📁 Core Scripts (9 files)
+### 📁 Core Scripts (highlights)
 
 1. **parse_volleyball_data.py** (10.3 KB)
    - Parses PVL XML match files
@@ -32,6 +32,12 @@ Your complete volleyball match prediction system is now ready! Here's everything
    - Performance evaluation
    - Feature importance analysis
    - Model persistence
+
+6. **train_xgboost_with_players.py**
+   - Player-aware features
+   - Time-aware chronological split + probability calibration (Platt)
+   - Rich metrics (AUC, LogLoss, Brier)
+   - Saves calibrated and uncalibrated artifacts
 
 6. **download_matches.py** (4.0 KB)
    - Helper to download PVL matches
@@ -228,6 +234,8 @@ print(df.columns)
 
 ### 3. Customize Features
 Edit `feature_engineering.py` to add:
+Additionally, `feature_engineering_with_players.py` includes chronological ELO rating computation (base 1500, K=20) and adds ELO-derived features used by the time-aware pipeline.
+
 - Player-specific features
 - Team form over last N matches
 - Home/away advantages
@@ -255,10 +263,13 @@ params = {
 
 ## 🎯 Model Architecture
 
-**Input:** 84 features per match
-**Algorithm:** XGBoost Binary Classifier
-**Output:** Winner prediction (Team A or Team B)
-**Confidence:** Probability scores (0-100%)
+**Pipelines:**
+- Baseline (random-split) multi-model: XGBoost, LightGBM, CatBoost, RandomForest, GradientBoosting, Voting, Stacking (OOF + LogisticRegression)
+- Time-aware (chronological) + calibrated + ELO: same models, calibrated probabilities; includes Voting and Stacking
+
+**Inputs:** 80+ engineered features + ELO-derived features (when using time-aware pipeline)
+**Outputs:** Winner prediction with calibrated probabilities (time-aware)
+**Confidence:** Probability scores (0-100%) suitable for simulation decisions
 
 ## 🛠️ File Structure
 
@@ -284,8 +295,12 @@ VolleyballAIProject/
 │   └── y_target.csv
 │
 ├── Model Files/ (after training)
-│   ├── volleyball_predictor.pkl
-│   └── feature_importance.csv
+│   ├── best_model_with_players_random.pkl
+│   ├── best_model_with_players_timeaware.pkl
+│   ├── best_model_with_players_random_stacking.pkl
+│   ├── best_model_with_players_timeaware_stacking.pkl
+│   ├── calibrated_xgboost_with_players.pkl
+│   └── feature_importance_with_players.csv
 │
 └── Documentation/
     ├── README.md
@@ -302,6 +317,7 @@ VolleyballAIProject/
 - [ ] Add custom features if needed
 - [ ] Collect 50+ matches for production model
 - [ ] Tune hyperparameters for best accuracy
+- [ ] Compare random vs time-aware summaries (`outputs/simulation_output_random.txt` vs `outputs/simulation_output_timeaware.txt`)
 - [ ] Create prediction API/interface
 - [ ] Deploy model for real predictions
 

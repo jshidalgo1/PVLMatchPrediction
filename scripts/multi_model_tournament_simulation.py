@@ -7,16 +7,42 @@ Then simulates the tournament with each model to compare predictions
 import pandas as pd
 import numpy as np
 import sqlite3
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 from catboost import CatBoostClassifier
 from sklearn.ensemble import VotingClassifier, RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
 import joblib
 import warnings
-from config import X_FEATURES, Y_TARGET, DB_FILE, BEST_MODEL
+from config import X_FEATURES, Y_TARGET, DB_FILE, BEST_MODEL, OUTPUTS_DIR
+from pathlib import Path
+from datetime import datetime
+import argparse
 warnings.filterwarnings('ignore')
+
+
+# ---------- Model wrapper (module-level for pickling) ----------
+class StackingModel:
+    def __init__(self, bases: dict, meta_clf, order: list[str]):
+        self.bases = bases
+        self.order = order
+        self.meta = meta_clf
+
+    def _stack(self, X):
+        cols = []
+        for name in self.order:
+            cols.append(self.bases[name].predict_proba(X)[:, 1])
+        return np.column_stack(cols)
+
+    def predict_proba(self, X):
+        Z = self._stack(X)
+        p1 = self.meta.predict_proba(Z)[:, 1]
+        return np.column_stack([1 - p1, p1])
+
+    def predict(self, X):
+        return (self.predict_proba(X)[:, 1] >= 0.5).astype(int)
 
 
 def load_features_with_players():
@@ -164,6 +190,68 @@ def train_multiple_models(X_train, y_train, X_test, y_test):
         'cv_std': 0
     })
     
+    # Stacking (OOF-based meta-learner on training fold)
+    print(f"\n[Stacking_Meta]")
+    print("-" * 60)
+
+    stack_order = ['XGBoost_Deep', 'LightGBM', 'CatBoost', 'Random_Forest', 'Gradient_Boosting']
+
+    # OOF probabilities using stratified K-fold on training set
+    n = len(X_train)
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    oof_matrix = {name: np.full(n, np.nan, dtype=float) for name in stack_order}
+    for train_idx, val_idx in skf.split(X_train, y_train):
+        X_tr, X_val = X_train.iloc[train_idx], X_train.iloc[val_idx]
+        y_tr, y_val = y_train[train_idx], y_train[val_idx]
+        for name in stack_order:
+            base_ctor = models[name].__class__ if not isinstance(models[name], type) else models[name]
+            # Recreate model with same params
+            base_model = models[name].__class__(**models[name].get_params())
+            base_model.fit(X_tr, y_tr)
+            proba = base_model.predict_proba(X_val)[:, 1]
+            oof_matrix[name][val_idx] = proba
+
+    # Train meta-learner
+    X_oof = np.column_stack([oof_matrix[name] for name in stack_order])
+    meta = LogisticRegression(max_iter=1000, solver='lbfgs')
+    meta.fit(X_oof, y_train)
+
+    # Fit base models on full training for inference
+    base_fitted = {}
+    for name in stack_order:
+        m = models[name].__class__(**models[name].get_params())
+        m.fit(X_train, y_train)
+        base_fitted[name] = m
+
+    # Evaluate on test
+    test_stack = []
+    for name in stack_order:
+        test_stack.append(base_fitted[name].predict_proba(X_test)[:, 1])
+    X_test_meta = np.column_stack(test_stack)
+    y_proba_meta = meta.predict_proba(X_test_meta)[:, 1]
+    y_pred_meta = (y_proba_meta >= 0.5).astype(int)
+
+    accuracy = accuracy_score(y_test, y_pred_meta)
+    f1 = f1_score(y_test, y_pred_meta)
+    auc = roc_auc_score(y_test, y_proba_meta)
+
+    print(f"  Accuracy:     {accuracy:.4f}")
+    print(f"  F1 Score:     {f1:.4f}")
+    print(f"  ROC-AUC:      {auc:.4f}")
+
+    stacking_model = StackingModel(base_fitted, meta, stack_order)
+
+    results.append({
+        'name': 'Stacking_Meta',
+        'model': stacking_model,
+        'accuracy': accuracy,
+        'f1_score': f1,
+        'auc': auc,
+        'cv_mean': accuracy,
+        'cv_std': 0
+    })
+    trained_models['Stacking_Meta'] = stacking_model
+
     return results, trained_models
 
 
@@ -388,7 +476,7 @@ def simulate_tournament_with_model(model_name, model, feature_names):
     }
 
 
-def main():
+def main(save_summary: bool = False, summary_file: str | None = None):
     print("\n" + "="*80)
     print(" "*15 + "MULTI-MODEL TOURNAMENT SIMULATION")
     print(" "*20 + "with Player Statistics")
@@ -424,6 +512,7 @@ def main():
     
     # Select top models for tournament simulation
     top_models_to_simulate = [
+        'Stacking_Meta',
         'XGBoost_Deep',
         'LightGBM', 
         'CatBoost',
@@ -487,13 +576,67 @@ def main():
     best_model_result = sorted_results[0]
     print(f"\n" + "="*80)
     print(f"Saving best model: {best_model_result['name']} ({best_model_result['accuracy']:.4f} accuracy)")
+    # Save to a distinct filename to avoid overwriting other baselines
+    out_path = Path(str(BEST_MODEL)).with_name('best_model_with_players_random.pkl')
     joblib.dump({
         'model': best_model_result['model'],
         'feature_names': feature_names,
         'accuracy': best_model_result['accuracy'],
         'model_name': best_model_result['name']
-    }, str(BEST_MODEL))
-    print(f"✓ Saved to {BEST_MODEL}")
+    }, str(out_path))
+    print(f"✓ Saved to {out_path}")
+
+    # Also save the stacked model artifact for convenience
+    stack_art_path = None
+    if 'Stacking_Meta' in trained_models:
+        stack_art_path = Path(str(BEST_MODEL)).with_name('best_model_with_players_random_stacking.pkl')
+        joblib.dump({
+            'model': trained_models['Stacking_Meta'],
+            'feature_names': feature_names,
+            'model_name': 'Stacking_Meta',
+            'calibrated': False,
+            'time_aware': False,
+            'note': 'Stacked meta-learner over base models (random split)'
+        }, str(stack_art_path))
+        print(f"Saved stacking model artifact → {stack_art_path}")
+    
+    # Optionally write a concise summary to a file for diffing
+    if save_summary:
+        try:
+            OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
+        except Exception:
+            pass
+        default_summary = Path(OUTPUTS_DIR) / "simulation_output_random.txt"
+        target_path = Path(summary_file) if summary_file else default_summary
+        
+        lines = []
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        lines.append("Baseline (random-split) Simulation Summary")
+        lines.append(f"Generated: {ts}")
+        lines.append("")
+        lines.append(f"Samples: {len(X)} | Features: {len(feature_names)}")
+        lines.append(f"Split: train={len(X_train)}, test={len(X_test)}")
+        lines.append("")
+        lines.append("Model performance (sorted by accuracy):")
+        for r in sorted_results:
+            lines.append(
+                f"- {r['name']}: acc={r['accuracy']:.4f}, f1={r['f1_score']:.4f}, auc={r['auc']:.4f}, cv={r['cv_mean']:.4f}±{r['cv_std']:.4f}"
+            )
+        lines.append("")
+        lines.append("Tournament results:")
+        for tr in tournament_results:
+            if tr:
+                lines.append(
+                    f"- {tr['model']}: champion={tr['champion']}, runner_up={tr['runner_up']}, conf={tr['confidence']:.3f}"
+                )
+        lines.append("")
+        lines.append(f"Saved best model: {best_model_result['name']} ({best_model_result['accuracy']:.4f}) → {out_path}")
+        if stack_art_path is not None:
+            lines.append(f"Saved stacked model → {stack_art_path}")
+
+        with open(target_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines))
+        print(f"\nSummary written to: {target_path}")
     
     print("\n" + "="*80)
     print("SIMULATION COMPLETE")
@@ -501,4 +644,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Baseline random-split multi-model simulation")
+    parser.add_argument("--save-summary", action="store_true", help="Write a text summary to outputs/")
+    parser.add_argument("--summary-file", type=str, default=None, help="Custom path for the summary file")
+    args = parser.parse_args()
+    main(save_summary=args.save_summary, summary_file=args.summary_file)

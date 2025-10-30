@@ -1,20 +1,28 @@
 """
 Enhanced Feature Engineering with Player-Level Data
 Combines team statistics with player performance metrics
+
+Update:
+- Adds ELO strength features computed chronologically per team
+- Outputs are saved to configured CSV paths
 """
 
 import sqlite3
 import pandas as pd
 import numpy as np
 from typing import Dict, List, Tuple
+from config import DB_FILE_STR, CSV_DIR_STR, VOLLEYBALL_FEATURES_STR, X_FEATURES_STR, Y_TARGET_STR
 
 
 class PlayerEnhancedFeatureExtractor:
     """Extract ML features including player-level statistics"""
     
-    def __init__(self, db_path: str = 'volleyball_data.db'):
+    def __init__(self, db_path: str = DB_FILE_STR):
         self.db_path = db_path
         self.conn = None
+        # ELO configuration
+        self.elo_default = 1500.0
+        self.elo_k = 20.0
         
     def connect(self):
         """Connect to database"""
@@ -134,12 +142,37 @@ class PlayerEnhancedFeatureExtractor:
         matches_df = pd.read_sql_query(matches_query, self.conn)
         
         features_list = []
+        # Initialize ELO ratings per team_id
+        elo: Dict[int, float] = {}
+        
+        def get_elo(team_id: int) -> float:
+            return elo.get(team_id, self.elo_default)
+        
+        def expected_score(r_a: float, r_b: float) -> float:
+            return 1.0 / (1.0 + 10 ** (-(r_a - r_b) / 400.0))
+        
+        def update_elo(team_a_id: int, team_b_id: int, winner_id: int):
+            ra = get_elo(team_a_id)
+            rb = get_elo(team_b_id)
+            ea = expected_score(ra, rb)
+            sa = 1.0 if winner_id == team_a_id else 0.0
+            sb = 1.0 - sa
+            ra_new = ra + self.elo_k * (sa - ea)
+            rb_new = rb + self.elo_k * (sb - (1.0 - ea))
+            elo[team_a_id] = ra_new
+            elo[team_b_id] = rb_new
         
         for idx, match in matches_df.iterrows():
             match_id = match['id']
             team_a_id = match['team_a_id']
             team_b_id = match['team_b_id']
             winner_id = match['winner_id']
+            
+            # ELO before this match (no leakage)
+            team_a_elo = get_elo(team_a_id)
+            team_b_elo = get_elo(team_b_id)
+            elo_diff = team_a_elo - team_b_elo
+            elo_prob_team_a = 1.0 / (1.0 + 10 ** (-(elo_diff) / 400.0))
             
             # Get historical stats for both teams
             team_a_stats = self.get_team_historical_stats(team_a_id, match_id)
@@ -156,6 +189,12 @@ class PlayerEnhancedFeatureExtractor:
                 'team_a_id': team_a_id,
                 'team_b_id': team_b_id,
                 'tournament_id': match['tournament_id'],
+                
+                # ELO features (pre-match)
+                'team_a_elo': team_a_elo,
+                'team_b_elo': team_b_elo,
+                'elo_diff': elo_diff,
+                'elo_prob_team_a': elo_prob_team_a,
                 
                 # Team A historical stats
                 'team_a_matches_played': team_a_stats['matches_played'],
@@ -203,6 +242,9 @@ class PlayerEnhancedFeatureExtractor:
             
             if (idx + 1) % 100 == 0:
                 print(f"  Processed {idx + 1}/{len(matches_df)} matches...")
+            
+            # Update ELO AFTER recording features for this match
+            update_elo(team_a_id, team_b_id, winner_id)
         
         self.close()
         
@@ -232,14 +274,17 @@ def main():
     y = features_df[target_col]
     
     # Save files
-    features_df.to_csv('volleyball_features_with_players.csv', index=False)
-    X.to_csv('X_features_with_players.csv', index=False)
-    y.to_csv('y_target_with_players.csv', index=False)
+    # Ensure directory exists
+    from pathlib import Path
+    Path(CSV_DIR_STR).mkdir(parents=True, exist_ok=True)
+    features_df.to_csv(VOLLEYBALL_FEATURES_STR, index=False)
+    X.to_csv(X_FEATURES_STR, index=False)
+    y.to_csv(Y_TARGET_STR, index=False)
     
     print("\n✓ Saved files:")
-    print("  - volleyball_features_with_players.csv (full dataset)")
-    print("  - X_features_with_players.csv (features only)")
-    print("  - y_target_with_players.csv (labels only)")
+    print(f"  - {VOLLEYBALL_FEATURES_STR} (full dataset)")
+    print(f"  - {X_FEATURES_STR} (features only)")
+    print(f"  - {Y_TARGET_STR} (labels only)")
     
     print(f"\n📊 Feature Summary:")
     print(f"  Samples: {len(X)}")
@@ -248,6 +293,7 @@ def main():
     print(f"  Team B wins: {len(y) - y.sum()}")
     
     print("\n✓ Feature groups:")
+    print(f"  - ELO features: 4 features (team_a_elo, team_b_elo, elo_diff, elo_prob_team_a)")
     print(f"  - Team historical stats: 12 features (6 per team)")
     print(f"  - Player-based stats: 18 features (9 per team)")
     print(f"  - Total: {len(feature_cols)} features")

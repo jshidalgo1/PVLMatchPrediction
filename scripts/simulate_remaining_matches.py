@@ -1,9 +1,13 @@
 """
 Simulate Remaining First Round Matches
 Uses the best Voting Ensemble model to predict remaining pool matches
+
+Update:
+- Optional model_path override via CLI or function argument
 """
 
 import sqlite3
+import argparse
 import pandas as pd
 import joblib
 from itertools import combinations
@@ -169,7 +173,7 @@ def predict_match(model, team_a, team_b, feature_names):
     return winner, confidence
 
 
-def main():
+def main(model_path: str | None = None):
     print("="*80)
     print(" "*20 + "SIMULATE REMAINING FIRST ROUND MATCHES")
     print("="*80)
@@ -178,9 +182,10 @@ def main():
     pool_a = ['HSH', 'FFF', 'CMF', 'CHD', 'CAP', 'NXL']
     pool_b = ['ZUS', 'CCS', 'AKA', 'PGA', 'CTC', 'GTH']
     
-    # Load best model
-    print("\nLoading best model (Voting Ensemble)...")
-    model_data = joblib.load(BEST_MODEL_STR)
+    # Load model (allow override)
+    chosen_model_path = model_path or BEST_MODEL_STR
+    print(f"\nLoading model from: {chosen_model_path}")
+    model_data = joblib.load(chosen_model_path)
     model = model_data['model']
     feature_names = model_data['feature_names']
     print(f"✓ Model loaded (accuracy: {model_data.get('accuracy', 'N/A')})")
@@ -331,4 +336,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Simulate remaining first round matches")
+    parser.add_argument("--model", type=str, default=None, help="Path to model .pkl to use")
+    args = parser.parse_args()
+    main(model_path=args.model)

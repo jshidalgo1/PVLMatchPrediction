@@ -1,1 +1,28 @@
 /data
+
+# macOS cruft
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Model and training artifacts
+models/*.pkl
+models/*.joblib
+catboost_info/
+models/catboost_info/
+
+# Outputs and logs
+outputs/
+logs/

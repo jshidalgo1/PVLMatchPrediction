@@ -18,12 +18,20 @@ VolleyballAIProject/
 │   ├── PROJECT_OVERVIEW.md
 │   └── tournament_format.md
 ├── models/                # Trained ML models
-│   ├── best_model_with_players.pkl
-│   └── catboost_info/     # CatBoost training logs
+│   ├── best_model_with_players.pkl                 # legacy default (may exist)
+│   ├── best_model_with_players_random.pkl          # best from random-split pipeline
+│   ├── best_model_with_players_timeaware.pkl       # best from time-aware + calibrated pipeline
+│   ├── best_model_with_players_random_stacking.pkl # stacked meta-learner (random)
+│   ├── best_model_with_players_timeaware_stacking.pkl # stacked meta-learner (time-aware)
+│   ├── calibrated_xgboost_with_players.pkl         # calibrated XGBoost (time-aware trainer)
+│   ├── volleyball_predictor_with_players_uncalibrated.pkl
+│   └── catboost_info/                              # CatBoost training logs
 ├── outputs/               # Generated visualizations and results
 │   ├── pool_standings.png
 │   ├── tournament_bracket.png
 │   ├── simulation_output.txt
+│   ├── simulation_output_random.txt                # baseline summary (--save-summary)
+│   └── simulation_output_timeaware.txt             # time-aware summary (--save-summary)
 │   └── requirements.txt
 ├── scripts/               # Python scripts
 │   ├── batch_processor.py
@@ -66,6 +74,23 @@ VolleyballAIProject/
    python quickstart.py
    ```
 
+3. Run a simulation with a specific model (optional):
+   ```bash
+   # From project root
+   # Use the time-aware calibrated best model
+   python run_simulation.py --model models/best_model_with_players_timeaware.pkl
+
+   # Compare with the random-split best model
+   python run_simulation.py --model models/best_model_with_players_random.pkl
+
+   # Or use a calibrated XGBoost directly
+   python run_simulation.py --model models/calibrated_xgboost_with_players.pkl
+
+   # Try the stacked meta-learner variants
+   python run_simulation.py --model models/best_model_with_players_timeaware_stacking.pkl
+   python run_simulation.py --model models/best_model_with_players_random_stacking.pkl
+   ```
+
 ## Data
 
 - **XML Files**: 400+ match files from Philippine Volleyball League (PVL) seasons 2023-2025
@@ -79,7 +104,30 @@ The project uses various machine learning models including:
 - CatBoost
 - Naive Bayes
 
-Models are trained with player-specific features to improve prediction accuracy.
+Models are trained with player-specific features to improve prediction accuracy. The time-aware pipeline adds chronological splitting, probability calibration (Platt/sigmoid), and ELO-based features for better probability quality and tournament realism. A stacked meta-learner can combine multiple base models via OOF predictions and a LogisticRegression meta model.
+
+### Selecting a model at runtime
+
+Use the `--model` flag to choose a specific model file for simulations without changing code:
+
+```bash
+# Time-aware calibrated ensemble best
+python run_simulation.py --model models/best_model_with_players_timeaware.pkl
+
+# Random-split ensemble best
+python run_simulation.py --model models/best_model_with_players_random.pkl
+
+# Calibrated XGBoost baseline
+python run_simulation.py --model models/calibrated_xgboost_with_players.pkl
+```
+
+Typical model files:
+- `models/best_model_with_players_timeaware.pkl` — best time-aware calibrated model
+- `models/best_model_with_players_random.pkl` — best model from random-split pipeline
+- `models/best_model_with_players_timeaware_stacking.pkl` — stacked meta-learner (time-aware)
+- `models/best_model_with_players_random_stacking.pkl` — stacked meta-learner (random)
+- `models/calibrated_xgboost_with_players.pkl` — calibrated XGBoost (time-aware trainer)
+- `models/volleyball_predictor_with_players_uncalibrated.pkl` — raw XGBoost (no calibration)
 
 ## Scripts
 
@@ -95,6 +143,8 @@ Models are trained with player-specific features to improve prediction accuracy.
 ### Simulation & Prediction
 - `predict_tournament.py` - Predict tournament outcomes
 - `simulate_tournament.py` - Run tournament simulations
+- `multi_model_tournament_simulation.py` - Baseline multi-model (random split). Flags: `--save-summary`, `--summary-file`
+- `multi_model_tournament_simulation_timeaware.py` - Time-aware + calibrated + ELO. Flags: `--save-summary`, `--summary-file`
 - `tournament_visualization.py` - Generate visualizations
 
 ## Documentation
@@ -104,3 +154,5 @@ See the `docs/` folder for detailed documentation:
 - Data quality reports
 - Model performance summaries
 - Tournament format details
+
+Tip: Use the `--save-summary` flag on multi-model scripts to create concise diffable summaries under `outputs/simulation_output_*.txt`.

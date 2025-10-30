@@ -40,6 +40,8 @@ cd scripts
 python simulate_remaining_matches.py
 python parse_volleyball_data.py
 python feature_engineering_with_players.py
+python multi_model_tournament_simulation.py --save-summary
+python multi_model_tournament_simulation_timeaware.py --save-summary
 ```
 
 ## Key Updates
@@ -55,13 +57,15 @@ The following scripts have been updated to use the new structure:
 - ✅ `batch_processor.py` - Batch processing pipeline
 - ✅ `parse_volleyball_data.py` - XML parsing
 - ✅ `config.py` - NEW: Centralized configuration
+ - ✅ `multi_model_tournament_simulation.py` - Baseline multi-model with `--save-summary`
+ - ✅ `multi_model_tournament_simulation_timeaware.py` - Time-aware + calibrated + ELO with `--save-summary`
 
 ### File Locations
 Scripts now automatically look for files in:
 - **XML files**: `data/xml_files/`
 - **CSV files**: `data/csv_files/`
 - **Database**: `data/databases/volleyball_data.db`
-- **Models**: `models/best_model_with_players.pkl`
+- **Models**: `models/best_model_with_players_timeaware.pkl`, `models/best_model_with_players_random.pkl`, and stacking variants
 - **Outputs**: `outputs/`
 
 ## Adding New Match Data
@@ -85,7 +89,11 @@ Scripts now automatically look for files in:
 4. **Run simulation**:
    ```bash
    cd ..
-   python run_simulation.py
+python run_simulation.py
+
+# Or run multi-model comparisons and write summaries
+python scripts/multi_model_tournament_simulation.py --save-summary
+python scripts/multi_model_tournament_simulation_timeaware.py --save-summary
    ```
 
 ## Checking Configuration
@@ -161,6 +169,10 @@ python train_xgboost_with_players.py
 # 5. Run tournament simulation
 cd ..
 python run_simulation.py
+
+# 6. (Optional) Compare pipelines and write summaries
+python scripts/multi_model_tournament_simulation.py --save-summary
+python scripts/multi_model_tournament_simulation_timeaware.py --save-summary
 ```
 
-All paths are handled automatically! 🎉
+All paths are handled automatically! Summaries are written to `outputs/` for quick diffing. 🎉

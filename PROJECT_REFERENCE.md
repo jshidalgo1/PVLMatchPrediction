@@ -4,7 +4,7 @@ This document provides a comprehensive overview of the project structure and the
 
 ## Project Overview
 
-This project analyzes Philippine Volleyball League (PVL) match data using machine learning to predict match outcomes and simulate tournament results. It processes XML match files, extracts features, trains models, and simulates tournament progression.
+This project analyzes Philippine Volleyball League (PVL) match data using machine learning to predict match outcomes and simulate tournament results. It processes XML match files, extracts features, trains models, and simulates tournament progression. The codebase now includes a time-aware, calibrated pipeline with ELO features and an optional stacked meta-learner, alongside the original random-split baseline pipeline.
 
 ---
 
@@ -100,13 +100,14 @@ All data files including raw match data, processed datasets, and databases.
 - Momentum indicators
 **Output**: Feature matrices ready for ML training
 
-#### `feature_engineering_with_players.py` - Player-Based Features
+#### `feature_engineering_with_players.py` - Player-Based + ELO Features
 **Purpose**: Generates features that include player-level statistics
 **Enhanced Features**:
 - Player contribution metrics
 - Star player performance
 - Team roster strength
 - Player form and consistency
+ - Chronological ELO ratings per team (1500 base, K=20) and derived features (`team_a_elo`, `team_b_elo`, `elo_diff`, `elo_prob_team_a`) without leakage
 **Use Case**: More detailed predictions considering individual player impact
 
 ### Model Training Scripts
@@ -153,13 +154,29 @@ All data files including raw match data, processed datasets, and databases.
 **Purpose**: Full tournament simulation from start to finish
 **Scope**: First round + playoffs in one execution
 
-#### `multi_model_tournament_simulation.py` - Ensemble Predictions
-**Purpose**: Use multiple models for robust predictions
-**Models Combined**:
-- XGBoost
-- Naive Bayes
-- Voting ensemble
-**Benefit**: More reliable predictions through model consensus
+#### `multi_model_tournament_simulation.py` - Baseline Multi-Model (Random Split)
+**Purpose**: Train multiple models on a stratified random split and simulate tournaments
+**Models**: XGBoost, LightGBM, CatBoost, RandomForest, GradientBoosting, Voting (soft), Stacking (OOF + LogisticRegression)
+**CLI**:
+- `--save-summary` to write a concise summary to `outputs/simulation_output_random.txt`
+- `--summary-file PATH` to override the summary location
+**Artifacts**:
+- `models/best_model_with_players_random.pkl` (best by test accuracy)
+- `models/best_model_with_players_random_stacking.pkl` (stacked meta-learner)
+
+#### `multi_model_tournament_simulation_timeaware.py` - Time-aware + Calibrated + ELO
+**Purpose**: Chronological training/validation with probability calibration and ELO features
+**Validation**:
+- Chronological split: sub-train → calibration → test (last 20%)
+- Blocked time-ordered CV on the training window
+**Calibration**: Platt (sigmoid) via `CalibratedClassifierCV(cv='prefit')`
+**Models**: Same as baseline, with calibrated probabilities; includes Voting and Stacking
+**CLI**:
+- `--save-summary` to write `outputs/simulation_output_timeaware.txt`
+- `--summary-file PATH` to override the summary location
+**Artifacts**:
+- `models/best_model_with_players_timeaware.pkl` (best time-aware calibrated)
+- `models/best_model_with_players_timeaware_stacking.pkl` (stacked meta-learner)
 
 #### `complete_tournament_simulation.py` - Comprehensive Simulation
 **Purpose**: End-to-end tournament simulation with detailed output
@@ -222,6 +239,8 @@ All data files including raw match data, processed datasets, and databases.
 3. Simulates remaining matches
 4. Outputs predictions and standings
 **Usage**: `python run_simulation.py`
+**Options**:
+- `--model PATH` to select a specific saved model artifact (e.g., time-aware stacked)
 
 ### `QUICK_START.md` - Getting Started Guide
 **Purpose**: Quick start instructions for new users
@@ -288,6 +307,12 @@ Latest simulation results including:
 - Final standings
 - Playoff bracket
 
+### `simulation_output_random.txt`
+Summary from baseline random-split multi-model run (`--save-summary`)
+
+### `simulation_output_timeaware.txt`
+Summary from time-aware + calibrated + ELO multi-model run (`--save-summary`)
+
 ### `requirements.txt`
 Python package dependencies needed to run the project
 
@@ -340,6 +365,9 @@ python run_simulation.py
 
 # Multi-model ensemble
 python scripts/multi_model_tournament_simulation.py
+
+# Multi-model (time-aware + calibrated + ELO)
+python scripts/multi_model_tournament_simulation_timeaware.py --save-summary
 
 # Complete with visualization
 python scripts/complete_tournament_simulation.py
@@ -395,9 +423,14 @@ python scripts/complete_tournament_simulation.py
 
 ## Model Information
 
-### Current Best Model
-- **Type**: Voting Ensemble (XGBoost + Naive Bayes)
-- **Accuracy**: ~74.3%
+### Pipelines and Artifacts
+- Baseline (random-split): `models/best_model_with_players_random.pkl`
+- Baseline stacked: `models/best_model_with_players_random_stacking.pkl`
+- Time-aware calibrated: `models/best_model_with_players_timeaware.pkl`
+- Time-aware stacked: `models/best_model_with_players_timeaware_stacking.pkl`
+- Calibrated XGBoost: `models/calibrated_xgboost_with_players.pkl`
+
+Use `run_simulation.py --model <path>` to pick a specific artifact at runtime.
 - **Features**: 18 team-based features + player features
 - **Training Data**: 501 matches from PVL 2023-2025
 
