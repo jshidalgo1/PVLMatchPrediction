@@ -5,16 +5,11 @@ Adds optional --model PATH to choose which model file to load.
 Defaults to config.BEST_MODEL if not provided.
 """
 
-import sys
 import argparse
-from pathlib import Path
+import inspect
 
-# Add scripts directory to path
-scripts_dir = Path(__file__).parent / "scripts"
-sys.path.insert(0, str(scripts_dir))
-
-# Import simulation module
-import simulate_remaining_matches as srm
+# Import simulation module from package
+from scripts import simulate_remaining_matches as srm
 
 
 def parse_args():
@@ -32,10 +27,17 @@ if __name__ == "__main__":
     args = parse_args()
     # Call simulate with optional override
     if hasattr(srm, "main"):
+        sig = None
         try:
-            srm.main(model_path=args.model)
-        except TypeError:
-            # Backward compatibility if main doesn't accept kwarg
+            sig = inspect.signature(srm.main)
+        except (ValueError, TypeError):
+            # If signature can't be inspected, fall back to plain call
             srm.main()
+        else:
+            if any(p.kind in (p.KEYWORD_ONLY, p.POSITIONAL_OR_KEYWORD) and name == "model_path"
+                   for name, p in sig.parameters.items()):
+                srm.main(model_path=args.model)
+            else:
+                srm.main()
     else:
         raise SystemExit("simulate_remaining_matches.main not found")
