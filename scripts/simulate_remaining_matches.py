@@ -11,7 +11,12 @@ import argparse
 import pandas as pd
 import joblib
 from itertools import combinations
-from config import DB_FILE_STR, BEST_MODEL_STR
+
+# Support both package import (scripts.module) and direct module execution
+try:  # when imported as part of the scripts package
+    from .config import DB_FILE_STR, BEST_MODEL_STR
+except Exception:  # when run directly or imported with scripts on sys.path
+    from config import DB_FILE_STR, BEST_MODEL_STR
 
 
 def get_played_matches():
