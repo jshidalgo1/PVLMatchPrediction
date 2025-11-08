@@ -50,49 +50,8 @@ jobs:
           models/best_model_with_players_timeaware.pkl \
           models/calibrated_xgboost_with_players.pkl
         
-        # Extract latest comparison JSON
-        LATEST_JSON=$(ls -t outputs/metrics_comparison_*.json | head -1)
-        
-        # Parse metrics with Python
-        python - <<EOF
-        import json
-        import sys
-        
-        with open("$LATEST_JSON") as f:
-            data = json.load(f)
-        
-        delta_acc = data["delta"]["accuracy"]
-        delta_logloss = data["delta"]["logloss"]
-        delta_auc = data["delta"]["AUC"]
-        
-        print(f"::notice title=Accuracy Delta::{delta_acc:+.4f}")
-        print(f"::notice title=LogLoss Delta::{delta_logloss:+.4f}")
-        print(f"::notice title=AUC Delta::{delta_auc:+.4f}")
-        
-        # Regression thresholds
-        ACC_THRESHOLD = -0.02  # Fail if accuracy drops >2%
-        LOGLOSS_THRESHOLD = 0.05  # Fail if logloss increases >0.05
-        AUC_THRESHOLD = -0.02  # Fail if AUC drops >2%
-        
-        failed = False
-        
-        if delta_acc < ACC_THRESHOLD:
-            print(f"::error title=Accuracy Regression::Accuracy dropped by {-delta_acc:.4f} (threshold: {-ACC_THRESHOLD:.4f})")
-            failed = True
-        
-        if delta_logloss > LOGLOSS_THRESHOLD:
-            print(f"::error title=LogLoss Regression::LogLoss increased by {delta_logloss:.4f} (threshold: {LOGLOSS_THRESHOLD:.4f})")
-            failed = True
-        
-        if delta_auc < AUC_THRESHOLD:
-            print(f"::error title=AUC Regression::AUC dropped by {-delta_auc:.4f} (threshold: {-AUC_THRESHOLD:.4f})")
-            failed = True
-        
-        if failed:
-            sys.exit(1)
-        else:
-            print("✓ All metrics within acceptable thresholds")
-        EOF
+        # Extract latest comparison JSON and validate metrics
+        python scripts/validate_metrics.py
     
     - name: Upload metrics comparison
       if: always()
