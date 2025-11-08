@@ -30,7 +30,7 @@ def validate_metrics():
     
     delta_acc = data["delta"]["accuracy"]
     delta_logloss = data["delta"]["logloss"]
-    delta_auc = data["delta"]["AUC"]
+    delta_auc = data["delta"]["auc"]
     
     # Display metrics
     print(f"::notice title=Accuracy Delta::{delta_acc:+.4f}")
