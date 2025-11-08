@@ -47,11 +47,7 @@ catboost_info/
 models/catboost_info/
 
 # Data files (keep structure, exclude large datasets)
-data/xml_files/*.xml
-data/databases/*.db
-data/databases/*.sqlite
-data/csv_files/*.csv
-data/*.json
+
 
 # Keep example/sample data
 !data/xml_files/Match001.xml

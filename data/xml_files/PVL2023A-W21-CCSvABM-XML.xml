@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes" ?>
+<VolleyMatch>
+  <Tournament Code="PVLF23">
+    <Name>PVL ALL FILIPINO CONFERENCE 2023</Name>
+  </Tournament>
+  <Player>
+    <FirstName>Kyle Angela</FirstName>
+    <LastName>NEGRITO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Fille Saint Merced</FirstName>
+    <LastName>CAYETANO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Risa</FirstName>
+    <LastName>SATO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Jeannette</FirstName>
+    <LastName>PANAGA</LastName>
+  </Player>
+  <Player>
+    <FirstName>Michele Theresa</FirstName>
+    <LastName>GUMABAO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Jorella Marie</FirstName>
+    <LastName>DE JESUS</LastName>
+  </Player>
+  <Player>
+    <FirstName>Ma.Paulina</FirstName>
+    <LastName>SORIANO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Kyla Llana</FirstName>
+    <LastName>ATIENZA</LastName>
+  </Player>
+  <Player>
+    <FirstName>Julia Melissa</FirstName>
+    <LastName>DE GUZMAN</LastName>
+  </Player>
+  <Player>
+    <FirstName>Celine Elaiza</FirstName>
+    <LastName>DOMINGO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Rizza Jane</FirstName>
+    <LastName>MANDAPAT</LastName>
+  </Player>
+  <Player>
+    <FirstName>Rosemarie</FirstName>
+    <LastName>VARGAS</LastName>
+  </Player>
+  <Player>
+    <FirstName>Diana Mae</FirstName>
+    <LastName>CARLOS</LastName>
+  </Player>
+  <Player>
+    <FirstName>Jessica Margaret</FirstName>
+    <LastName>GALANZA</LastName>
+  </Player>
+  <Player>
+    <FirstName>Alexa</FirstName>
+    <LastName>POLIDARIO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Mary Anne</FirstName>
+    <LastName>ESGUERRA</LastName>
+  </Player>
+  <Player>
+    <FirstName>Sarah Jane</FirstName>
+    <LastName>GONZALES</LastName>
+  </Player>
+  <Player>
+    <FirstName>Ivy</FirstName>
+    <LastName>PEREZ</LastName>
+  </Player>
+  <Player>
+    <FirstName>Honey Royse</FirstName>
+    <LastName>TUBINO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Anngela</FirstName>
+    <LastName>NUNAG</LastName>
+  </Player>
+  <Player>
+    <FirstName>Zairyll Sky</FirstName>
+    <LastName>CHAVEZ</LastName>
+  </Player>
+  <Player>
+    <FirstName>Christine</FirstName>
+    <LastName>AGNO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Andrea</FirstName>
+    <LastName>MARZAN</LastName>
+  </Player>
+  <Player>
+    <FirstName>Nerissa</FirstName>
+    <LastName>BAUTISTA</LastName>
+  </Player>
+  <Player>
+    <FirstName>Audrey Kathryn</FirstName>
+    <LastName>PARAN</LastName>
+  </Player>
+  <Player>
+    <FirstName>Lutgarda</FirstName>
+    <LastName>MALALUAN</LastName>
+  </Player>
+  <Player>
+    <FirstName>Christine Dianne</FirstName>
+    <LastName>FRANCISCO</LastName>
+  </Player>
+  <Player>
+    <FirstName>Jeanette</FirstName>
+    <LastName>VILLAREAL</LastName>
+  </Player>
+  <Team Code="CCS">
+    <Name>CREAMLINE COOL SMASHERS</Name>
+    <Coach>
+      <Name>SHERWIN MENESES</Name>
+    </Coach>
+    <AssistantCoach>
+      <Name>KARLO MARTIN SANTOS</Name>
+    </AssistantCoach>
+    <Player NoShirt="1" />
+    <Player NoShirt="3" />
+    <Player NoShirt="5" />
+    <Player NoShirt="6" />
+    <Player NoShirt="7" />
+    <Player NoShirt="8" />
+    <Player NoShirt="10" />
+    <Player NoShirt="11" />
+    <Player NoShirt="12" />
+    <Player NoShirt="13" />
+    <Player NoShirt="16" />
+    <Player NoShirt="17" />
+    <Player NoShirt="18" />
+    <Player NoShirt="23" />
+  </Team>
+  <Team Code="ABM">
+    <Name>ARMY-BLACK MAMBA</Name>
+    <Coach>
+      <Name>RANDY FALLORINA</Name>
+    </Coach>
+    <AssistantCoach>
+      <Name>JOANNE BUNAG</Name>
+    </AssistantCoach>
+    <Player NoShirt="1" />
+    <Player NoShirt="2" />
+    <Player NoShirt="5" />
+    <Player NoShirt="7" />
+    <Player NoShirt="9" />
+    <Player NoShirt="10" />
+    <Player NoShirt="11" />
+    <Player NoShirt="12" />
+    <Player NoShirt="13" />
+    <Player NoShirt="14" />
+    <Player NoShirt="15" />
+    <Player NoShirt="16" />
+    <Player NoShirt="19" />
+    <Player NoShirt="21" />
+  </Team>
+  <Phase No="1">
+    <Description>Preliminaries</Description>
+  </Phase>
+  <Match No="21">
+    <Status>2</Status>
+    <Phase>1</Phase>
+    <Date>20230228</Date>
+    <Time>1600</Time>
+    <EndTime>00</EndTime>
+    <City>PASIG CITY</City>
+    <Hall>PHILSPORTS ARENA</Hall>
+    <TeamA Code="CCS">
+      <Captain>12</Captain>
+      <Libero>8</Libero>
+      <Libero>11</Libero>
+      <Score>3</Score>
+      <Set No="1">
+        <Score>25</Score>
+        <Roster p1="12" p2="17" p3="6" p4="7" p5="18" p6="13" r3="10" l2="11" l1="8" />
+        <Statistics>
+          <Team OppError="9" />
+          <Player NoShirt="3" />
+          <Player NoShirt="5" />
+          <Player NoShirt="6" AtkPoint="1" BlkFault="2" SrvCont="1" DigFault="1" DigCont="2" />
+          <Player NoShirt="7" AtkPoint="1" AtkFault="1" AtkCont="6" BlkPoint="2" BlkFault="1" BlkCont="3" SrvCont="1" DigFault="2" DigCont="3" SetCont="1" />
+          <Player NoShirt="8" DigExcel="1" DigFault="1" DigCont="3" SetCont="1" />
+          <Player NoShirt="10" />
+          <Player NoShirt="11" DigExcel="1" DigFault="1" SetCont="2" RecCont="1" />
+          <Player NoShirt="12" SrvPoint="1" SrvCont="5" DigExcel="1" DigCont="2" SetExcel="4" SetCont="16" />
+          <Player NoShirt="13" AtkPoint="1" AtkCont="3" SrvFault="1" SrvCont="1" DigFault="2" DigCont="1" />
+          <Player NoShirt="16" />
+          <Player NoShirt="17" AtkPoint="1" AtkCont="3" BAtkCont="1" BlkCont="1" SrvPoint="4" SrvCont="8" DigExcel="1" DigCont="3" SetCont="2" RecExcel="1" RecCont="6" />
+          <Player NoShirt="18" AtkPoint="4" AtkFault="1" AtkCont="7" BAtkCont="1" BlkFault="1" BlkCont="1" SrvPoint="1" SrvCont="2" DigCont="1" RecFault="1" RecCont="3" />
+        </Statistics>
+      </Set>
+      <Set No="2">
+        <Score>25</Score>
+        <Roster p1="12" p2="17" p3="6" p4="7" p5="18" p6="5" r1="16" r2="3" r3="10" r4="1" l2="11" l1="8" />
+        <Statistics>
+          <Team OppError="7" />
+          <Player NoShirt="1" SrvCont="1" SetExcel="1" SetFault="1" SetCont="3" />
+          <Player NoShirt="3" AtkCont="2" SrvCont="2" DigExcel="1" />
+          <Player NoShirt="5" AtkPoint="2" AtkFault="1" AtkCont="2" BlkCont="4" SrvCont="3" DigFault="1" DigCont="1" SetCont="1" />
+          <Player NoShirt="6" AtkPoint="1" BlkCont="2" SrvCont="5" SetCont="1" />
+          <Player NoShirt="7" AtkPoint="5" AtkCont="6" SrvPoint="1" SrvCont="3" DigExcel="1" DigFault="1" DigCont="2" SetCont="3" />
+          <Player NoShirt="8" DigFault="2" SetCont="1" />
+          <Player NoShirt="10" AtkCont="1" BlkCont="1" DigFault="1" />
+          <Player NoShirt="11" AtkCont="2" DigFault="2" DigCont="3" SetCont="2" RecExcel="2" RecFault="1" RecCont="3" />
+          <Player NoShirt="12" AtkPoint="2" BAtkPoint="1" BlkFault="1" BlkCont="1" SrvCont="2" DigExcel="2" DigFault="1" DigCont="4" SetExcel="7" SetCont="11" />
+          <Player NoShirt="13" />
+          <Player NoShirt="16" AtkCont="3" DigFault="1" />
+          <Player NoShirt="17" AtkPoint="1" AtkCont="3" BAtkCont="1" BlkFault="1" SrvFault="1" SrvCont="2" DigExcel="4" DigFault="2" DigCont="2" RecExcel="1" RecCont="4" />
+          <Player NoShirt="18" AtkPoint="4" AtkCont="4" BAtkCont="1" BlkPoint="1" BlkFault="1" BlkCont="2" SrvPoint="1" SrvCont="3" DigExcel="3" DigFault="1" DigCont="3" SetCont="2" RecExcel="6" RecFault="1" RecCont="2" />
+        </Statistics>
+      </Set>
+      <Set No="3">
+        <Score>25</Score>
+        <Roster p1="12" p2="17" p3="5" p4="7" p5="18" p6="13" r1="1" r2="3" r4="16" r6="10" l2="11" l1="8" />
+        <Statistics>
+          <Team OppError="3" />
+          <Player NoShirt="1" SrvPoint="1" SrvCont="3" DigCont="1" SetExcel="3" SetCont="9" />
+          <Player NoShirt="3" SrvCont="1" DigExcel="2" DigCont="1" SetCont="1" RecExcel="1" RecFault="1" RecCont="1" />
+          <Player NoShirt="5" AtkPoint="3" AtkCont="3" BlkCont="2" SrvFault="1" SrvCont="3" DigCont="1" SetCont="1" />
+          <Player NoShirt="7" AtkPoint="2" AtkFault="1" AtkCont="3" BAtkCont="1" BlkCont="1" SrvCont="3" DigFault="1" DigCont="3" />
+          <Player NoShirt="8" RecExcel="1" RecCont="1" />
+          <Player NoShirt="10" AtkPoint="1" AtkCont="2" BlkPoint="1" DigCont="1" />
+          <Player NoShirt="11" DigExcel="1" DigFault="2" DigCont="3" SetCont="1" RecCont="1" />
+          <Player NoShirt="12" AtkPoint="2" BlkCont="1" SrvCont="1" DigExcel="1" DigCont="3" SetExcel="6" SetCont="13" />
+          <Player NoShirt="13" AtkPoint="2" AtkCont="2" BlkCont="2" SrvFault="1" SrvCont="2" DigCont="1" SetExcel="1" SetCont="1" />
+          <Player NoShirt="16" AtkPoint="2" AtkCont="3" BlkFault="1" BlkCont="1" SrvPoint="1" SrvCont="2" DigCont="1" />
+          <Player NoShirt="17" AtkPoint="1" AtkCont="1" BlkCont="2" SrvCont="5" DigExcel="1" DigCont="3" SetCont="1" RecExcel="2" RecCont="2" />
+          <Player NoShirt="18" AtkPoint="6" AtkFault="1" AtkCont="4" BAtkPoint="1" BlkFault="1" BlkCont="5" SrvFault="1" DigExcel="1" DigFault="1" DigCont="2" SetCont="1" RecCont="2" />
+        </Statistics>
+      </Set>
+      <Set No="5">
+        <Statistics>
+          <Team />
+          <Player NoShirt="1" />
+          <Player NoShirt="3" />
+          <Player NoShirt="5" />
+          <Player NoShirt="6" />
+          <Player NoShirt="7" />
+          <Player NoShirt="8" />
+          <Player NoShirt="10" />
+          <Player NoShirt="11" />
+          <Player NoShirt="12" />
+          <Player NoShirt="13" />
+          <Player NoShirt="16" />
+          <Player NoShirt="17" />
+          <Player NoShirt="18" />
+          <Player NoShirt="23" />
+        </Statistics>
+      </Set>
+    </TeamA>
+    <TeamB Code="ABM">
+      <Captain>10</Captain>
+      <Libero>12</Libero>
+      <Libero>10</Libero>
+      <Set No="1">
+        <Score>15</Score>
+        <Roster p1="14" p2="7" p3="16" p4="9" p5="21" p6="2" r2="5" l2="10" l1="12" />
+        <Statistics>
+          <Team OppError="2" />
+          <Player NoShirt="2" AtkPoint="1" AtkFault="1" AtkCont="1" BAtkFault="1" BlkPoint="1" BlkCont="2" SrvCont="1" SetCont="1" />
+          <Player NoShirt="5" DigCont="1" SetCont="1" />
+          <Player NoShirt="7" AtkCont="1" BlkFault="1" BlkCont="1" SrvFault="2" SrvCont="1" DigExcel="1" DigCont="2" SetExcel="3" SetFault="1" SetCont="19" />
+          <Player NoShirt="9" AtkPoint="5" AtkFault="3" AtkCont="8" BlkCont="1" SrvPoint="1" SrvFault="1" SrvCont="3" DigExcel="5" DigFault="1" DigCont="1" RecExcel="4" RecFault="2" RecCont="3" />
+          <Player NoShirt="10" DigExcel="3" DigFault="2" DigCont="2" SetCont="1" RecExcel="4" RecFault="1" RecCont="6" />
+          <Player NoShirt="12" DigExcel="1" DigFault="1" />
+          <Player NoShirt="13" />
+          <Player NoShirt="14" AtkPoint="2" AtkCont="2" BAtkCont="2" BlkPoint="1" BlkCont="1" SrvCont="2" DigExcel="1" DigFault="1" DigCont="1" SetCont="1" RecFault="1" RecCont="2" />
+          <Player NoShirt="16" AtkPoint="1" AtkFault="2" AtkCont="2" BlkFault="1" BlkCont="5" SrvCont="2" DigExcel="1" DigFault="1" />
+          <Player NoShirt="19" />
+          <Player NoShirt="21" AtkPoint="1" AtkCont="1" BlkCont="2" SrvCont="2" DigExcel="1" DigFault="2" RecFault="1" />
+        </Statistics>
+      </Set>
+      <Set No="2">
+        <Score>20</Score>
+        <Roster p1="7" p2="16" p3="9" p4="21" p5="2" p6="14" r1="13" r4="5" r5="19" l1="12" l2="10" />
+        <Statistics>
+          <Team OppError="3" />
+          <Player NoShirt="1" />
+          <Player NoShirt="2" AtkPoint="1" AtkCont="3" BlkCont="2" />
+          <Player NoShirt="5" AtkCont="1" BAtkCont="1" SrvCont="2" SetCont="4" />
+          <Player NoShirt="7" AtkPoint="1" AtkFault="1" AtkCont="1" BAtkFault="1" BAtkCont="1" SrvCont="5" DigFault="2" DigCont="1" SetExcel="3" SetCont="22" />
+          <Player NoShirt="9" AtkPoint="2" AtkFault="3" AtkCont="3" BAtkFault="1" BlkFault="1" BlkCont="3" SrvCont="3" DigExcel="2" DigFault="1" DigCont="3" SetCont="1" RecFault="1" RecCont="10" />
+          <Player NoShirt="10" AtkCont="1" DigFault="1" RecExcel="3" RecCont="6" />
+          <Player NoShirt="12" DigExcel="3" DigFault="4" DigCont="2" SetCont="2" />
+          <Player NoShirt="13" AtkPoint="1" />
+          <Player NoShirt="14" AtkPoint="2" AtkFault="1" AtkCont="4" BAtkCont="1" BlkCont="2" SrvPoint="1" SrvCont="4" DigExcel="1" DigFault="2" DigCont="4" SetCont="2" RecCont="1" />
+          <Player NoShirt="16" AtkPoint="4" AtkCont="1" BlkCont="2" SrvPoint="1" SrvCont="2" DigFault="2" DigCont="1" SetCont="1" />
+          <Player NoShirt="19" AtkPoint="1" AtkCont="1" BlkFault="1" BlkCont="1" SrvFault="1" SrvCont="1" SetCont="1" />
+          <Player NoShirt="21" AtkPoint="2" AtkFault="1" AtkCont="4" BlkPoint="1" BlkFault="1" BlkCont="1" SrvCont="1" DigFault="1" DigCont="2" RecFault="1" RecCont="1" />
+        </Statistics>
+      </Set>
+      <Set No="3">
+        <Score>12</Score>
+        <Roster p1="14" p2="5" p3="16" p4="9" p5="21" p6="2" r1="15" r3="13" r5="1" r6="11" l2="10" l1="12" />
+        <Statistics>
+          <Team OppError="5" />
+          <Player NoShirt="1" AtkFault="1" AtkCont="1" BlkCont="1" DigFault="1" RecFault="1" />
+          <Player NoShirt="2" AtkFault="1" AtkCont="3" BlkFault="1" SrvCont="1" DigExcel="1" />
+          <Player NoShirt="5" SrvCont="2" DigExcel="1" DigFault="4" DigCont="5" SetExcel="3" SetCont="21" />
+          <Player NoShirt="9" AtkPoint="4" AtkCont="11" BAtkCont="1" BlkCont="3" SrvCont="2" DigExcel="2" DigFault="3" RecExcel="3" RecFault="1" RecCont="8" />
+          <Player NoShirt="10" AtkCont="1" DigExcel="1" DigFault="3" DigCont="3" SetCont="6" RecExcel="3" RecCont="4" />
+          <Player NoShirt="12" DigFault="2" DigCont="2" />
+          <Player NoShirt="13" SrvPoint="1" SrvCont="2" SetCont="1" />
+          <Player NoShirt="14" AtkCont="4" BAtkCont="1" BlkFault="1" BlkCont="1" SrvCont="2" DigExcel="3" DigFault="4" DigCont="1" SetCont="2" RecCont="2" />
+          <Player NoShirt="16" AtkPoint="1" AtkCont="2" BlkCont="1" SrvCont="1" />
+          <Player NoShirt="21" AtkFault="1" AtkCont="7" BlkPoint="1" BlkCont="1" SrvCont="1" DigFault="1" SetCont="1" />
+        </Statistics>
+      </Set>
+      <Set No="5">
+        <Statistics>
+          <Team />
+          <Player NoShirt="1" />
+          <Player NoShirt="2" />
+          <Player NoShirt="5" />
+          <Player NoShirt="7" />
+          <Player NoShirt="9" />
+          <Player NoShirt="10" />
+          <Player NoShirt="11" />
+          <Player NoShirt="12" />
+          <Player NoShirt="13" />
+          <Player NoShirt="14" />
+          <Player NoShirt="15" />
+          <Player NoShirt="16" />
+          <Player NoShirt="19" />
+          <Player NoShirt="21" />
+        </Statistics>
+      </Set>
+    </TeamB>
+    <LastAction Team="CCS" Player="18" Skill="1" /></Match>
+</VolleyMatch>
