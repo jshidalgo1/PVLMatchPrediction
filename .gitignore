@@ -39,7 +39,6 @@ htmlcov/
 dmypy.json
 
 # Model artifacts (large binary files - track via Git LFS or exclude)
-models/*.pkl
 models/*.joblib
 models/*.h5
 models/*.pth
