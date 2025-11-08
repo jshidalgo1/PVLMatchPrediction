@@ -47,8 +47,8 @@ jobs:
       run: |
         # Run comparison and capture JSON output
         python scripts/compare_metrics.py \
-          models/best_model_with_players_timeaware.pkl \
-          models/calibrated_xgboost_with_players.pkl
+          --model_a models/best_model_with_players_timeaware.pkl \
+          --model_b models/calibrated_xgboost_with_players.pkl
         
         # Extract latest comparison JSON and validate metrics
         python scripts/validate_metrics.py
