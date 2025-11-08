@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """
-Volleyball Tournament Simulator - Main Entry Point
-Adds optional --model PATH to choose which model file to load.
-Defaults to config.BEST_MODEL if not provided.
+Unified simulation entrypoint.
+
+Delegates to `scripts.simulate_tournament.main(model_path=...)`.
+Usage:
+    python run_simulation.py --model models/calibrated_xgboost_with_players.pkl
+
+If --model is omitted, simulate_tournament will choose a sensible default
+(calibrated_xgboost_with_players.pkl if present, else BEST_MODEL).
 """
 
 import argparse
 import inspect
 
-# Import simulation module from package
-from scripts import simulate_remaining_matches as srm
+# Import tournament simulation module
+from scripts import simulate_tournament as sim
 
 
 def parse_args():
@@ -26,18 +31,7 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     # Call simulate with optional override
-    if hasattr(srm, "main"):
-        sig = None
-        try:
-            sig = inspect.signature(srm.main)
-        except (ValueError, TypeError):
-            # If signature can't be inspected, fall back to plain call
-            srm.main()
-        else:
-            if any(p.kind in (p.KEYWORD_ONLY, p.POSITIONAL_OR_KEYWORD) and name == "model_path"
-                   for name, p in sig.parameters.items()):
-                srm.main(model_path=args.model)
-            else:
-                srm.main()
-    else:
-        raise SystemExit("simulate_remaining_matches.main not found")
+    if not hasattr(sim, "main"):
+        raise SystemExit("simulate_tournament.main not found")
+    # Direct invocation; simulate_tournament handles default selection
+    sim.main(model_path=args.model)

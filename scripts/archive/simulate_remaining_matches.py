@@ -1,4 +1,12 @@
 """
+ARCHIVED: Simulate Remaining First Round Matches
+This file was moved from scripts/ to scripts/archive/ to keep only full-tournament
+simulation in the active scripts folder. Functionality preserved for reference.
+"""
+
+# Original content preserved below
+
+"""
 Simulate Remaining First Round Matches
 Uses the best Voting Ensemble model to predict remaining pool matches
 
@@ -12,11 +20,7 @@ import pandas as pd
 import joblib
 from itertools import combinations
 
-# Support both package import (scripts.module) and direct module execution
-try:  # when imported as part of the scripts package
-    from .config import DB_FILE_STR, BEST_MODEL_STR
-except Exception:  # when run directly or imported with scripts on sys.path
-    from config import DB_FILE_STR, BEST_MODEL_STR
+from config import DB_FILE_STR, BEST_MODEL_STR  # Simplified import (archive script)
 
 
 def get_played_matches():
@@ -180,7 +184,7 @@ def predict_match(model, team_a, team_b, feature_names):
 
 def main(model_path: str | None = None):
     print("="*80)
-    print(" "*20 + "SIMULATE REMAINING FIRST ROUND MATCHES")
+    print(" "*20 + "SIMULATE REMAINING FIRST ROUND MATCHES (ARCHIVED)")
     print("="*80)
     
     # Define pools
@@ -258,90 +262,6 @@ def main(model_path: str | None = None):
         print(f"  → {winner} defeats {loser}")
         print(f"  Confidence: {confidence:.1%} {conf_str}")
     
-    # Calculate projected standings
     print("\n" + "="*80)
-    print("PROJECTED STANDINGS AFTER ALL FIRST ROUND MATCHES")
+    print("SIMULATION COMPLETE (ARCHIVED)")
     print("="*80)
-    
-    # Initialize standings
-    standings = {team: {'wins': 0, 'losses': 0, 'played': 0} for team in pool_a + pool_b}
-    
-    # Add played matches
-    for result in played_results:
-        winner = result['winner']
-        teams = [result['team_a'], result['team_b']]
-        loser = [t for t in teams if t != winner][0]
-        
-        if winner in standings:
-            standings[winner]['wins'] += 1
-            standings[winner]['played'] += 1
-        if loser in standings:
-            standings[loser]['losses'] += 1
-            standings[loser]['played'] += 1
-    
-    # Add predictions
-    for pred in predictions_pool_a + predictions_pool_b:
-        standings[pred['winner']]['wins'] += 1
-        standings[pred['winner']]['played'] += 1
-        standings[pred['loser']]['losses'] += 1
-        standings[pred['loser']]['played'] += 1
-    
-    # Calculate win percentage
-    for team in standings:
-        played = standings[team]['played']
-        standings[team]['win_pct'] = standings[team]['wins'] / played if played > 0 else 0
-    
-    # Display Pool A
-    print("\nPOOL A:")
-    print(f"{'Rank':<6} {'Team':<6} {'Record':<10} {'Win %':<10}")
-    print("-"*40)
-    
-    pool_a_standings = [(team, standings[team]) for team in pool_a]
-    pool_a_standings.sort(key=lambda x: x[1]['win_pct'], reverse=True)
-    
-    for i, (team, stats) in enumerate(pool_a_standings, 1):
-        record = f"{stats['wins']}-{stats['losses']}"
-        print(f"{i:<6} {team:<6} {record:<10} {stats['win_pct']:.1%}")
-    
-    # Display Pool B
-    print("\nPOOL B:")
-    print(f"{'Rank':<6} {'Team':<6} {'Record':<10} {'Win %':<10}")
-    print("-"*40)
-    
-    pool_b_standings = [(team, standings[team]) for team in pool_b]
-    pool_b_standings.sort(key=lambda x: x[1]['win_pct'], reverse=True)
-    
-    for i, (team, stats) in enumerate(pool_b_standings, 1):
-        record = f"{stats['wins']}-{stats['losses']}"
-        print(f"{i:<6} {team:<6} {record:<10} {stats['win_pct']:.1%}")
-    
-    # Overall top 8
-    print("\n" + "="*80)
-    print("PROJECTED TOP 8 FOR QUARTERFINALS")
-    print("="*80)
-    
-    all_standings = [(team, standings[team]) for team in pool_a + pool_b]
-    all_standings.sort(key=lambda x: x[1]['win_pct'], reverse=True)
-    
-    print(f"{'Seed':<6} {'Team':<6} {'Record':<10} {'Win %':<10} {'Pool'}")
-    print("-"*50)
-    
-    for i, (team, stats) in enumerate(all_standings[:8], 1):
-        record = f"{stats['wins']}-{stats['losses']}"
-        pool = 'Pool A' if team in pool_a else 'Pool B'
-        emoji = "🥇" if i == 1 else "🥈" if i == 2 else "🥉" if i == 3 else "  "
-        print(f"{emoji} #{i:<3} {team:<6} {record:<10} {stats['win_pct']:.1%}      {pool}")
-    
-    print("\n" + "="*80)
-    print("SIMULATION COMPLETE")
-    print("="*80)
-    print(f"\n✓ {len(remaining)} matches predicted")
-    print("✓ Standings calculated")
-    print("\nNext step: Run multi_model_tournament_simulation.py for playoff predictions")
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Simulate remaining first round matches")
-    parser.add_argument("--model", type=str, default=None, help="Path to model .pkl to use")
-    args = parser.parse_args()
-    main(model_path=args.model)

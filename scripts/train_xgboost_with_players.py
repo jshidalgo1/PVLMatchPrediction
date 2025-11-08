@@ -12,6 +12,7 @@ Upgrades in this version:
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from datetime import datetime, timezone
 from sklearn.metrics import (
     accuracy_score,
     classification_report,
@@ -20,7 +21,7 @@ from sklearn.metrics import (
     brier_score_loss,
     roc_auc_score,
 )
-from sklearn.calibration import CalibratedClassifierCV
+from sklearn.calibration import CalibratedClassifierCV, calibration_curve
 from xgboost import XGBClassifier
 import joblib
 from config import (
@@ -194,6 +195,77 @@ print(f"                B Wins  A Wins")
 print(f"Actual B Wins     {cm[0][0]:3d}     {cm[0][1]:3d}")
 print(f"Actual A Wins     {cm[1][0]:3d}     {cm[1][1]:3d}")
 
+# Reliability and calibration diagnostics
+print("\n" + "=" * 80)
+print("CALIBRATION DIAGNOSTICS")
+print("=" * 80)
+
+def _ece_mce(y_true, y_prob, n_bins=10):
+    # Quantile binning for balanced bins
+    bins = np.quantile(y_prob, np.linspace(0, 1, n_bins + 1))
+    # Guard against identical edges
+    bins[0], bins[-1] = 0.0, 1.0
+    ece = 0.0
+    mce = 0.0
+    total = len(y_true)
+    for i in range(n_bins):
+        lo, hi = bins[i], bins[i + 1]
+        mask = (y_prob >= lo) & (y_prob <= hi) if i == n_bins - 1 else (y_prob >= lo) & (y_prob < hi)
+        if not np.any(mask):
+            continue
+        conf = np.mean(y_prob[mask])
+        acc = np.mean(y_true[mask])
+        gap = abs(acc - conf)
+        ece += (np.sum(mask) / total) * gap
+        mce = max(mce, gap)
+    return float(ece), float(mce)
+
+# Compute calibration curves
+prob_true_unc, prob_pred_unc = calibration_curve(y_test, y_proba_unc, n_bins=10, strategy='quantile')
+prob_true_cal, prob_pred_cal = calibration_curve(y_test, y_proba_cal, n_bins=10, strategy='quantile')
+
+ece_unc, mce_unc = _ece_mce(y_test, y_proba_unc, 10)
+ece_cal, mce_cal = _ece_mce(y_test, y_proba_cal, 10)
+
+print(f"ECE/MCE (uncalibrated): ECE={ece_unc:.4f}, MCE={mce_unc:.4f}")
+print(f"ECE/MCE (calibrated):   ECE={ece_cal:.4f}, MCE={mce_cal:.4f}")
+
+# Save curves and a reliability diagram plot
+outputs_dir = Path('outputs')
+outputs_dir.mkdir(parents=True, exist_ok=True)
+ts = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
+
+calib_csv = outputs_dir / f'calibration_curves_{ts}.csv'
+import csv as _csv
+with open(calib_csv, 'w', newline='') as fcsv:
+    w = _csv.writer(fcsv)
+    w.writerow(["method", "bin", "mean_pred", "frac_pos"])
+    for i, (mp, fp) in enumerate(zip(prob_pred_unc, prob_true_unc)):
+        w.writerow(["uncalibrated", i + 1, float(mp), float(fp)])
+    for i, (mp, fp) in enumerate(zip(prob_pred_cal, prob_true_cal)):
+        w.writerow(["calibrated", i + 1, float(mp), float(fp)])
+
+try:
+    import matplotlib.pyplot as plt
+    plt.figure(figsize=(6, 6))
+    plt.plot([0, 1], [0, 1], 'k--', label='Perfectly calibrated')
+    plt.plot(prob_pred_unc, prob_true_unc, 'o-', label=f'Uncalibrated (ECE={ece_unc:.3f})')
+    plt.plot(prob_pred_cal, prob_true_cal, 'o-', label=f'Calibrated (ECE={ece_cal:.3f})')
+    plt.xlabel('Mean predicted probability')
+    plt.ylabel('Fraction of positives')
+    plt.title('Reliability Diagram (Holdout)')
+    plt.legend(loc='best')
+    plt.grid(True, alpha=0.3)
+    calib_png = outputs_dir / f'reliability_diagram_{ts}.png'
+    plt.tight_layout()
+    plt.savefig(calib_png, dpi=150)
+    plt.close()
+    print(f"✓ Saved calibration curves CSV: {calib_csv}")
+    print(f"✓ Saved reliability diagram PNG: {calib_png}")
+except Exception as e:
+    print(f"! Skipped reliability plot (matplotlib not available or failed): {e}")
+    print(f"✓ Saved calibration curves CSV: {calib_csv}")
+
 # Feature importance
 print("\n" + "=" * 80)
 print("FEATURE IMPORTANCE (Top 15)")
@@ -247,7 +319,11 @@ print("\n" + "=" * 80)
 print("TRAINING COMPLETE!")
 print("=" * 80)
 print("\nYour calibrated XGBoost model with player features is ready!")
+print("\nNext steps (updated):")
+print("1. Use models/calibrated_xgboost_with_players.pkl for simulation.")
+print("2. Run: python run_simulation.py --model models/calibrated_xgboost_with_players.pkl")
+print("3. (Optional) Evaluate calibration drift or add reliability plots later.")
 print("\nNext steps:")
-print("1. Use models/best_model_with_players.pkl for predictions (calibrated)")
-print("2. Run run_simulation.py or multi_model_tournament_simulation.py to compare")
-print("3. Optionally inspect outputs/reliability later (to be added)")
+print("1. Use models/calibrated_xgboost_with_players.pkl (or best_model_with_players_timeaware.pkl if created)")
+print("2. Run run_simulation.py --model models/calibrated_xgboost_with_players.pkl to simulate the tournament")
+print("3. (Optional) Inspect feature importances / add reliability plots later")

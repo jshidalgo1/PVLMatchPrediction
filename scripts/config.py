@@ -62,6 +62,27 @@ Y_TARGET_STR = str(Y_TARGET)
 VOLLEYBALL_FEATURES_STR = str(VOLLEYBALL_FEATURES)
 FEATURE_IMPORTANCE_STR = str(FEATURE_IMPORTANCE)
 
+# --- Team code canonicalization (for legacy/variant codes) ---
+# Map any historical or alternate codes to the canonical one going forward.
+# Example: treat CHD (HD Spikers) as CSS (Super Spikers) per user directive.
+TEAM_CODE_ALIASES = {
+    "CHD": "CSS",
+}
+
+def canonicalize_team_code(code: str) -> str:
+    """Return canonical team code given a potentially legacy/alternate code."""
+    if code is None:
+        return code
+    return TEAM_CODE_ALIASES.get(code, code)
+
+def canonicalize_team_dict(d: dict, key: str = 'code') -> dict:
+    """Return a shallow-copied team info dict with canonicalized code field if present."""
+    if d is None:
+        return d
+    out = dict(d)
+    if key in out:
+        out[key] = canonicalize_team_code(out[key])
+    return out
 if __name__ == "__main__":
     print("Volleyball AI Project - Configuration")
     print("=" * 50)

@@ -11,7 +11,7 @@ import sqlite3
 import pandas as pd
 import numpy as np
 from typing import Dict, List, Tuple
-from config import DB_FILE_STR, CSV_DIR_STR, VOLLEYBALL_FEATURES_STR, X_FEATURES_STR, Y_TARGET_STR
+from config import DB_FILE_STR, CSV_DIR_STR, VOLLEYBALL_FEATURES_STR, X_FEATURES_STR, Y_TARGET_STR, canonicalize_team_code
 
 
 class PlayerEnhancedFeatureExtractor:
@@ -34,28 +34,54 @@ class PlayerEnhancedFeatureExtractor:
         if self.conn:
             self.conn.close()
     
+    def _expand_canonical_team_ids(self, team_id: int) -> List[int]:
+        """Return all team IDs whose codes map to the same canonical code as the provided team_id."""
+        cur = self.conn.cursor()
+        cur.execute("SELECT code FROM teams WHERE id = ?", (team_id,))
+        row = cur.fetchone()
+        if not row:
+            return [team_id]
+        canon = canonicalize_team_code(row[0])
+        cur.execute("SELECT id, code FROM teams")
+        ids = []
+        for tid, code in cur.fetchall():
+            if canonicalize_team_code(code) == canon:
+                ids.append(tid)
+        return ids or [team_id]
+
     def get_team_historical_stats(self, team_id: int, before_match_id: int) -> Dict:
         """Get team's historical statistics before a given match"""
-        query = '''
+        team_ids = self._expand_canonical_team_ids(team_id)
+        ph = ','.join(['?'] * len(team_ids))
+        # Using matches join to access winner_id and restrict by time
+        query = f'''
             SELECT 
-                COUNT(*) as matches_played,
-                SUM(CASE WHEN winner_id = ? THEN 1 ELSE 0 END) as wins,
-                AVG(CASE WHEN team_id = ? THEN total_points ELSE 0 END) as avg_points_scored,
-                AVG(CASE WHEN team_id != ? THEN total_points ELSE 0 END) as avg_points_conceded,
-                AVG(CASE WHEN team_id = ? THEN attack_points ELSE 0 END) as avg_attack_points,
-                AVG(CASE WHEN team_id = ? THEN block_points ELSE 0 END) as avg_block_points,
-                AVG(CASE WHEN team_id = ? THEN serve_points ELSE 0 END) as avg_serve_points
+                COUNT(DISTINCT m.id) as matches_played,
+                SUM(CASE WHEN m.winner_id IN ({ph}) THEN 1 ELSE 0 END) as wins,
+                AVG(CASE WHEN tms.team_id IN ({ph}) THEN tms.total_points END) as avg_points_scored,
+                AVG(CASE WHEN tms.team_id NOT IN ({ph}) THEN tms.total_points END) as avg_points_conceded,
+                AVG(CASE WHEN tms.team_id IN ({ph}) THEN tms.attack_points END) as avg_attack_points,
+                AVG(CASE WHEN tms.team_id IN ({ph}) THEN tms.block_points END) as avg_block_points,
+                AVG(CASE WHEN tms.team_id IN ({ph}) THEN tms.serve_points END) as avg_serve_points
             FROM matches m
             JOIN team_match_stats tms ON m.id = tms.match_id
-            WHERE (team_a_id = ? OR team_b_id = ?)
-                AND m.id < ?
-                AND status IS NOT NULL
+            WHERE (m.team_a_id IN ({ph}) OR m.team_b_id IN ({ph}))
+              AND m.id < ?
+              AND m.status IS NOT NULL
         '''
-        
-        cursor = self.conn.execute(query, (
-            team_id, team_id, team_id, team_id, team_id, team_id,
-            team_id, team_id, before_match_id
-        ))
+        # Parameter order corresponds to each (ph) appearance sequentially
+        params = (
+            team_ids +  # winner_id IN
+            team_ids +  # tms.team_id IN (points scored)
+            team_ids +  # tms.team_id NOT IN (points conceded)
+            team_ids +  # attack
+            team_ids +  # block
+            team_ids +  # serve
+            team_ids +  # m.team_a_id IN
+            team_ids +  # m.team_b_id IN
+            [before_match_id]
+        )
+        cursor = self.conn.execute(query, params)
         row = cursor.fetchone()
         
         if not row or row['matches_played'] == 0:
@@ -81,7 +107,9 @@ class PlayerEnhancedFeatureExtractor:
     
     def get_player_historical_stats(self, team_id: int, before_match_id: int) -> Dict:
         """Get aggregated player statistics for a team before a given match"""
-        query = '''
+        team_ids = self._expand_canonical_team_ids(team_id)
+        ph = ','.join(['?'] * len(team_ids))
+        query = f'''
             SELECT 
                 AVG(CASE WHEN is_starter = 1 THEN attack_points ELSE 0 END) as starter_avg_attack,
                 AVG(CASE WHEN is_starter = 1 THEN block_points ELSE 0 END) as starter_avg_block,
@@ -94,12 +122,12 @@ class PlayerEnhancedFeatureExtractor:
                 SUM(CASE WHEN attack_points >= 10 THEN 1 ELSE 0 END) as count_10plus_scorers
             FROM player_match_stats pms
             JOIN matches m ON pms.match_id = m.id
-            WHERE pms.team_id = ?
-                AND m.id < ?
-                AND m.status IS NOT NULL
+            WHERE pms.team_id IN ({ph})
+              AND m.id < ?
+              AND m.status IS NOT NULL
         '''
-        
-        cursor = self.conn.execute(query, (team_id, before_match_id))
+        params = team_ids + [before_match_id]
+        cursor = self.conn.execute(query, params)
         row = cursor.fetchone()
         
         if not row:
@@ -133,12 +161,15 @@ class PlayerEnhancedFeatureExtractor:
         
         # Get all completed matches
         matches_query = '''
-            SELECT id, team_a_id, team_b_id, winner_id, tournament_id, match_no
-            FROM matches
-            WHERE status IS NOT NULL
-            ORDER BY id
+            SELECT m.id, m.team_a_id, m.team_b_id, m.winner_id, m.tournament_id, m.match_no,
+                   ta.code AS team_a_code, tb.code AS team_b_code, w.code AS winner_code
+            FROM matches m
+            JOIN teams ta ON m.team_a_id = ta.id
+            JOIN teams tb ON m.team_b_id = tb.id
+            LEFT JOIN teams w ON m.winner_id = w.id
+            WHERE m.status IS NOT NULL
+            ORDER BY m.id
         '''
-        
         matches_df = pd.read_sql_query(matches_query, self.conn)
         
         features_list = []
@@ -152,15 +183,20 @@ class PlayerEnhancedFeatureExtractor:
             return 1.0 / (1.0 + 10 ** (-(r_a - r_b) / 400.0))
         
         def update_elo(team_a_id: int, team_b_id: int, winner_id: int):
-            ra = get_elo(team_a_id)
-            rb = get_elo(team_b_id)
+            # Collapse ELO across canonical codes by using representative canonical id (lowest id among group)
+            a_group = sorted(self._expand_canonical_team_ids(team_a_id))
+            b_group = sorted(self._expand_canonical_team_ids(team_b_id))
+            a_rep = a_group[0]
+            b_rep = b_group[0]
+            ra = get_elo(a_rep)
+            rb = get_elo(b_rep)
             ea = expected_score(ra, rb)
-            sa = 1.0 if winner_id == team_a_id else 0.0
+            sa = 1.0 if winner_id in a_group else 0.0
             sb = 1.0 - sa
             ra_new = ra + self.elo_k * (sa - ea)
             rb_new = rb + self.elo_k * (sb - (1.0 - ea))
-            elo[team_a_id] = ra_new
-            elo[team_b_id] = rb_new
+            elo[a_rep] = ra_new
+            elo[b_rep] = rb_new
         
         for idx, match in matches_df.iterrows():
             match_id = match['id']
@@ -169,8 +205,11 @@ class PlayerEnhancedFeatureExtractor:
             winner_id = match['winner_id']
             
             # ELO before this match (no leakage)
-            team_a_elo = get_elo(team_a_id)
-            team_b_elo = get_elo(team_b_id)
+            # Representative canonical IDs for ELO lookup
+            a_rep = sorted(self._expand_canonical_team_ids(team_a_id))[0]
+            b_rep = sorted(self._expand_canonical_team_ids(team_b_id))[0]
+            team_a_elo = get_elo(a_rep)
+            team_b_elo = get_elo(b_rep)
             elo_diff = team_a_elo - team_b_elo
             elo_prob_team_a = 1.0 / (1.0 + 10 ** (-(elo_diff) / 400.0))
             

@@ -1,6 +1,11 @@
 """
-Batch Processing Pipeline for Volleyball Match Data
-Process all XML files and generate ML-ready dataset
+Batch Processing Pipeline for Volleyball Match Data (Player-Aware)
+Processes all XML files, loads into SQLite (including player + lineup stats),
+and generates ML-ready feature matrices with player-level + ELO features.
+
+Updates:
+- Switched to PlayerEnhancedFeatureExtractor (replaces legacy VolleyballFeatureEngineer)
+- Saves player-inclusive CSVs (volleyball_features_with_players, X_features_with_players, y_target_with_players)
 """
 
 import glob
@@ -8,11 +13,25 @@ import json
 from pathlib import Path
 import sys
 
-# Import our custom modules
+# Import our custom modules (player-aware versions)
 from parse_volleyball_data import VolleyballDataParser
-from feature_engineering import VolleyballFeatureEngineer
+from feature_engineering_with_players import PlayerEnhancedFeatureExtractor
 from database_manager import VolleyballDatabase
-from config import XML_DIR_STR, DB_FILE_STR, CSV_DIR
+from config import (
+    XML_DIR_STR,
+    DB_FILE_STR,
+    DB_BACKUP,
+    CSV_DIR,
+    VOLLEYBALL_MATCHES_JSON,
+    VOLLEYBALL_FEATURES,
+    X_FEATURES,
+    Y_TARGET,
+    VOLLEYBALL_FEATURES_STR,
+    X_FEATURES_STR,
+    Y_TARGET_STR,
+    ensure_directories,
+    canonicalize_team_code,
+)
 
 
 def process_all_xml_files(xml_directory=None, pattern='*.xml'):
@@ -27,9 +46,12 @@ def process_all_xml_files(xml_directory=None, pattern='*.xml'):
     5. Prepare for XGBoost training
     """
     
-    print("="*70)
-    print("VOLLEYBALL DATA PROCESSING PIPELINE")
-    print("="*70)
+    print("="*80)
+    print("VOLLEYBALL DATA PROCESSING PIPELINE (PLAYER-AWARE)")
+    print("="*80)
+
+    # Ensure folder structure exists
+    ensure_directories()
     
     # Use configured XML directory if not specified
     if xml_directory is None:
@@ -62,7 +84,6 @@ def process_all_xml_files(xml_directory=None, pattern='*.xml'):
     
     # Step 3: Save to JSON
     print(f"\n[Step 3/5] Saving to JSON...")
-    from config import VOLLEYBALL_MATCHES_JSON
     json_file = str(VOLLEYBALL_MATCHES_JSON)
     parser.save_to_json(json_file)
     
@@ -75,10 +96,55 @@ def process_all_xml_files(xml_directory=None, pattern='*.xml'):
     print(f"  - Statistics Types: {len(summary['stat_types'])}")
     
     # Step 4: Create database
-    print(f"\n[Step 4/5] Creating SQLite database...")
+    print(f"\n[Step 4/5] Creating SQLite database (with player + lineup stats)...")
+    # Reset database to ensure duplicates are removed cleanly
+    db_path = Path(DB_FILE_STR)
+    if db_path.exists():
+        try:
+            # Backup then remove
+            backup_path = Path(DB_BACKUP)
+            if backup_path.exists():
+                backup_path.unlink(missing_ok=True)
+            db_path.replace(backup_path)
+            print(f"  Previous DB backed up to: {backup_path}")
+        except Exception as e:
+            print(f"  Warning: Could not backup existing DB: {e}")
+        try:
+            # Remove any existing DB to fully rebuild
+            if db_path.exists():
+                db_path.unlink()
+        except Exception as e:
+            print(f"  Warning: Could not remove existing DB: {e}")
     db = VolleyballDatabase(DB_FILE_STR)
     db.connect()
     db.create_schema()
+    # Load JSON but filter out known duplicate intra-tournament rematches if necessary
+    # Specifically: retain only earliest AKA vs CCS match in TEST_PVLR25 (match_id 291) and drop later duplicate 507
+    # This prevents inflated feature counts for a single pairing within the same preliminary tournament.
+    with open(json_file, 'r') as jf:
+        raw_matches = json.load(jf)
+    filtered_matches = []
+    seen_test_pair = False
+    for m in raw_matches:
+        tcode = m.get('tournament_code') or m.get('tournament', {}).get('code')
+        ta = m.get('team_a_code') or m.get('team_a', {}).get('code')
+        tb = m.get('team_b_code') or m.get('team_b', {}).get('code')
+        # Canonicalize codes to catch duplicates across aliases (e.g., CHD->CSS)
+        if ta:
+            ta = canonicalize_team_code(ta)
+        if tb:
+            tb = canonicalize_team_code(tb)
+        # Normalize order
+        pair = tuple(sorted([ta, tb])) if ta and tb else None
+        if tcode == 'TEST_PVLR25' and pair == ('AKA', 'CCS'):
+            if seen_test_pair:
+                # Skip duplicate
+                continue
+            seen_test_pair = True
+        filtered_matches.append(m)
+    # Overwrite JSON to reflect filtered set for transparency
+    with open(json_file, 'w') as jf:
+        json.dump(filtered_matches, jf, indent=2)
     db.load_from_json(json_file)
     
     db_summary = db.get_summary()
@@ -87,48 +153,61 @@ def process_all_xml_files(xml_directory=None, pattern='*.xml'):
     print(f"  - Teams: {db_summary['total_teams']}")
     print(f"  - Matches: {db_summary['total_matches']}")
     print(f"  - Players: {db_summary['total_players']}")
+    if seen_test_pair:
+        print("  - Duplicate AKA-CCS intra TEST_PVLR25 removed (kept earliest encounter)")
     
     db.close()
     
     # Step 5: Generate ML features
-    print(f"\n[Step 5/5] Generating machine learning features...")
+    print(f"\n[Step 5/5] Generating machine learning features (team + player + ELO)...")
     
     with open(json_file, 'r') as f:
         matches_data = json.load(f)
     
-    engineer = VolleyballFeatureEngineer(matches_data)
-    X, y, metadata, feature_cols = engineer.get_feature_importance_ready_data()
+    # Legacy feature engineer removed; use PlayerEnhancedFeatureExtractor directly from DB
+    extractor = PlayerEnhancedFeatureExtractor(DB_FILE_STR)
+    features_df = extractor.extract_features()
+
+    # Separate metadata / features / target
+    metadata_cols = ['match_id', 'team_a_id', 'team_b_id', 'tournament_id']
+    target_col = 'team_a_wins'
+    feature_cols = [c for c in features_df.columns if c not in metadata_cols + [target_col]]
+    metadata = features_df[metadata_cols]
+    X = features_df[feature_cols]
+    import pandas as pd  # ensure pandas import before y usage (already imported above but safe)
+    y = features_df[target_col].astype(int)
     
-    print(f"\n  Feature Engineering Summary:")
+    print(f"\n  Feature Engineering Summary (Player-Aware):")
     print(f"  - Total samples: {len(X)}")
     print(f"  - Total features: {len(feature_cols)}")
+    print(f"  - Player-related features: {len([c for c in feature_cols if c.startswith('team_a_') or c.startswith('team_b_')]) - 4 - 12}")
     print(f"  - Class distribution: {y.value_counts().to_dict()}")
     
     # Save features
     import pandas as pd
-    full_df = pd.concat([metadata, X, y], axis=1)
-    full_df.to_csv(str(CSV_DIR / 'volleyball_features.csv'), index=False)
-    X.to_csv(str(CSV_DIR / 'X_features.csv'), index=False)
-    y.to_csv(str(CSV_DIR / 'y_target.csv'), index=False)
+    full_df = pd.concat([metadata, X, y.rename(target_col)], axis=1)
+    full_df.to_csv(VOLLEYBALL_FEATURES_STR, index=False)
+    X.to_csv(X_FEATURES_STR, index=False)
+    y.to_csv(Y_TARGET_STR, index=False)
     
     print(f"\n  ✓ Features saved:")
-    print(f"    - {CSV_DIR}/volleyball_features.csv (full dataset with metadata)")
-    print(f"    - {CSV_DIR}/X_features.csv (features only)")
-    print(f"    - {CSV_DIR}/y_target.csv (labels only)")
+    print(f"    - {VOLLEYBALL_FEATURES} (full dataset with metadata + target)")
+    print(f"    - {X_FEATURES} (features only)")
+    print(f"    - {Y_TARGET} (labels only)")
     
     # Final summary
-    print(f"\n{'='*70}")
-    print("PROCESSING COMPLETE!")
-    print(f"{'='*70}")
+    print(f"\n{'='*80}")
+    print("PLAYER-AWARE PROCESSING COMPLETE!")
+    print(f"{'='*80}")
     print(f"\nGenerated Files:")
-    print(f"  1. volleyball_matches.json     - Raw parsed match data")
-    print(f"  2. volleyball_data.db          - SQLite database")
-    print(f"  3. volleyball_features.csv     - Complete feature dataset")
-    print(f"  4. X_features.csv              - ML feature matrix")
-    print(f"  5. y_target.csv                - ML target labels")
-    
-    print(f"\n📊 Your dataset is ready for XGBoost training!")
-    print(f"\nNext step: Run train_xgboost.py to train your prediction model")
+    print(f"  1. {VOLLEYBALL_MATCHES_JSON.name}                - Raw parsed match data")
+    print(f"  2. {Path(DB_FILE_STR).name}                     - SQLite database (teams + players + lineups)")
+    print(f"  3. {Path(VOLLEYBALL_FEATURES_STR).name}         - Complete feature dataset (with players)")
+    print(f"  4. {Path(X_FEATURES_STR).name}                  - ML feature matrix")
+    print(f"  5. {Path(Y_TARGET_STR).name}                    - ML target labels")
+
+    print(f"\n📊 Your player-aware dataset is ready for model training!")
+    print(f"\nNext step: Run train_xgboost_with_players.py to train the calibrated model")
     
     return True
 
@@ -177,7 +256,7 @@ if __name__ == '__main__':
         success = process_all_xml_files()
         
         if success:
-            print("\n✨ All done! You can now train your model with:")
-            print("   python train_xgboost.py")
+            print("\n✨ All done! You can now train your player-aware model with:")
+            print("   python train_xgboost_with_players.py")
         else:
             print("\n⚠️  Processing incomplete. Please check the errors above.")

@@ -6,6 +6,10 @@ SQLite database schema and operations
 import sqlite3
 import json
 from typing import List, Dict, Any
+try:
+    from .config import canonicalize_team_code
+except Exception:
+    from config import canonicalize_team_code
 from pathlib import Path
 
 
@@ -197,6 +201,8 @@ class VolleyballDatabase:
     
     def insert_team(self, code: str, name: str, coach: str = None, assistant_coach: str = None) -> int:
         """Insert or get team"""
+        # Canonicalize code before any lookup/insert to unify aliases (e.g., CHD -> CSS)
+        code = canonicalize_team_code(code)
         cursor = self.conn.cursor()
         cursor.execute('SELECT id FROM teams WHERE code = ?', (code,))
         row = cursor.fetchone()
@@ -248,6 +254,10 @@ class VolleyballDatabase:
         # Insert teams
         team_ids = {}
         for team_key, team_info in match_data['team_rosters'].items():
+            # Ensure canonical code in roster info
+            canon_code = canonicalize_team_code(team_info['code'])
+            team_info = dict(team_info)
+            team_info['code'] = canon_code
             team_ids[team_key] = self.insert_team(
                 team_info['code'],
                 team_info['name'],
@@ -262,17 +272,23 @@ class VolleyballDatabase:
                 player['last_name'],
                 player['full_name']
             )
-        
-        # Get team IDs for match
-        team_a_code = match_data['teams']['team_a']['code']
-        team_b_code = match_data['teams']['team_b']['code']
+        # Build code->id mapping for canonical codes as well
+        # Existing team_ids currently keyed by original roster loop key (team_code). Extend with canonical code.
+        for orig_code, tid in list(team_ids.items()):
+            canon_code = canonicalize_team_code(orig_code)
+            team_ids[canon_code] = tid
+
+        # Get canonical team codes
+        team_a_code = canonicalize_team_code(match_data['teams']['team_a']['code'])
+        team_b_code = canonicalize_team_code(match_data['teams']['team_b']['code'])
         team_a_id = team_ids.get(team_a_code)
         team_b_id = team_ids.get(team_b_code)
-        
-        # Determine winner ID
-        winner_id = team_ids.get(match_data['winner']) if match_data['winner'] else None
-        
-        # Insert match
+
+        # Determine winner ID using canonical code
+        winner_code = canonicalize_team_code(match_data['winner']) if match_data['winner'] else None
+        winner_id = team_ids.get(winner_code) if winner_code else None
+
+        # Insert match row
         cursor.execute('''
             INSERT INTO matches (
                 file_name, tournament_id, match_no, date, time, city, hall,
@@ -298,6 +314,8 @@ class VolleyballDatabase:
         # Insert team statistics
         for team_key, is_team_a in [('team_a', True), ('team_b', False)]:
             team_data = match_data['teams'][team_key]
+            # Canonical stats assignment
+            team_code_canon = canonicalize_team_code(team_data['code'])
             team_id = team_a_id if is_team_a else team_b_id
             stats = team_data['statistics']['total_stats']
             

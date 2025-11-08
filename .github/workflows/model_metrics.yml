@@ -1,0 +1,131 @@
+name: Model Metrics Regression Check
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'scripts/**'
+      - 'models/**'
+      - 'data/**'
+      - '.github/workflows/model_metrics.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'scripts/**'
+      - 'models/**'
+      - 'data/**'
+      - '.github/workflows/model_metrics.yml'
+
+jobs:
+  metrics-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for baseline comparison
+    
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f outputs/requirements.txt ]; then pip install -r outputs/requirements.txt; fi
+    
+    - name: Train current model with player features
+      run: |
+        python scripts/train_xgboost_with_players.py
+    
+    - name: Compare metrics against baseline
+      id: metrics
+      run: |
+        # Run comparison and capture JSON output
+        python scripts/compare_metrics.py \
+          models/best_model_with_players_timeaware.pkl \
+          models/calibrated_xgboost_with_players.pkl
+        
+        # Extract latest comparison JSON
+        LATEST_JSON=$(ls -t outputs/metrics_comparison_*.json | head -1)
+        
+        # Parse metrics with Python
+        python - <<EOF
+        import json
+        import sys
+        
+        with open("$LATEST_JSON") as f:
+            data = json.load(f)
+        
+        delta_acc = data["delta"]["accuracy"]
+        delta_logloss = data["delta"]["logloss"]
+        delta_auc = data["delta"]["AUC"]
+        
+        print(f"::notice title=Accuracy Delta::{delta_acc:+.4f}")
+        print(f"::notice title=LogLoss Delta::{delta_logloss:+.4f}")
+        print(f"::notice title=AUC Delta::{delta_auc:+.4f}")
+        
+        # Regression thresholds
+        ACC_THRESHOLD = -0.02  # Fail if accuracy drops >2%
+        LOGLOSS_THRESHOLD = 0.05  # Fail if logloss increases >0.05
+        AUC_THRESHOLD = -0.02  # Fail if AUC drops >2%
+        
+        failed = False
+        
+        if delta_acc < ACC_THRESHOLD:
+            print(f"::error title=Accuracy Regression::Accuracy dropped by {-delta_acc:.4f} (threshold: {-ACC_THRESHOLD:.4f})")
+            failed = True
+        
+        if delta_logloss > LOGLOSS_THRESHOLD:
+            print(f"::error title=LogLoss Regression::LogLoss increased by {delta_logloss:.4f} (threshold: {LOGLOSS_THRESHOLD:.4f})")
+            failed = True
+        
+        if delta_auc < AUC_THRESHOLD:
+            print(f"::error title=AUC Regression::AUC dropped by {-delta_auc:.4f} (threshold: {-AUC_THRESHOLD:.4f})")
+            failed = True
+        
+        if failed:
+            sys.exit(1)
+        else:
+            print("✓ All metrics within acceptable thresholds")
+        EOF
+    
+    - name: Upload metrics comparison
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: metrics-comparison
+        path: |
+          outputs/metrics_comparison_*.json
+          outputs/metrics_comparison_*.md
+        retention-days: 30
+    
+    - name: Comment PR with metrics (if PR)
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const glob = require('glob');
+          
+          // Find latest markdown report
+          const mdFiles = glob.sync('outputs/metrics_comparison_*.md');
+          if (mdFiles.length === 0) {
+            console.log('No metrics comparison found');
+            return;
+          }
+          
+          const latestMd = mdFiles.sort().reverse()[0];
+          const content = fs.readFileSync(latestMd, 'utf8');
+          
+          // Post as PR comment
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## 🎯 Model Metrics Comparison\n\n${content}`
+          });

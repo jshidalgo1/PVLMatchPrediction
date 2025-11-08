@@ -1,0 +1,15 @@
+# Python dependencies for Volleyball AI Project
+
+# Core data processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Machine learning
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+
+# Model persistence
+joblib>=1.3.0
+
+# Visualization and calibration diagnostics
+matplotlib>=3.7.0
