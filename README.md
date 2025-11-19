@@ -168,25 +168,28 @@ VolleyballAIProject/
 
 ### Available Model Artifacts
 
-| Model | Description | Metrics |
+| Model | Description | Metrics (Nov 2025) |
 |-------|-------------|---------|
-| `calibrated_xgboost_with_players.pkl` | **Recommended**: Time-aware XGBoost with Platt calibration | Acc: 73.5%, AUC: 0.80 |
-| `best_model_with_players_timeaware.pkl` | Calibrated ensemble with ELO features | Acc: 64.7%, AUC: 0.73 |
-| `best_model_with_players_timeaware_stacking.pkl` | Stacked meta-learner (time-aware) | - |
-| `volleyball_predictor_with_players_uncalibrated.pkl` | Raw XGBoost (pre-calibration) | - |
+| `calibrated_xgboost_with_players.pkl` | **Recommended**: Time-aware XGBoost with Platt calibration | Acc: 74.29%, AUC: 0.8155, Brier: 0.1803 |
+| `volleyball_predictor_with_players_uncalibrated.pkl` | Raw XGBoost (pre-calibration) | Acc: 74.29%, AUC: 0.8155, Brier: 0.1900 |
+| `best_model_with_players_timeaware.pkl` | Legacy calibrated model | Acc: 64.7%, AUC: 0.73 |
+| `best_model_with_players_timeaware_stacking.pkl` | Stacked meta-learner (deprecated) | - |
 
-### Feature Categories
+### Feature Categories (34 features from 521 matches)
 
-1. **ELO Ratings**: Pre-match ratings and win probabilities (leak-free)
-2. **Team Aggregates**: Historical attack, block, serve, points, win rates
-3. **Player Stats**: Starter averages, libero performance, top scorers, roster depth
-4. **Temporal Features**: Time-aware splitting for realistic evaluation
+1. **ELO Ratings** (3 features): Pre-match ratings and win probabilities (leak-free)
+2. **Team Aggregates** (10 features): Historical attack, block, serve, points, win rates
+3. **Player Stats** (18 features): Starter averages, libero performance, top scorers, roster depth
+4. **Match Context** (3 features): Head-to-head records, form indicators
 
-### Training Pipeline
+### Training Pipeline (Updated Nov 2025)
 
-- **Cross-validation**: Time-aware blocked k-fold on chronological training data
-- **Calibration**: Sigmoid/Platt scaling on separate calibration slice
-- **Evaluation**: Holdout test set with metrics: Accuracy, LogLoss, Brier, AUC, ECE, MCE
+- **Dataset**: 521 matches (2023-2025 PVL seasons)
+- **Cross-validation**: 4-fold time-aware blocked CV (Avg: Acc=67.47%, AUC=0.7310)
+- **Calibration**: Platt scaling on 42-sample calibration window
+- **Test Set**: 105 holdout matches (chronologically latest)
+- **Calibration Improvement**: ECE reduced from 0.1333 → 0.1125, MCE: 0.3099 → 0.2473
+- **Evaluation Metrics**: Accuracy, LogLoss, Brier Score, AUC-ROC, ECE, MCE
 
 ---
 

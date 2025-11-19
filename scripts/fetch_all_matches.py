@@ -98,7 +98,8 @@ class XMLFileFetcher:
         print(f"Summary: {ok} downloaded, {skipped} skipped, {failed} failed")
         return {"successful": ok, "skipped": skipped, "failed": failed, "total": len(files)}
 
-    def filter_files(self, pattern: Optional[str] = None, year: Optional[int] = None, tournament: Optional[str] = None) -> List[str]:
+    def filter_files(self, pattern: Optional[str] = None, year: Optional[int] = None, 
+                     tournament: Optional[str] = None, week_range: Optional[tuple] = None) -> List[str]:
         if not self.xml_files:
             self.scrape_directory()
         files = self.xml_files
@@ -107,6 +108,18 @@ class XMLFileFetcher:
         if tournament:
             t = tournament.upper()
             files = [f for f in files if t in f.upper()]
+        if week_range:
+            # Filter files matching tournament-Wxx where xx is in the range
+            min_week, max_week = week_range
+            filtered = []
+            for f in files:
+                # Match patterns like PVL2025D-W33, PVL2025D-W045, etc.
+                match = re.search(r'-W(\d+)', f, re.IGNORECASE)
+                if match:
+                    week_num = int(match.group(1))
+                    if min_week <= week_num <= max_week:
+                        filtered.append(f)
+            files = filtered
         if pattern:
             files = [f for f in files if re.search(pattern, f, re.IGNORECASE)]
         self.xml_files = files
@@ -120,6 +133,7 @@ def main():
     parser.add_argument('--limit', type=int, help='Limit the number of files')
     parser.add_argument('--year', type=int, help='Filter by year (e.g., 2024, 2025)')
     parser.add_argument('--tournament', type=str, help='Filter by tournament code (e.g., PVL2024A)')
+    parser.add_argument('--week-range', type=str, help='Filter by week range (e.g., 33-45 for W33 to W45)')
     parser.add_argument('--delay', type=float, default=0.1, help='Delay between downloads (seconds)')
 
     args = parser.parse_args()
@@ -132,7 +146,20 @@ def main():
     if not files:
         raise SystemExit("Failed to scrape the source directory.")
 
-    fetcher.filter_files(year=args.year, tournament=args.tournament)
+    # Parse week range if provided
+    week_range = None
+    if args.week_range:
+        try:
+            parts = args.week_range.split('-')
+            if len(parts) == 2:
+                week_range = (int(parts[0]), int(parts[1]))
+            else:
+                raise ValueError("Week range must be in format: min-max (e.g., 33-45)")
+        except ValueError as e:
+            print(f"Error parsing week range: {e}")
+            raise SystemExit(1)
+
+    fetcher.filter_files(year=args.year, tournament=args.tournament, week_range=week_range)
 
     if args.list:
         print("\nFirst 50 files:")
@@ -155,6 +182,7 @@ Usage examples:
   python fetch_all_matches.py --download --limit 50
   python fetch_all_matches.py --download --year 2025
   python fetch_all_matches.py --download --tournament PVL2024A
+  python fetch_all_matches.py --download --tournament PVL2025D --week-range 33-45
 """)
 
 
