@@ -199,7 +199,6 @@ Comprehensive documentation available in `docs/`:
 
 - **[PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)**: Methodology and architecture
 - **[FINAL_MODEL_SUMMARY.md](docs/FINAL_MODEL_SUMMARY.md)**: Model performance analysis
-- **[DATA_QUALITY_REPORT.md](docs/DATA_QUALITY_REPORT.md)**: Data validation and coverage
 - **[tournament_format.md](docs/tournament_format.md)**: FIVB ranking rules
 
 ---
