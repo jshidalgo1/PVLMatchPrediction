@@ -853,6 +853,7 @@ def main(model_path: str | None = None, save_outputs: bool = False, keep_latest:
             'confidence': confidence
         })
     
+    
     # Finals
     print("\n[9] CHAMPIONSHIP MATCH")
     print("-" * 80)
@@ -862,6 +863,21 @@ def main(model_path: str | None = None, save_outputs: bool = False, keep_latest:
     print(f"🏆 {sf_winners[0]} vs {sf_winners[1]}")
     print(f"\n🥇 PREDICTED CHAMPION: {champion} ({confidence:.1%} confidence)")
     print(f"🥈 PREDICTED RUNNER-UP: {runner_up}")
+    
+    # Third Place Match
+    print("\n[10] THIRD PLACE MATCH")
+    print("-" * 80)
+    sf_losers = []
+    for sf in sf_results:
+        loser = sf['team_b'] if sf['winner'] == sf['team_a'] else sf['team_a']
+        sf_losers.append(loser)
+    
+    third_place_winner, third_conf = predict_match(model, feature_names, conn, elo_map, sf_losers[0], sf_losers[1])
+    third_place_loser = sf_losers[1] if third_place_winner == sf_losers[0] else sf_losers[0]
+    
+    print(f"{sf_losers[0]} vs {sf_losers[1]}")
+    print(f"🥉 PREDICTED 3RD PLACE: {third_place_winner} ({third_conf:.1%} confidence)")
+    print(f"   4TH PLACE: {third_place_loser}")
     
     # Optional champion analysis
     if champion_analysis:
@@ -935,6 +951,13 @@ def main(model_path: str | None = None, save_outputs: bool = False, keep_latest:
                 'champion': champion,
                 'runner_up': runner_up,
                 'confidence': confidence
+            },
+            'third_place': {
+                'team_a': sf_losers[0],
+                'team_b': sf_losers[1],
+                'winner': third_place_winner,
+                'loser': third_place_loser,
+                'confidence': third_conf
             }
         }
         with open(json_path, 'w') as fjson:

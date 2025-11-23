@@ -72,6 +72,8 @@ class VolleyballDatabase:
                 team_b_sets_won INTEGER,
                 winner_id INTEGER,
                 status TEXT,
+                phase_no INTEGER,
+                phase_description TEXT,
                 FOREIGN KEY (tournament_id) REFERENCES tournaments(id),
                 FOREIGN KEY (team_a_id) REFERENCES teams(id),
                 FOREIGN KEY (team_b_id) REFERENCES teams(id),
@@ -265,13 +267,16 @@ class VolleyballDatabase:
                 team_info.get('assistant_coach')
             )
         
-        # Insert players
+        # Insert players and build name->id map
+        name_to_id = {}
         for player in match_data['players']:
-            self.insert_player(
+            pid = self.insert_player(
                 player['first_name'],
                 player['last_name'],
                 player['full_name']
             )
+            name_to_id[player['full_name']] = pid
+
         # Build code->id mapping for canonical codes as well
         # Existing team_ids currently keyed by original roster loop key (team_code). Extend with canonical code.
         for orig_code, tid in list(team_ids.items()):
@@ -292,8 +297,9 @@ class VolleyballDatabase:
         cursor.execute('''
             INSERT INTO matches (
                 file_name, tournament_id, match_no, date, time, city, hall,
-                team_a_id, team_b_id, team_a_sets_won, team_b_sets_won, winner_id, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                team_a_id, team_b_id, team_a_sets_won, team_b_sets_won, winner_id, status,
+                phase_no, phase_description
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             match_data['file_name'],
             tournament_id,
@@ -307,7 +313,9 @@ class VolleyballDatabase:
             match_data['teams']['team_a']['sets_won'],
             match_data['teams']['team_b']['sets_won'],
             winner_id,
-            match_data['match_info'].get('status')
+            match_data['match_info'].get('status'),
+            match_data['match_info'].get('phase_no'),
+            match_data['match_info'].get('phase_description')
         ))
         match_id = cursor.lastrowid
         
@@ -368,7 +376,11 @@ class VolleyballDatabase:
             # Insert player match stats
             if 'player_stats' in team_data:
                 for player_stat in team_data['player_stats']:
-                    # No need to look up player_id for now - we'll add that later if needed
+                    # Look up player_id using full_name
+                    full_name = player_stat.get('full_name')
+                    if full_name and full_name in name_to_id:
+                        player_stat['player_id'] = name_to_id[full_name]
+                        
                     self.insert_player_stats(match_id, team_id, player_stat)
             
             # Insert lineups

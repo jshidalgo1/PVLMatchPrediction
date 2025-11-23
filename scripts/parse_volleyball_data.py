@@ -40,18 +40,25 @@ class VolleyballDataParser:
                 'name': tournament.find('Name').text if tournament.find('Name') is not None else None
             }
         
-        # Parse all players
+        # Parse all players into a list for positional mapping
+        all_players_list = []
         for player in root.findall('Player'):
             first_name = player.find('FirstName')
             last_name = player.find('LastName')
             if first_name is not None and last_name is not None:
-                match_data['players'].append({
+                player_obj = {
                     'first_name': first_name.text,
                     'last_name': last_name.text,
                     'full_name': f"{first_name.text} {last_name.text}"
-                })
+                }
+                match_data['players'].append(player_obj)
+                all_players_list.append(player_obj)
         
-        # Parse team information
+        # Parse team information and build roster mapping
+        # Logic: First N players belong to Team 1, next M players belong to Team 2
+        current_player_idx = 0
+        roster_mapping = {}  # team_code -> {jersey_number -> player_obj}
+        
         for team in root.findall('Team'):
             team_code = team.get('Code')
             team_info = {
@@ -71,12 +78,30 @@ class VolleyballDataParser:
                 team_info['assistant_coach'] = assistant.text
             
             # Get player roster numbers
+            team_roster_map = {}
             for player in team.findall('Player'):
                 shirt_no = player.get('NoShirt')
                 if shirt_no:
-                    team_info['player_numbers'].append(int(shirt_no))
+                    shirt_no_int = int(shirt_no)
+                    team_info['player_numbers'].append(shirt_no_int)
+                    
+                    # Map from the global list if we haven't run out
+                    if current_player_idx < len(all_players_list):
+                        team_roster_map[shirt_no] = all_players_list[current_player_idx]
+                        current_player_idx += 1
             
+            roster_mapping[team_code] = team_roster_map
             match_data['team_rosters'][team_code] = team_info
+        
+        # Parse phase information from root (Phase element with Description)
+        phase_no = None
+        phase_description = None
+        phase_elem = root.find('Phase')
+        if phase_elem is not None:
+            phase_no = phase_elem.get('No')
+            desc_elem = phase_elem.find('Description')
+            if desc_elem is not None and desc_elem.text:
+                phase_description = desc_elem.text
         
         # Parse match information
         match = root.find('Match')
@@ -84,7 +109,8 @@ class VolleyballDataParser:
             match_data['match_info'] = {
                 'match_no': match.find('Match_No').text if match.find('Match_No') is not None else match.get('No'),
                 'status': match.find('Status').text if match.find('Status') is not None else None,
-                'phase': match.find('Phase').text if match.find('Phase') is not None else None,
+                'phase_no': phase_no,
+                'phase_description': phase_description,
                 'date': match.find('Date').text if match.find('Date') is not None else None,
                 'time': match.find('Time').text if match.find('Time') is not None else None,
                 'city': match.find('City').text if match.find('City') is not None else None,
@@ -128,7 +154,7 @@ class VolleyballDataParser:
                         'sets_won': team_a_sets_won,
                         'set_scores': team_a_scores,
                         'statistics': self._extract_team_statistics(team_a),
-                        'player_stats': self._extract_player_match_stats(team_a),
+                        'player_stats': self._extract_player_match_stats(team_a, roster_mapping.get(team_a_code, {})),
                         'lineups': self._extract_lineups(team_a)
                     },
                     'team_b': {
@@ -136,7 +162,7 @@ class VolleyballDataParser:
                         'sets_won': team_b_sets_won,
                         'set_scores': team_b_scores,
                         'statistics': self._extract_team_statistics(team_b),
-                        'player_stats': self._extract_player_match_stats(team_b),
+                        'player_stats': self._extract_player_match_stats(team_b, roster_mapping.get(team_b_code, {})),
                         'lineups': self._extract_lineups(team_b)
                     }
                 }
@@ -159,7 +185,7 @@ class VolleyballDataParser:
         
         for set_elem in team_elem.findall('Set'):
             set_no = set_elem.get('No')
-            if set_no and set_no != '5':  # Skip empty set 5 placeholders
+            if set_no:  # Process all sets including Set 5
                 stats = set_elem.find('Statistics')
                 if stats is not None:
                     # Team level stats
@@ -182,8 +208,11 @@ class VolleyballDataParser:
             'player_stats': dict(player_stats)
         }
     
-    def _extract_player_match_stats(self, team_elem) -> List[Dict[str, Any]]:
+    def _extract_player_match_stats(self, team_elem, roster_map: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """Extract individual player statistics aggregated across all sets"""
+        if roster_map is None:
+            roster_map = {}
+            
         player_totals = defaultdict(lambda: defaultdict(int))
         player_sets_played = defaultdict(int)
         
@@ -208,14 +237,27 @@ class VolleyballDataParser:
         # Aggregate stats across all sets
         for set_elem in team_elem.findall('Set'):
             set_no = set_elem.get('No')
-            if set_no and set_no != '5':  # Skip empty set 5 placeholders
+            if set_no:  # Process all sets including Set 5
+                # Calculate sets played based on Roster (Starters + Subs + Liberos)
+                roster = set_elem.find('Roster')
+                players_in_set = set()
+                if roster is not None:
+                    # Check starters (p1-p6), subs (r1-r6), and liberos (l1-l2)
+                    for prefix in ['p', 'r', 'l']:
+                        for i in range(1, 7): # Check up to 6 for p/r, l usually has 1-2 but loop is safe
+                            attr = f'{prefix}{i}'
+                            jersey = roster.get(attr)
+                            if jersey:
+                                players_in_set.add(jersey)
+                
+                for jersey in players_in_set:
+                    player_sets_played[jersey] += 1
+
                 stats = set_elem.find('Statistics')
                 if stats is not None:
                     for player in stats.findall('Player'):
                         shirt_no = player.get('NoShirt')
-                        if shirt_no and len(player.attrib) > 1:  # Has stats beyond NoShirt
-                            player_sets_played[shirt_no] += 1
-                            
+                        if shirt_no:
                             for attr, value in player.attrib.items():
                                 if attr != 'NoShirt':
                                     player_totals[shirt_no][attr] += int(value)
@@ -223,8 +265,11 @@ class VolleyballDataParser:
         # Convert to list format
         player_list = []
         for jersey, stats in player_totals.items():
+            player_info = roster_map.get(jersey, {})
+            
             player_list.append({
                 'jersey_number': int(jersey),
+                'full_name': player_info.get('full_name'),
                 'is_starter': jersey in starters,
                 'is_libero': jersey in liberos,
                 'sets_played': player_sets_played[jersey],
