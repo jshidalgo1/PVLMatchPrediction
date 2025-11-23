@@ -65,9 +65,23 @@ Analyze Philippine Volleyball League (PVL) match data, train calibrated machine 
 
 ## ⚡ Quick Start
 
-### 1. Process Match Data
+### 1. Fetch Match Data
 
-Place your PVL XML match files in `data/xml_files/` and run the batch processor:
+Download PVL XML match files using the fetch script:
+
+```bash
+python scripts/fetch_all_matches.py --download --tournament PVL2025D --week-range 46-48
+```
+
+Or download all available matches:
+
+```bash
+python scripts/fetch_all_matches.py --download --limit 50
+```
+
+### 2. Process Match Data
+
+Process XML files into structured data and generate features:
 
 ```bash
 python scripts/batch_processor.py
@@ -76,10 +90,12 @@ python scripts/batch_processor.py
 This will:
 - Parse XML files into structured data
 - Build SQLite database (`data/databases/volleyball_data.db`)
+- Map players to jersey numbers using roster data
+- Calculate accurate sets_played from roster tags
 - Generate feature matrices with player statistics
 - Create training datasets in `data/csv_files/`
 
-### 2. Train Models
+### 3. Train Models
 
 Train a calibrated XGBoost model with time-aware cross-validation:
 
@@ -89,25 +105,107 @@ python scripts/train_xgboost_with_players.py
 
 Output: `models/calibrated_xgboost_with_players.pkl`
 
-### 3. Simulate Tournament
+### 4. Simulate Tournament
 
-Run a complete tournament simulation:
+Run a complete tournament simulation with playoff bracket:
 
 ```bash
-python scripts/simulate_tournament.py \
-  --model models/calibrated_xgboost_with_players.pkl \
-  --save_outputs \
-  --champion_analysis
+python scripts/simulate_tournament.py --save_outputs --champion_analysis
 ```
 
-Optional flags:
-- `--save_outputs`: Save results to `outputs/` directory
-- `--keep_latest N`: Keep only the N most recent simulation outputs
-- `--champion_analysis`: Show bracket favorite, upset detection, and confidence analysis
+This generates:
+- Quarterfinal, semifinal, and championship predictions
+- Third place match prediction
+- Simulation outputs saved to `outputs/`
+
+### 5. Export to Dashboard
+
+Export simulation results and player statistics to the dashboard:
+
+```bash
+python scripts/export_dashboard_data.py
+```
+
+Generates: `dashboard/public/data.json` with:
+- Tournament standings and predictions
+- Player statistics (per-set averages)
+- Playoff bracket with all matchups
+- Match history organized by phase
+
+### 6. Run Dashboard
+
+Start the Next.js dashboard to visualize results:
+
+```bash
+cd dashboard
+npm install  # First time only
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view:
+- Tournament standings and projections
+- Player statistics with sortable metrics
+- Playoff bracket visualization
+- Match predictions by phase
+
+---
+
+## 📊 Dashboard Features
+
+The project includes a modern Next.js dashboard for visualizing tournament data, predictions, and player statistics.
+
+### Features
+
+- **🏆 Tournament Standings**: Current and projected standings with FIVB ranking rules
+- **👥 Player Statistics**: Sortable player stats with per-set averages
+  - Total Points, Attack Points (displayed as totals)
+  - Block, Serve, Dig, Reception, Set (displayed as per-set averages)
+  - Filter by current tournament
+  - Dynamic sorting by any metric
+- **🎯 Match Predictions**: Simulated results organized by tournament phase
+  - Preliminary rounds (Groups A, B, C, D)
+  - Quarterfinals, Semifinals
+  - Championship and Third Place matches
+- **📈 Playoff Bracket**: Visual bracket showing all playoff matchups
+  - Confidence scores for each prediction
+  - Winner highlighting
+  - Complete path from quarterfinals to champion
+
+### Updating Dashboard Data
+
+To refresh dashboard with latest data:
+
+```bash
+# 1. Run simulation if new matches added
+python scripts/simulate_tournament.py --save_outputs
+
+# 2. Export to dashboard
+python scripts/export_dashboard_data.py
+
+# 3. Dashboard auto-refreshes on data.json change
+```
 
 ---
 
 ## 💻 Usage
+
+### Fetch Match Data
+
+Download specific matches using filters:
+
+```bash
+# List available files
+python scripts/fetch_all_matches.py --list
+
+# Download specific tournament and week range
+python scripts/fetch_all_matches.py --download --tournament PVL2025D --week-range 46-48
+
+# Download by year
+python scripts/fetch_all_matches.py --download --year 2025 --limit 50
+
+# Download all with delay between requests
+python scripts/fetch_all_matches.py --download --delay 0.5
+```
 
 ### Compare Model Metrics
 
@@ -131,6 +229,9 @@ python scripts/simulate_tournament.py \
   --model models/best_model_with_players_timeaware.pkl \
   --save_outputs
 
+# Keep only latest 5 simulation outputs
+python scripts/simulate_tournament.py --save_outputs --keep_latest 5
+
 # Legacy entry point (calls simulate_tournament.py internally)
 python run_simulation.py --model models/calibrated_xgboost_with_players.pkl
 ```
@@ -143,20 +244,30 @@ python run_simulation.py --model models/calibrated_xgboost_with_players.pkl
 VolleyballAIProject/
 ├── data/
 │   ├── xml_files/              # Raw PVL XML match files
-│   ├── databases/              # SQLite database
+│   ├── databases/              # SQLite database (volleyball_data.db)
 │   └── csv_files/              # Engineered feature matrices
 ├── models/                     # Trained model artifacts (.pkl)
-├── outputs/                    # Simulation results and metrics
+├── outputs/                    # Simulation results (JSON + TXT)
+├── dashboard/                  # Next.js dashboard application
+│   ├── src/
+│   │   ├── app/                # Next.js app router pages
+│   │   ├── components/         # React components
+│   │   └── types/              # TypeScript interfaces
+│   ├── public/
+│   │   └── data.json           # Exported dashboard data
+│   └── package.json            # Dashboard dependencies
 ├── scripts/
 │   ├── batch_processor.py      # XML → DB → Features pipeline
-│   ├── parse_volleyball_data.py    # XML parser
+│   ├── parse_volleyball_data.py    # XML parser with player mapping
 │   ├── database_manager.py     # Database operations
 │   ├── feature_engineering_with_players.py  # Feature extraction
 │   ├── train_xgboost_with_players.py       # Model training
-│   ├── simulate_tournament.py  # Tournament simulation
+│   ├── simulate_tournament.py  # Tournament simulation with playoffs
+│   ├── export_dashboard_data.py  # Export data to dashboard
+│   ├── fetch_all_matches.py    # Download PVL XML files
 │   ├── compare_metrics.py      # Model comparison
-│   └── archive/                # Legacy scripts
-├── docs/                       # Documentation
+│   └── config.py               # Centralized configuration
+├── docs/                       # Comprehensive documentation
 ├── .github/workflows/          # CI/CD pipelines
 ├── requirements.txt            # Python dependencies
 └── README.md
@@ -197,9 +308,12 @@ VolleyballAIProject/
 
 Comprehensive documentation available in `docs/`:
 
-- **[PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)**: Methodology and architecture
-- **[FINAL_MODEL_SUMMARY.md](docs/FINAL_MODEL_SUMMARY.md)**: Model performance analysis
-- **[tournament_format.md](docs/tournament_format.md)**: FIVB ranking rules
+-   **[PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md)**: Complete system architecture and methodology
+-   **[FINAL_MODEL_SUMMARY.md](docs/FINAL_MODEL_SUMMARY.md)**: Model performance and calibration analysis
+-   **[DASHBOARD_GUIDE.md](docs/DASHBOARD_GUIDE.md)**: Dashboard features and usage guide
+-   **[DATA_PIPELINE.md](docs/DATA_PIPELINE.md)**: Data processing pipeline details
+-   **[PLAYER_STATISTICS.md](docs/PLAYER_STATISTICS.md)**: Player stats methodology and calculations
+-   **[tournament_format.md](docs/tournament_format.md)**: FIVB ranking rules and tournament structure
 
 ---
 
@@ -232,15 +346,16 @@ This project uses:
 
 ## 🔬 Research & Next Steps
 
-- [ ] Player ID linkage for longitudinal tracking
-- [ ] Set-level granular features (momentum, clutch points)
+- [x] Player ID linkage for longitudinal tracking ✅
+- [x] Set-level granular features (sets_played from roster) ✅
+- [x] Dashboard for visualization ✅
 - [ ] Reliability diagrams and calibration drift monitoring
 - [ ] Confidence intervals for predictions
 - [ ] Live match prediction API
 
 ---
 
-## �� CI/CD
+## 🔄 CI/CD
 
 The project includes GitHub Actions workflows:
 
@@ -260,14 +375,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Philippine Volleyball League (PVL) for match data
 - XGBoost and scikit-learn communities
+- Next.js and React communities
 - Contributors and testers
 
 ---
 
-## �� Contact
+## 📧 Contact
 
 For questions or collaboration inquiries, please open an issue on GitHub.
 
 ---
 
 **Made with ❤️ for volleyball analytics**
+
+**Last Updated**: November 23, 2025
+```

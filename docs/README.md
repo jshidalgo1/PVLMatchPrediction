@@ -1,6 +1,6 @@
 # Documentation
 
-Comprehensive documentation for the Volleyball AI Project.
+Comprehensive documentation for the PVL Match Prediction project.
 
 ## 📚 Documentation Overview
 
@@ -24,13 +24,31 @@ Comprehensive analysis of model performance:
 - Feature importance analysis
 - Recommendations for model selection
 
-#### [DATA_QUALITY_REPORT.md](DATA_QUALITY_REPORT.md)
-Data validation and quality assessment:
-- Data coverage and completeness
-- XML parsing validation
-- Database integrity checks
-- Data quality issues and resolutions
-- Recommendations for data improvements
+#### [DASHBOARD_GUIDE.md](DASHBOARD_GUIDE.md) ✨ NEW
+Complete dashboard documentation:
+- Features and UI components
+- Player statistics with per-set averages
+- Match predictions and playoff brackets
+- Data flow and technical implementation
+- Customization guide
+- Troubleshooting
+
+#### [DATA_PIPELINE.md](DATA_PIPELINE.md) ✨ NEW
+End-to-end data processing pipeline:
+- XML file fetching and parsing
+- Player-jersey number mapping
+- Sets played calculation methodology
+- Database schema and operations
+- Feature engineering process
+- Export to dashboard workflow
+
+#### [PLAYER_STATISTICS.md](PLAYER_STATISTICS.md) ✨ NEW
+Player statistics tracking and calculation:
+- Roster-based sets_played calculation
+- Per-set average formulas
+- Data validation procedures
+- Common issues and solutions
+- Example SQL queries
 
 #### [tournament_format.md](tournament_format.md)
 FIVB tournament rules and implementation:
@@ -44,8 +62,8 @@ FIVB tournament rules and implementation:
 
 ### For Users
 - [Installation Guide](../README.md#-installation)
-- [Quick Start](../README.md#-quick-start)
-- [Usage Examples](../examples/)
+- [Quick Start](../QUICK_START.md)
+- [Dashboard Setup](DASHBOARD_GUIDE.md)
 
 ### For Contributors
 - [Contributing Guidelines](../CONTRIBUTING.md)
@@ -55,42 +73,63 @@ FIVB tournament rules and implementation:
 ### For Researchers
 - [Feature Engineering Details](PROJECT_OVERVIEW.md)
 - [Model Architecture](FINAL_MODEL_SUMMARY.md)
-- [Data Quality Analysis](DATA_QUALITY_REPORT.md)
+- [Data Pipeline Flow](DATA_PIPELINE.md)
+- [Statistical Methodology](PLAYER_STATISTICS.md)
 
-## 🔍 Additional Resources
+## 🔍 Documentation by Topic
 
-### API Documentation
-_(Coming soon)_ - Auto-generated API documentation using Sphinx
+### Getting Started
+1. Start with [Quick Start Guide](../QUICK_START.md)
+2. Review [Project Overview](PROJECT_OVERVIEW.md)
+3. Understand the [Data Pipeline](DATA_PIPELINE.md)
 
-### Jupyter Notebooks
-_(Coming soon)_ - Interactive analysis notebooks demonstrating:
-- Exploratory data analysis
-- Feature engineering experiments
-- Model tuning and selection
-- Prediction visualization
+### Working with Data
+- [Fetching Match Data](DATA_PIPELINE.md#1-data-acquisition)
+- [Processing XML Files](DATA_PIPELINE.md#2-data-parsing)
+- [Database Schema](DATA_PIPELINE.md#3-database-storage)
+- [Player Statistics](PLAYER_STATISTICS.md)
 
-### Video Tutorials
-_(Coming soon)_ - Video walkthroughs of:
-- Setting up the project
-- Training custom models
-- Running simulations
-- Interpreting results
+### Machine Learning
+- [Feature Engineering](DATA_PIPELINE.md#4-feature-engineering)
+- [Model Training](DATA_PIPELINE.md#5-model-training)
+- [Model Performance](FINAL_MODEL_SUMMARY.md)
+
+### Simulation & Visualization
+- [Tournament Simulation](DATA_PIPELINE.md#6-tournament-simulation)
+- [Dashboard Export](DATA_PIPELINE.md#7-dashboard-export)
+- [Dashboard Features](DASHBOARD_GUIDE.md)
 
 ## 💡 Tips for Reading Documentation
 
-1. **Start with PROJECT_OVERVIEW.md** if you're new to the project
-2. **Check FINAL_MODEL_SUMMARY.md** for model selection guidance
-3. **Reference tournament_format.md** for rules clarifications
-4. **Review DATA_QUALITY_REPORT.md** before adding new data
+1. **New Users**: Start with [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) for a high-level understanding
+2. **Data Scientists**: Check [FINAL_MODEL_SUMMARY.md](FINAL_MODEL_SUMMARY.md) for model details
+3. **Developers**: Review [DATA_PIPELINE.md](DATA_PIPELINE.md) and [DASHBOARD_GUIDE.md](DASHBOARD_GUIDE.md)
+4. **Troubleshooting**: Each guide has a dedicated troubleshooting section
 
 ## 🙋 Questions?
 
 If you can't find what you're looking for:
 - Check the main [README](../README.md)
-- Browse [examples/](../examples/)
+- Review the [Quick Start Guide](../QUICK_START.md)
 - Open an issue on GitHub
-- Review existing issues and discussions
+- Check existing issues and discussions
+
+## 📝 Contributing to Documentation
+
+Documentation contributions are highly valued! To contribute:
+
+1. Identify gaps or outdated information
+2. Fork the repository
+3. Update the relevant `.md` file
+4. Submit a pull request with clear description
+5. Ensure markdown formatting is consistent
+
+**Style Guidelines**:
+- Use clear, concise language
+- Include code examples where helpful
+- Add links to related documentation
+- Update "Last Updated" dates
 
 ---
 
-**Last Updated**: November 2025
+**Last Updated**: November 23, 2025
