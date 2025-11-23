@@ -8,14 +8,19 @@ export default async function TeamsPage() {
 
     if (!data) return <div>Loading...</div>;
 
-    const { teams, simulation } = data;
-    const { pools } = simulation;
+    const { teams, tournaments } = data;
 
-    // Helper to find pool
+    // Get current tournament (TEST_PVLR25)
+    const currentTournament = tournaments?.find(t => t.code === "TEST_PVLR25");
+    const simulation = currentTournament?.simulation;
+    const pools = simulation?.pools;
+
+    // Helper to find pool (only if pools exist)
     const getPool = (code: string) => {
-        if (pools.pool_a.includes(code)) return "Pool A";
-        if (pools.pool_b.includes(code)) return "Pool B";
-        return "Unknown";
+        if (!pools) return null;
+        if (pools.pool_a?.includes(code)) return "Pool A";
+        if (pools.pool_b?.includes(code)) return "Pool B";
+        return null;
     };
 
     return (
@@ -32,7 +37,7 @@ export default async function TeamsPage() {
                                     <h2 className="text-xl font-bold text-white">{team.name}</h2>
                                     <span className="bg-indigo-800 text-indigo-100 text-xs px-2 py-1 rounded-full">{team.code}</span>
                                 </div>
-                                <p className="text-indigo-200 text-sm mt-1">{pool}</p>
+                                {pool && <p className="text-indigo-200 text-sm mt-1">{pool}</p>}
                             </div>
                             <div className="p-6 space-y-4">
                                 <div>
