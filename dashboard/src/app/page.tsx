@@ -244,31 +244,36 @@ function PredictionsList({ predictions }: { predictions: any[] }) {
 function PlayerStatsTable({ players }: { players: any[] }) {
     const [sortMetric, setSortMetric] = useState<'total' | 'attack' | 'block' | 'serve' | 'dig' | 'reception' | 'set'>('total');
 
-    const getPerSet = (val: number | undefined, sets: number | undefined) => {
-        if (!val || !sets || sets === 0) return 0;
-        return val / sets;
+    const getPerSet = (val: number | undefined, teamTotalSets: number | undefined) => {
+        if (!val || !teamTotalSets || teamTotalSets === 0) return 0;
+        return val / teamTotalSets;
+    };
+
+    const getEfficiency = (excellent: number | undefined, totalAttempts: number | undefined) => {
+        if (!excellent || !totalAttempts || totalAttempts === 0) return 0;
+        return (excellent / totalAttempts) * 100;
     };
 
     // Sort based on selected metric
     const sortedPlayers = [...players].sort((a, b) => {
         const statsA = a.stats || {};
         const statsB = b.stats || {};
-        const setsA = statsA.sets_played || 1;
-        const setsB = statsB.sets_played || 1;
+        const teamSetsA = statsA.team_total_sets || 1;
+        const teamSetsB = statsB.team_total_sets || 1;
 
         switch (sortMetric) {
             case 'attack':
                 return (statsB.attack_points || 0) - (statsA.attack_points || 0);
             case 'block':
-                return getPerSet(statsB.block_points, setsB) - getPerSet(statsA.block_points, setsA);
+                return getPerSet(statsB.block_points, teamSetsB) - getPerSet(statsA.block_points, teamSetsA);
             case 'serve':
-                return getPerSet(statsB.serve_points, setsB) - getPerSet(statsA.serve_points, setsA);
+                return getPerSet(statsB.serve_points, teamSetsB) - getPerSet(statsA.serve_points, teamSetsA);
             case 'dig':
-                return getPerSet(statsB.dig_excellent, setsB) - getPerSet(statsA.dig_excellent, setsA);
+                return getPerSet(statsB.dig_excellent, teamSetsB) - getPerSet(statsA.dig_excellent, teamSetsA);
             case 'reception':
-                return getPerSet(statsB.reception_excellent, setsB) - getPerSet(statsA.reception_excellent, setsA);
+                return getEfficiency(statsB.reception_excellent, statsB.reception_total_attempts) - getEfficiency(statsA.reception_excellent, statsA.reception_total_attempts);
             case 'set':
-                return getPerSet(statsB.set_excellent, setsB) - getPerSet(statsA.set_excellent, setsA);
+                return getPerSet(statsB.set_excellent, teamSetsB) - getPerSet(statsA.set_excellent, teamSetsA);
             case 'total':
             default:
                 return (statsB.total_points || 0) - (statsA.total_points || 0);
@@ -281,15 +286,18 @@ function PlayerStatsTable({ players }: { players: any[] }) {
             case 'block': return 'Best Blockers (Avg/Set)';
             case 'serve': return 'Best Servers (Avg/Set)';
             case 'dig': return 'Best Diggers (Avg/Set)';
-            case 'reception': return 'Best Receivers (Avg/Set)';
+            case 'reception': return 'Best Receivers (Efficiency %)';
             case 'set': return 'Best Setters (Avg/Set)';
             default: return 'Top Scorers (Total)';
         }
     };
 
-    const formatStat = (val: number | undefined, sets: number | undefined, isAvg: boolean) => {
+    const formatStat = (val: number | undefined, teamTotalSets: number | undefined, isAvg: boolean, isEfficiency: boolean = false, totalAttempts?: number) => {
+        if (isEfficiency && totalAttempts !== undefined) {
+            return getEfficiency(val, totalAttempts).toFixed(2) + '%';
+        }
         if (isAvg) {
-            return getPerSet(val, sets).toFixed(2);
+            return getPerSet(val, teamTotalSets).toFixed(2);
         }
         return val || 0;
     };
@@ -304,8 +312,8 @@ function PlayerStatsTable({ players }: { players: any[] }) {
                             key={metric}
                             onClick={() => setSortMetric(metric)}
                             className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${sortMetric === metric
-                                    ? 'bg-white text-indigo-600 shadow-sm'
-                                    : 'text-slate-500 hover:text-slate-700'
+                                ? 'bg-white text-indigo-600 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
                                 }`}
                         >
                             {metric.charAt(0).toUpperCase() + metric.slice(1)}
@@ -327,7 +335,7 @@ function PlayerStatsTable({ players }: { players: any[] }) {
                                 <th className={`h-12 px-4 text-right align-middle font-medium ${sortMetric === 'block' ? 'text-indigo-600 bg-indigo-50/30' : 'text-slate-500'}`}>Block/S</th>
                                 <th className={`h-12 px-4 text-right align-middle font-medium ${sortMetric === 'serve' ? 'text-indigo-600 bg-indigo-50/30' : 'text-slate-500'}`}>Serve/S</th>
                                 <th className={`h-12 px-4 text-right align-middle font-medium ${sortMetric === 'dig' ? 'text-indigo-600 bg-indigo-50/30' : 'text-slate-500'}`}>Dig/S</th>
-                                <th className={`h-12 px-4 text-right align-middle font-medium ${sortMetric === 'reception' ? 'text-indigo-600 bg-indigo-50/30' : 'text-slate-500'}`}>Rec/S</th>
+                                <th className={`h-12 px-4 text-right align-middle font-medium ${sortMetric === 'reception' ? 'text-indigo-600 bg-indigo-50/30' : 'text-slate-500'}`}>Receive</th>
                                 <th className={`h-12 px-4 text-right align-middle font-medium ${sortMetric === 'set' ? 'text-indigo-600 bg-indigo-50/30' : 'text-slate-500'}`}>Set/S</th>
                             </tr>
                         </thead>
@@ -341,13 +349,13 @@ function PlayerStatsTable({ players }: { players: any[] }) {
                                             <Badge key={t} variant="outline" className="mr-1">{t}</Badge>
                                         ))}
                                     </td>
-                                    <td className={`p-4 align-middle text-right font-bold ${sortMetric === 'total' ? 'text-indigo-600 bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.total_points, player.stats?.sets_played, false)}</td>
-                                    <td className={`p-4 align-middle text-right ${sortMetric === 'attack' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.attack_points, player.stats?.sets_played, false)}</td>
-                                    <td className={`p-4 align-middle text-right ${sortMetric === 'block' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.block_points, player.stats?.sets_played, true)}</td>
-                                    <td className={`p-4 align-middle text-right ${sortMetric === 'serve' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.serve_points, player.stats?.sets_played, true)}</td>
-                                    <td className={`p-4 align-middle text-right ${sortMetric === 'dig' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.dig_excellent, player.stats?.sets_played, true)}</td>
-                                    <td className={`p-4 align-middle text-right ${sortMetric === 'reception' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.reception_excellent, player.stats?.sets_played, true)}</td>
-                                    <td className={`p-4 align-middle text-right ${sortMetric === 'set' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.set_excellent, player.stats?.sets_played, true)}</td>
+                                    <td className={`p-4 align-middle text-right font-bold ${sortMetric === 'total' ? 'text-indigo-600 bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.total_points, player.stats?.team_total_sets, false)}</td>
+                                    <td className={`p-4 align-middle text-right ${sortMetric === 'attack' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.attack_points, player.stats?.team_total_sets, false)}</td>
+                                    <td className={`p-4 align-middle text-right ${sortMetric === 'block' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.block_points, player.stats?.team_total_sets, true)}</td>
+                                    <td className={`p-4 align-middle text-right ${sortMetric === 'serve' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.serve_points, player.stats?.team_total_sets, true)}</td>
+                                    <td className={`p-4 align-middle text-right ${sortMetric === 'dig' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.dig_excellent, player.stats?.team_total_sets, true)}</td>
+                                    <td className={`p-4 align-middle text-right ${sortMetric === 'reception' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.reception_excellent, player.stats?.team_total_sets, false, true, player.stats?.reception_total_attempts)}</td>
+                                    <td className={`p-4 align-middle text-right ${sortMetric === 'set' ? 'text-indigo-600 font-bold bg-indigo-50/30' : 'text-slate-600'}`}>{formatStat(player.stats?.set_excellent, player.stats?.team_total_sets, true)}</td>
                                 </tr>
                             ))}
                         </tbody>

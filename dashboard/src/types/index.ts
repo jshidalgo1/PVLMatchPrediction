@@ -8,12 +8,14 @@ export interface Team {
 
 export interface PlayerStats {
     sets_played: number;
+    team_total_sets: number;
     total_points: number;
     attack_points: number;
     block_points: number;
     serve_points: number;
     dig_excellent: number;
     reception_excellent: number;
+    reception_total_attempts: number;
     set_excellent: number;
 }
 

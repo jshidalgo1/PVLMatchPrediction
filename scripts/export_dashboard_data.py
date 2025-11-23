@@ -59,15 +59,19 @@ def get_players_data(conn, tournament_id=None):
                 "serve_points": 0,
                 "dig_excellent": 0,
                 "reception_excellent": 0,
-                "set_excellent": 0
+                "reception_total_attempts": 0,
+                "set_excellent": 0,
+                "team_total_sets": 0
             },
-            "teams": set()
+            "teams": set(),
+            "team_ids": set()
         }
 
     query = """
         SELECT pms.player_id, pms.team_id, 
                SUM(pms.sets_played), SUM(pms.attack_points), SUM(pms.block_points), SUM(pms.serve_points),
-               SUM(pms.dig_excellent), SUM(pms.reception_excellent), SUM(pms.set_excellent)
+               SUM(pms.dig_excellent), SUM(pms.reception_excellent), SUM(pms.set_excellent),
+               SUM(pms.reception_excellent + pms.reception_faults + pms.reception_continues) as reception_total
         FROM player_match_stats pms
         JOIN matches m ON pms.match_id = m.id
         WHERE pms.player_id IS NOT NULL
@@ -99,14 +103,48 @@ def get_players_data(conn, tournament_id=None):
             p["stats"]["dig_excellent"] += row[6]
             p["stats"]["reception_excellent"] += row[7]
             p["stats"]["set_excellent"] += row[8]
+            p["stats"]["reception_total_attempts"] += (row[9] or 0)
             if tid in team_id_to_code:
                 p["teams"].add(team_id_to_code[tid])
+                p["team_ids"].add(tid)
+
+    # Calculate team total sets played in the tournament
+    team_total_sets_map = {}
+    team_sets_query = """
+        SELECT t.id, 
+               SUM(m.team_a_sets_won + m.team_b_sets_won) as total_sets
+        FROM teams t
+        JOIN matches m ON (t.id = m.team_a_id OR t.id = m.team_b_id)
+        WHERE m.winner_id IS NOT NULL
+    """
+    team_sets_params = []
+    
+    if tournament_id:
+        team_sets_query += " AND m.tournament_id = ?"
+        team_sets_params.append(tournament_id)
+    
+    team_sets_query += " GROUP BY t.id"
+    
+    cursor.execute(team_sets_query, team_sets_params)
+    for row in cursor.fetchall():
+        team_id = row[0]
+        total_sets = row[1] or 0
+        team_total_sets_map[team_id] = total_sets
+
+    # Assign team total sets to each player
+    for p in players_map.values():
+        if p["team_ids"]:
+            # Calculate average team total sets if player played for multiple teams
+            team_sets_values = [team_total_sets_map.get(tid, 0) for tid in p["team_ids"]]
+            p["stats"]["team_total_sets"] = int(sum(team_sets_values) / len(team_sets_values)) if team_sets_values else 0
 
     players_list = []
     for p in players_map.values():
         # Only include players who have played in this tournament (have stats > 0 or team association)
         if p["stats"]["sets_played"] > 0:
             p["teams"] = list(p["teams"])
+            # Remove team_ids as it's only needed for internal calculation
+            p.pop("team_ids", None)
             players_list.append(p)
         
     return players_list

@@ -176,7 +176,9 @@
         "serve_points": 6,
         "dig_excellent": 32,
         "reception_excellent": 0,
-        "set_excellent": 145
+        "reception_total_attempts": 2,
+        "set_excellent": 145,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -195,7 +197,9 @@
         "serve_points": 2,
         "dig_excellent": 24,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -214,7 +218,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -233,7 +239,9 @@
         "serve_points": 1,
         "dig_excellent": 9,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -252,7 +260,9 @@
         "serve_points": 4,
         "dig_excellent": 4,
         "reception_excellent": 3,
-        "set_excellent": 0
+        "reception_total_attempts": 7,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -271,7 +281,9 @@
         "serve_points": 2,
         "dig_excellent": 51,
         "reception_excellent": 42,
-        "set_excellent": 0
+        "reception_total_attempts": 83,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -290,7 +302,9 @@
         "serve_points": 1,
         "dig_excellent": 14,
         "reception_excellent": 0,
-        "set_excellent": 42
+        "reception_total_attempts": 0,
+        "set_excellent": 42,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -309,7 +323,9 @@
         "serve_points": 2,
         "dig_excellent": 11,
         "reception_excellent": 8,
-        "set_excellent": 0
+        "reception_total_attempts": 17,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -328,7 +344,9 @@
         "serve_points": 10,
         "dig_excellent": 68,
         "reception_excellent": 86,
-        "set_excellent": 0
+        "reception_total_attempts": 185,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -347,7 +365,9 @@
         "serve_points": 0,
         "dig_excellent": 61,
         "reception_excellent": 33,
-        "set_excellent": 2
+        "reception_total_attempts": 89,
+        "set_excellent": 2,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -366,7 +386,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -385,7 +407,9 @@
         "serve_points": 7,
         "dig_excellent": 22,
         "reception_excellent": 5,
-        "set_excellent": 1
+        "reception_total_attempts": 10,
+        "set_excellent": 1,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -404,7 +428,9 @@
         "serve_points": 0,
         "dig_excellent": 3,
         "reception_excellent": 0,
-        "set_excellent": 4
+        "reception_total_attempts": 0,
+        "set_excellent": 4,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -423,7 +449,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -442,7 +470,9 @@
         "serve_points": 3,
         "dig_excellent": 35,
         "reception_excellent": 7,
-        "set_excellent": 0
+        "reception_total_attempts": 18,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -461,7 +491,9 @@
         "serve_points": 0,
         "dig_excellent": 20,
         "reception_excellent": 0,
-        "set_excellent": 1
+        "reception_total_attempts": 5,
+        "set_excellent": 1,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -480,7 +512,9 @@
         "serve_points": 0,
         "dig_excellent": 14,
         "reception_excellent": 0,
-        "set_excellent": 77
+        "reception_total_attempts": 3,
+        "set_excellent": 77,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -499,7 +533,9 @@
         "serve_points": 0,
         "dig_excellent": 19,
         "reception_excellent": 7,
-        "set_excellent": 0
+        "reception_total_attempts": 25,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -518,7 +554,9 @@
         "serve_points": 2,
         "dig_excellent": 39,
         "reception_excellent": 7,
-        "set_excellent": 1
+        "reception_total_attempts": 27,
+        "set_excellent": 1,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -537,7 +575,9 @@
         "serve_points": 3,
         "dig_excellent": 27,
         "reception_excellent": 0,
-        "set_excellent": 104
+        "reception_total_attempts": 2,
+        "set_excellent": 104,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -556,7 +596,9 @@
         "serve_points": 2,
         "dig_excellent": 3,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 7,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -575,7 +617,9 @@
         "serve_points": 1,
         "dig_excellent": 13,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 6,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -594,7 +638,9 @@
         "serve_points": 0,
         "dig_excellent": 11,
         "reception_excellent": 10,
-        "set_excellent": 0
+        "reception_total_attempts": 42,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -613,7 +659,9 @@
         "serve_points": 0,
         "dig_excellent": 3,
         "reception_excellent": 3,
-        "set_excellent": 0
+        "reception_total_attempts": 6,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -632,7 +680,9 @@
         "serve_points": 0,
         "dig_excellent": 92,
         "reception_excellent": 83,
-        "set_excellent": 4
+        "reception_total_attempts": 158,
+        "set_excellent": 4,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -651,7 +701,9 @@
         "serve_points": 0,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -670,7 +722,9 @@
         "serve_points": 1,
         "dig_excellent": 20,
         "reception_excellent": 3,
-        "set_excellent": 0
+        "reception_total_attempts": 11,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -689,7 +743,9 @@
         "serve_points": 5,
         "dig_excellent": 4,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -708,7 +764,9 @@
         "serve_points": 6,
         "dig_excellent": 43,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 3,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -727,7 +785,9 @@
         "serve_points": 10,
         "dig_excellent": 25,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -746,7 +806,9 @@
         "serve_points": 0,
         "dig_excellent": 37,
         "reception_excellent": 24,
-        "set_excellent": 1
+        "reception_total_attempts": 70,
+        "set_excellent": 1,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -765,7 +827,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -784,7 +848,9 @@
         "serve_points": 2,
         "dig_excellent": 3,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -803,7 +869,9 @@
         "serve_points": 8,
         "dig_excellent": 33,
         "reception_excellent": 2,
-        "set_excellent": 139
+        "reception_total_attempts": 4,
+        "set_excellent": 139,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -822,7 +890,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 2,
-        "set_excellent": 0
+        "reception_total_attempts": 5,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -841,7 +911,9 @@
         "serve_points": 8,
         "dig_excellent": 53,
         "reception_excellent": 108,
-        "set_excellent": 0
+        "reception_total_attempts": 254,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -860,7 +932,9 @@
         "serve_points": 0,
         "dig_excellent": 77,
         "reception_excellent": 16,
-        "set_excellent": 1
+        "reception_total_attempts": 33,
+        "set_excellent": 1,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -879,7 +953,9 @@
         "serve_points": 16,
         "dig_excellent": 34,
         "reception_excellent": 2,
-        "set_excellent": 1
+        "reception_total_attempts": 3,
+        "set_excellent": 1,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -898,7 +974,9 @@
         "serve_points": 4,
         "dig_excellent": 48,
         "reception_excellent": 47,
-        "set_excellent": 1
+        "reception_total_attempts": 153,
+        "set_excellent": 1,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -917,7 +995,9 @@
         "serve_points": 0,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 2
+        "reception_total_attempts": 0,
+        "set_excellent": 2,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -936,7 +1016,9 @@
         "serve_points": 1,
         "dig_excellent": 6,
         "reception_excellent": 0,
-        "set_excellent": 23
+        "reception_total_attempts": 0,
+        "set_excellent": 23,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -955,7 +1037,9 @@
         "serve_points": 1,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -974,7 +1058,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 3,
-        "set_excellent": 0
+        "reception_total_attempts": 5,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -993,7 +1079,9 @@
         "serve_points": 3,
         "dig_excellent": 24,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 2,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -1012,7 +1100,9 @@
         "serve_points": 1,
         "dig_excellent": 3,
         "reception_excellent": 2,
-        "set_excellent": 0
+        "reception_total_attempts": 8,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -1031,7 +1121,9 @@
         "serve_points": 2,
         "dig_excellent": 38,
         "reception_excellent": 0,
-        "set_excellent": 148
+        "reception_total_attempts": 1,
+        "set_excellent": 148,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1050,7 +1142,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -1069,7 +1163,9 @@
         "serve_points": 1,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 4,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -1088,7 +1184,9 @@
         "serve_points": 1,
         "dig_excellent": 7,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 5,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -1107,7 +1205,9 @@
         "serve_points": 1,
         "dig_excellent": 4,
         "reception_excellent": 2,
-        "set_excellent": 0
+        "reception_total_attempts": 14,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -1126,7 +1226,9 @@
         "serve_points": 0,
         "dig_excellent": 3,
         "reception_excellent": 0,
-        "set_excellent": 1
+        "reception_total_attempts": 1,
+        "set_excellent": 1,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -1145,7 +1247,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -1164,7 +1268,9 @@
         "serve_points": 2,
         "dig_excellent": 9,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 2,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -1183,7 +1289,9 @@
         "serve_points": 0,
         "dig_excellent": 4,
         "reception_excellent": 0,
-        "set_excellent": 3
+        "reception_total_attempts": 0,
+        "set_excellent": 3,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -1202,7 +1310,9 @@
         "serve_points": 0,
         "dig_excellent": 16,
         "reception_excellent": 0,
-        "set_excellent": 1
+        "reception_total_attempts": 0,
+        "set_excellent": 1,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -1221,7 +1331,9 @@
         "serve_points": 0,
         "dig_excellent": 67,
         "reception_excellent": 27,
-        "set_excellent": 0
+        "reception_total_attempts": 75,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -1240,7 +1352,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -1259,7 +1373,9 @@
         "serve_points": 2,
         "dig_excellent": 3,
         "reception_excellent": 0,
-        "set_excellent": 24
+        "reception_total_attempts": 1,
+        "set_excellent": 24,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -1278,7 +1394,9 @@
         "serve_points": 2,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -1297,7 +1415,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -1316,7 +1436,9 @@
         "serve_points": 0,
         "dig_excellent": 3,
         "reception_excellent": 3,
-        "set_excellent": 0
+        "reception_total_attempts": 6,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -1335,7 +1457,9 @@
         "serve_points": 0,
         "dig_excellent": 7,
         "reception_excellent": 13,
-        "set_excellent": 0
+        "reception_total_attempts": 32,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -1354,7 +1478,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1373,7 +1499,9 @@
         "serve_points": 3,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1392,7 +1520,9 @@
         "serve_points": 7,
         "dig_excellent": 47,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 5,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -1411,7 +1541,9 @@
         "serve_points": 8,
         "dig_excellent": 61,
         "reception_excellent": 81,
-        "set_excellent": 0
+        "reception_total_attempts": 222,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1430,7 +1562,9 @@
         "serve_points": 0,
         "dig_excellent": 138,
         "reception_excellent": 59,
-        "set_excellent": 8
+        "reception_total_attempts": 104,
+        "set_excellent": 8,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1449,7 +1583,9 @@
         "serve_points": 2,
         "dig_excellent": 18,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 8,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1468,7 +1604,9 @@
         "serve_points": 5,
         "dig_excellent": 43,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1487,7 +1625,9 @@
         "serve_points": 1,
         "dig_excellent": 8,
         "reception_excellent": 2,
-        "set_excellent": 0
+        "reception_total_attempts": 4,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1506,7 +1646,9 @@
         "serve_points": 2,
         "dig_excellent": 3,
         "reception_excellent": 0,
-        "set_excellent": 5
+        "reception_total_attempts": 0,
+        "set_excellent": 5,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1525,7 +1667,9 @@
         "serve_points": 1,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1544,7 +1688,9 @@
         "serve_points": 2,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -1563,7 +1709,9 @@
         "serve_points": 6,
         "dig_excellent": 25,
         "reception_excellent": 37,
-        "set_excellent": 2
+        "reception_total_attempts": 121,
+        "set_excellent": 2,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -1582,7 +1730,9 @@
         "serve_points": 0,
         "dig_excellent": 98,
         "reception_excellent": 65,
-        "set_excellent": 3
+        "reception_total_attempts": 148,
+        "set_excellent": 3,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -1601,7 +1751,9 @@
         "serve_points": 1,
         "dig_excellent": 50,
         "reception_excellent": 23,
-        "set_excellent": 0
+        "reception_total_attempts": 88,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -1620,7 +1772,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -1639,7 +1793,9 @@
         "serve_points": 1,
         "dig_excellent": 20,
         "reception_excellent": 27,
-        "set_excellent": 0
+        "reception_total_attempts": 81,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -1658,7 +1814,9 @@
         "serve_points": 6,
         "dig_excellent": 75,
         "reception_excellent": 79,
-        "set_excellent": 0
+        "reception_total_attempts": 184,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -1677,7 +1835,9 @@
         "serve_points": 3,
         "dig_excellent": 57,
         "reception_excellent": 55,
-        "set_excellent": 0
+        "reception_total_attempts": 123,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -1696,7 +1856,9 @@
         "serve_points": 0,
         "dig_excellent": 24,
         "reception_excellent": 8,
-        "set_excellent": 0
+        "reception_total_attempts": 23,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -1715,7 +1877,9 @@
         "serve_points": 1,
         "dig_excellent": 4,
         "reception_excellent": 0,
-        "set_excellent": 10
+        "reception_total_attempts": 0,
+        "set_excellent": 10,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -1734,7 +1898,9 @@
         "serve_points": 0,
         "dig_excellent": 27,
         "reception_excellent": 15,
-        "set_excellent": 0
+        "reception_total_attempts": 36,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -1753,7 +1919,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -1772,7 +1940,9 @@
         "serve_points": 11,
         "dig_excellent": 39,
         "reception_excellent": 0,
-        "set_excellent": 174
+        "reception_total_attempts": 0,
+        "set_excellent": 174,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -1791,7 +1961,9 @@
         "serve_points": 3,
         "dig_excellent": 10,
         "reception_excellent": 3,
-        "set_excellent": 0
+        "reception_total_attempts": 8,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -1810,7 +1982,9 @@
         "serve_points": 1,
         "dig_excellent": 7,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 4,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -1829,7 +2003,9 @@
         "serve_points": 10,
         "dig_excellent": 13,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -1848,7 +2024,9 @@
         "serve_points": 0,
         "dig_excellent": 62,
         "reception_excellent": 5,
-        "set_excellent": 3
+        "reception_total_attempts": 9,
+        "set_excellent": 3,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -1867,7 +2045,9 @@
         "serve_points": 1,
         "dig_excellent": 4,
         "reception_excellent": 0,
-        "set_excellent": 37
+        "reception_total_attempts": 2,
+        "set_excellent": 37,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -1886,7 +2066,9 @@
         "serve_points": 0,
         "dig_excellent": 5,
         "reception_excellent": 3,
-        "set_excellent": 0
+        "reception_total_attempts": 12,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -1905,7 +2087,9 @@
         "serve_points": 4,
         "dig_excellent": 22,
         "reception_excellent": 9,
-        "set_excellent": 0
+        "reception_total_attempts": 39,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -1924,7 +2108,9 @@
         "serve_points": 0,
         "dig_excellent": 103,
         "reception_excellent": 74,
-        "set_excellent": 0
+        "reception_total_attempts": 158,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -1943,7 +2129,9 @@
         "serve_points": 0,
         "dig_excellent": 10,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -1962,7 +2150,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 4,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -1981,7 +2171,9 @@
         "serve_points": 0,
         "dig_excellent": 116,
         "reception_excellent": 73,
-        "set_excellent": 1
+        "reception_total_attempts": 133,
+        "set_excellent": 1,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -2000,7 +2192,9 @@
         "serve_points": 0,
         "dig_excellent": 43,
         "reception_excellent": 54,
-        "set_excellent": 1
+        "reception_total_attempts": 120,
+        "set_excellent": 1,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -2019,7 +2213,9 @@
         "serve_points": 0,
         "dig_excellent": 6,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 2,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -2038,7 +2234,9 @@
         "serve_points": 1,
         "dig_excellent": 9,
         "reception_excellent": 17,
-        "set_excellent": 0
+        "reception_total_attempts": 60,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -2057,7 +2255,9 @@
         "serve_points": 8,
         "dig_excellent": 24,
         "reception_excellent": 2,
-        "set_excellent": 0
+        "reception_total_attempts": 5,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -2076,7 +2276,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -2095,7 +2297,9 @@
         "serve_points": 3,
         "dig_excellent": 12,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 8,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2114,7 +2318,9 @@
         "serve_points": 0,
         "dig_excellent": 18,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2133,7 +2339,9 @@
         "serve_points": 0,
         "dig_excellent": 4,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2152,7 +2360,9 @@
         "serve_points": 0,
         "dig_excellent": 125,
         "reception_excellent": 97,
-        "set_excellent": 0
+        "reception_total_attempts": 166,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2171,7 +2381,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2190,7 +2402,9 @@
         "serve_points": 3,
         "dig_excellent": 2,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 5,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2209,7 +2423,9 @@
         "serve_points": 1,
         "dig_excellent": 1,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 2,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -2228,7 +2444,9 @@
         "serve_points": 3,
         "dig_excellent": 16,
         "reception_excellent": 0,
-        "set_excellent": 181
+        "reception_total_attempts": 2,
+        "set_excellent": 181,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -2247,7 +2465,9 @@
         "serve_points": 5,
         "dig_excellent": 19,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 8,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -2266,7 +2486,9 @@
         "serve_points": 2,
         "dig_excellent": 32,
         "reception_excellent": 22,
-        "set_excellent": 0
+        "reception_total_attempts": 58,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -2285,7 +2507,9 @@
         "serve_points": 0,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -2304,7 +2528,9 @@
         "serve_points": 0,
         "dig_excellent": 147,
         "reception_excellent": 49,
-        "set_excellent": 0
+        "reception_total_attempts": 113,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -2323,7 +2549,9 @@
         "serve_points": 2,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 3,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -2342,7 +2570,9 @@
         "serve_points": 1,
         "dig_excellent": 20,
         "reception_excellent": 0,
-        "set_excellent": 109
+        "reception_total_attempts": 0,
+        "set_excellent": 109,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2361,7 +2591,9 @@
         "serve_points": 1,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2380,7 +2612,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2399,7 +2633,9 @@
         "serve_points": 2,
         "dig_excellent": 16,
         "reception_excellent": 19,
-        "set_excellent": 0
+        "reception_total_attempts": 65,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2418,7 +2654,9 @@
         "serve_points": 1,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2437,7 +2675,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -2456,7 +2696,9 @@
         "serve_points": 3,
         "dig_excellent": 39,
         "reception_excellent": 85,
-        "set_excellent": 0
+        "reception_total_attempts": 230,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -2475,7 +2717,9 @@
         "serve_points": 1,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 1
+        "reception_total_attempts": 0,
+        "set_excellent": 1,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -2494,7 +2738,9 @@
         "serve_points": 1,
         "dig_excellent": 13,
         "reception_excellent": 0,
-        "set_excellent": 25
+        "reception_total_attempts": 0,
+        "set_excellent": 25,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -2513,7 +2759,9 @@
         "serve_points": 9,
         "dig_excellent": 16,
         "reception_excellent": 2,
-        "set_excellent": 1
+        "reception_total_attempts": 6,
+        "set_excellent": 1,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -2532,7 +2780,9 @@
         "serve_points": 0,
         "dig_excellent": 7,
         "reception_excellent": 4,
-        "set_excellent": 0
+        "reception_total_attempts": 7,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -2551,7 +2801,9 @@
         "serve_points": 8,
         "dig_excellent": 84,
         "reception_excellent": 89,
-        "set_excellent": 1
+        "reception_total_attempts": 203,
+        "set_excellent": 1,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -2570,7 +2822,9 @@
         "serve_points": 2,
         "dig_excellent": 15,
         "reception_excellent": 0,
-        "set_excellent": 1
+        "reception_total_attempts": 2,
+        "set_excellent": 1,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -2589,7 +2843,9 @@
         "serve_points": 0,
         "dig_excellent": 19,
         "reception_excellent": 13,
-        "set_excellent": 0
+        "reception_total_attempts": 38,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -2608,7 +2864,9 @@
         "serve_points": 6,
         "dig_excellent": 40,
         "reception_excellent": 43,
-        "set_excellent": 0
+        "reception_total_attempts": 108,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -2627,7 +2885,9 @@
         "serve_points": 0,
         "dig_excellent": 5,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -2646,7 +2906,9 @@
         "serve_points": 1,
         "dig_excellent": 5,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 2,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -2665,7 +2927,9 @@
         "serve_points": 0,
         "dig_excellent": 16,
         "reception_excellent": 10,
-        "set_excellent": 0
+        "reception_total_attempts": 30,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -2684,7 +2948,9 @@
         "serve_points": 5,
         "dig_excellent": 11,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 9,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -2703,7 +2969,9 @@
         "serve_points": 2,
         "dig_excellent": 4,
         "reception_excellent": 0,
-        "set_excellent": 14
+        "reception_total_attempts": 1,
+        "set_excellent": 14,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -2722,7 +2990,9 @@
         "serve_points": 5,
         "dig_excellent": 32,
         "reception_excellent": 37,
-        "set_excellent": 0
+        "reception_total_attempts": 105,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2741,7 +3011,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 3,
-        "set_excellent": 0
+        "reception_total_attempts": 6,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -2760,7 +3032,9 @@
         "serve_points": 0,
         "dig_excellent": 7,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 3,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -2779,7 +3053,9 @@
         "serve_points": 0,
         "dig_excellent": 5,
         "reception_excellent": 1,
-        "set_excellent": 1
+        "reception_total_attempts": 6,
+        "set_excellent": 1,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -2798,7 +3074,9 @@
         "serve_points": 1,
         "dig_excellent": 71,
         "reception_excellent": 57,
-        "set_excellent": 0
+        "reception_total_attempts": 167,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -2817,7 +3095,9 @@
         "serve_points": 0,
         "dig_excellent": 4,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 3,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -2836,7 +3116,9 @@
         "serve_points": 4,
         "dig_excellent": 16,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -2855,7 +3137,9 @@
         "serve_points": 4,
         "dig_excellent": 59,
         "reception_excellent": 83,
-        "set_excellent": 0
+        "reception_total_attempts": 178,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2874,7 +3158,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -2893,7 +3179,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -2912,7 +3200,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -2931,7 +3221,9 @@
         "serve_points": 6,
         "dig_excellent": 100,
         "reception_excellent": 72,
-        "set_excellent": 1
+        "reception_total_attempts": 192,
+        "set_excellent": 1,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -2950,7 +3242,9 @@
         "serve_points": 3,
         "dig_excellent": 13,
         "reception_excellent": 2,
-        "set_excellent": 1
+        "reception_total_attempts": 9,
+        "set_excellent": 1,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -2969,7 +3263,9 @@
         "serve_points": 0,
         "dig_excellent": 5,
         "reception_excellent": 14,
-        "set_excellent": 0
+        "reception_total_attempts": 32,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -2988,7 +3284,9 @@
         "serve_points": 5,
         "dig_excellent": 52,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "NXL"
@@ -3007,7 +3305,9 @@
         "serve_points": 2,
         "dig_excellent": 7,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -3026,7 +3326,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 5,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -3045,7 +3347,9 @@
         "serve_points": 8,
         "dig_excellent": 48,
         "reception_excellent": 72,
-        "set_excellent": 0
+        "reception_total_attempts": 193,
+        "set_excellent": 0,
+        "team_total_sets": 28
       },
       "teams": [
         "HSH"
@@ -3064,7 +3368,9 @@
         "serve_points": 0,
         "dig_excellent": 4,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 2,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -3083,7 +3389,9 @@
         "serve_points": 1,
         "dig_excellent": 3,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3102,7 +3410,9 @@
         "serve_points": 0,
         "dig_excellent": 7,
         "reception_excellent": 2,
-        "set_excellent": 0
+        "reception_total_attempts": 9,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3121,7 +3431,9 @@
         "serve_points": 5,
         "dig_excellent": 25,
         "reception_excellent": 0,
-        "set_excellent": 121
+        "reception_total_attempts": 0,
+        "set_excellent": 121,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3140,7 +3452,9 @@
         "serve_points": 0,
         "dig_excellent": 72,
         "reception_excellent": 79,
-        "set_excellent": 1
+        "reception_total_attempts": 201,
+        "set_excellent": 1,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3159,7 +3473,9 @@
         "serve_points": 0,
         "dig_excellent": 38,
         "reception_excellent": 0,
-        "set_excellent": 1
+        "reception_total_attempts": 1,
+        "set_excellent": 1,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3178,7 +3494,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3197,7 +3515,9 @@
         "serve_points": 0,
         "dig_excellent": 7,
         "reception_excellent": 0,
-        "set_excellent": 28
+        "reception_total_attempts": 0,
+        "set_excellent": 28,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3216,7 +3536,9 @@
         "serve_points": 2,
         "dig_excellent": 99,
         "reception_excellent": 54,
-        "set_excellent": 0
+        "reception_total_attempts": 120,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3235,7 +3557,9 @@
         "serve_points": 4,
         "dig_excellent": 5,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 6,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3254,7 +3578,9 @@
         "serve_points": 3,
         "dig_excellent": 9,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3273,7 +3599,9 @@
         "serve_points": 0,
         "dig_excellent": 33,
         "reception_excellent": 20,
-        "set_excellent": 0
+        "reception_total_attempts": 60,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3292,7 +3620,9 @@
         "serve_points": 7,
         "dig_excellent": 41,
         "reception_excellent": 84,
-        "set_excellent": 0
+        "reception_total_attempts": 204,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3311,7 +3641,9 @@
         "serve_points": 3,
         "dig_excellent": 26,
         "reception_excellent": 0,
-        "set_excellent": 133
+        "reception_total_attempts": 0,
+        "set_excellent": 133,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -3330,7 +3662,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -3349,7 +3683,9 @@
         "serve_points": 12,
         "dig_excellent": 51,
         "reception_excellent": 73,
-        "set_excellent": 1
+        "reception_total_attempts": 216,
+        "set_excellent": 1,
+        "team_total_sets": 31
       },
       "teams": [
         "PGA"
@@ -3368,7 +3704,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -3387,7 +3725,9 @@
         "serve_points": 0,
         "dig_excellent": 59,
         "reception_excellent": 43,
-        "set_excellent": 1
+        "reception_total_attempts": 84,
+        "set_excellent": 1,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -3406,7 +3746,9 @@
         "serve_points": 0,
         "dig_excellent": 4,
         "reception_excellent": 1,
-        "set_excellent": 0
+        "reception_total_attempts": 3,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -3425,7 +3767,9 @@
         "serve_points": 1,
         "dig_excellent": 2,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -3444,7 +3788,9 @@
         "serve_points": 0,
         "dig_excellent": 6,
         "reception_excellent": 0,
-        "set_excellent": 48
+        "reception_total_attempts": 2,
+        "set_excellent": 48,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -3463,7 +3809,9 @@
         "serve_points": 1,
         "dig_excellent": 24,
         "reception_excellent": 7,
-        "set_excellent": 1
+        "reception_total_attempts": 30,
+        "set_excellent": 1,
+        "team_total_sets": 28
       },
       "teams": [
         "CMF"
@@ -3482,7 +3830,9 @@
         "serve_points": 5,
         "dig_excellent": 5,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -3501,7 +3851,9 @@
         "serve_points": 1,
         "dig_excellent": 8,
         "reception_excellent": 2,
-        "set_excellent": 0
+        "reception_total_attempts": 7,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -3520,7 +3872,9 @@
         "serve_points": 3,
         "dig_excellent": 18,
         "reception_excellent": 8,
-        "set_excellent": 0
+        "reception_total_attempts": 24,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -3539,7 +3893,9 @@
         "serve_points": 5,
         "dig_excellent": 57,
         "reception_excellent": 78,
-        "set_excellent": 1
+        "reception_total_attempts": 162,
+        "set_excellent": 1,
+        "team_total_sets": 29
       },
       "teams": [
         "ZUS"
@@ -3558,7 +3914,9 @@
         "serve_points": 0,
         "dig_excellent": 17,
         "reception_excellent": 0,
-        "set_excellent": 81
+        "reception_total_attempts": 0,
+        "set_excellent": 81,
+        "team_total_sets": 26
       },
       "teams": [
         "GTH"
@@ -3577,7 +3935,9 @@
         "serve_points": 0,
         "dig_excellent": 144,
         "reception_excellent": 74,
-        "set_excellent": 1
+        "reception_total_attempts": 125,
+        "set_excellent": 1,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -3596,7 +3956,9 @@
         "serve_points": 5,
         "dig_excellent": 42,
         "reception_excellent": 0,
-        "set_excellent": 170
+        "reception_total_attempts": 3,
+        "set_excellent": 170,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -3615,7 +3977,9 @@
         "serve_points": 4,
         "dig_excellent": 56,
         "reception_excellent": 104,
-        "set_excellent": 0
+        "reception_total_attempts": 273,
+        "set_excellent": 0,
+        "team_total_sets": 34
       },
       "teams": [
         "AKA"
@@ -3634,7 +3998,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 1,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -3653,7 +4019,9 @@
         "serve_points": 9,
         "dig_excellent": 33,
         "reception_excellent": 44,
-        "set_excellent": 0
+        "reception_total_attempts": 158,
+        "set_excellent": 0,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -3672,7 +4040,9 @@
         "serve_points": 0,
         "dig_excellent": 5,
         "reception_excellent": 8,
-        "set_excellent": 0
+        "reception_total_attempts": 14,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -3691,7 +4061,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 2
+        "reception_total_attempts": 0,
+        "set_excellent": 2,
+        "team_total_sets": 30
       },
       "teams": [
         "CAP"
@@ -3710,7 +4082,9 @@
         "serve_points": 1,
         "dig_excellent": 9,
         "reception_excellent": 9,
-        "set_excellent": 0
+        "reception_total_attempts": 30,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -3729,7 +4103,9 @@
         "serve_points": 4,
         "dig_excellent": 72,
         "reception_excellent": 30,
-        "set_excellent": 0
+        "reception_total_attempts": 174,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -3748,7 +4124,9 @@
         "serve_points": 5,
         "dig_excellent": 28,
         "reception_excellent": 0,
-        "set_excellent": 179
+        "reception_total_attempts": 2,
+        "set_excellent": 179,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -3767,7 +4145,9 @@
         "serve_points": 0,
         "dig_excellent": 1,
         "reception_excellent": 2,
-        "set_excellent": 0
+        "reception_total_attempts": 5,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -3786,7 +4166,9 @@
         "serve_points": 12,
         "dig_excellent": 69,
         "reception_excellent": 75,
-        "set_excellent": 0
+        "reception_total_attempts": 168,
+        "set_excellent": 0,
+        "team_total_sets": 29
       },
       "teams": [
         "FFF"
@@ -3805,7 +4187,9 @@
         "serve_points": 0,
         "dig_excellent": 5,
         "reception_excellent": 13,
-        "set_excellent": 1
+        "reception_total_attempts": 32,
+        "set_excellent": 1,
+        "team_total_sets": 30
       },
       "teams": [
         "CSS"
@@ -3824,7 +4208,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CCS"
@@ -3843,7 +4229,9 @@
         "serve_points": 0,
         "dig_excellent": 0,
         "reception_excellent": 0,
-        "set_excellent": 0
+        "reception_total_attempts": 0,
+        "set_excellent": 0,
+        "team_total_sets": 32
       },
       "teams": [
         "CTC"
@@ -17661,5 +18049,5 @@
       }
     }
   ],
-  "last_updated": "2025-11-21T11:48:12.084825"
+  "last_updated": "2025-11-23T23:15:19.564460"
 }
