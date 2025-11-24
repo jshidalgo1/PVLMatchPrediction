@@ -142,34 +142,39 @@ interface PlayerStats {
 
 ## Technical Details
 
-### Sets Played Calculation
+### Per-Set Average Calculation
 
-**Challenge**: Players don't play all sets in a match.
+**Challenge**: Calculate meaningful per-set statistics for players.
 
-**Solution**: Parse `<Roster>` tag from each `<Set>` in XML:
-- Extract starters (p1-p6)
-- Extract substitutes (r1-r6)
-- Extract liberos (l1-l2)
-- Count unique appearances across all sets
+**Current Implementation**: Stats are divided by **team's total sets** in the tournament, not individual player's sets played.
+
+**Rationale**: 
+- Provides consistent baseline across all players on same team
+- Simplifies comparison between players
+- Avoids complexity of tracking individual player set appearances
 
 **Location**: `scripts/parse_volleyball_data.py` → `_extract_player_match_stats()`
 
-### Per-Set Average Display
-
-**Implementation**: `dashboard/src/app/page.tsx`
+**Dashboard Display**: `dashboard/src/app/page.tsx`
 
 ```typescript
-const getPerSet = (value: number, sets: number) => {
-  return sets > 0 ? value / sets : 0;
+const getPerSet = (val: number | undefined, teamTotalSets: number | undefined) => {
+  return (val && teamTotalSets && teamTotalSets > 0) ? val / teamTotalSets : 0;
 };
 
-const formatStat = (value: number, sets: number, isAverage: boolean) => {
-  if (isAverage) {
-    return getPerSet(value, sets).toFixed(2);
+const formatStat = (val: number | undefined, teamTotalSets: number | undefined, 
+                   isAvg: boolean, isEfficiency: boolean = false, totalAttempts?: number) => {
+  if (isEfficiency && totalAttempts) {
+    return ((val || 0) / totalAttempts * 100).toFixed(1) + '%';
   }
-  return value.toString();
+  if (isAvg) {
+    return getPerSet(val, teamTotalSets).toFixed(2);
+  }
+  return val?.toString() || '0';
 };
 ```
+
+**Note**: Reception stat displays as efficiency % (excellent receptions / total attempts).
 
 ### Playoff Bracket Loading
 

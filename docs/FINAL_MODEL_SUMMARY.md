@@ -1,6 +1,6 @@
 # 🏆 Final Model Performance Summary
 
-**Last Updated:** November 19, 2025  
+**Last Updated:** November 24, 2025  
 **Model Version:** Calibrated XGBoost with Player Features  
 **Dataset:** 521 PVL matches (2023-2025 seasons)
 
@@ -139,15 +139,15 @@ The momentum/form features (from `enhanced_features.py`) showed **0% improvement
 
 ## 🚀 Performance Context
 
-### How Good is 73.27%?
+### How Good is 74.29%?
 
 **Comparison to theoretical limits:**
 - **Random guessing:** 50%
 - **Always pick favorite:** ~72.5% (superior team wins this often)
-- **Your model:** 73.27% ✅
+- **Your model:** 74.29% ✅
 - **Theoretical maximum:** ~78-85% (with perfect information)
 
-**You're now BEATING the "always pick the favorite" baseline!** 🎉
+**You're now BEATING the "always pick the favorite" baseline by +1.79%!** 🎉
 
 ---
 
@@ -155,9 +155,10 @@ The momentum/form features (from `enhanced_features.py`) showed **0% improvement
 
 | Model File | Accuracy | Features | Use Case |
 |-----------|----------|----------|----------|
-| `best_volleyball_model.pkl` | 70.30% | 45 (enhanced) | Basic predictions |
-| `matchup_model.pkl` | 69.31% | 32 (matchup) | Understanding upsets |
-| `best_model_with_players.pkl` | **73.27%** | **74 (complete)** | **Production use** ✅ |
+| `best_volleyball_model.pkl` | 70.30% | 45 (enhanced) | Legacy - basic predictions |
+| `matchup_model.pkl` | 69.31% | 32 (matchup) | Legacy - understanding upsets |
+| `best_model_with_players.pkl` | 73.27% | 74 (complete) | Legacy - uncalibrated |
+| `calibrated_xgboost_with_players.pkl` | **74.29%** | **34 (optimized)** | **Production use** ✅ |
 
 ---
 
@@ -219,17 +220,17 @@ The momentum/form features (from `enhanced_features.py`) showed **0% improvement
 
 ### What You've Built:
 
-✅ **73.27% accurate volleyball match predictor**  
-✅ **74 engineered features** from raw match data  
+✅ **74.29% accurate volleyball match predictor** (Calibrated)
+✅ **34 engineered features** from raw match data  
 ✅ **4 different model architectures** tested and compared  
 ✅ **Player-level integration** for granular insights  
-✅ **Production-ready model** with saved artifacts  
+✅ **Production-ready model** with saved artifacts and calibration
 ✅ **Feature importance analysis** showing what matters  
 
 ### Model Quality:
-- **Better than random:** +23.27%
-- **Better than "pick favorite":** +0.77%
-- **Room to theoretical max:** ~5-12% more possible
+- **Better than random:** +24.29%
+- **Better than "pick favorite":** +1.79%
+- **Room to theoretical max:** ~4-11% more possible
 
 ---
 
@@ -320,41 +321,45 @@ Maximum:   78-85% (theoretical ceiling)
 
 ### PVL Reinforced Conference 2025 Prediction
 
-**Dataset:** 521 matches with 13 new PVL2025D matches (W33-W45)
+**Dataset:** 521 matches from PVL 2023-2025 seasons
 
 #### Final Standings After Second Round
 | Rank | Team | Record | Match Points | Set Ratio | Point Ratio |
 |------|------|--------|--------------|-----------|-------------|
-| 🥇 1 | HSH | 7-1 | 21 | 3.000 | 1.175 |
+| 🥇 1 | FFF | 7-1 | 21 | 3.143 | 1.123 |
 | 🥈 2 | ZUS | 7-1 | 20 | 2.625 | 1.153 |
-| 🥉 3 | FFF | 6-2 | 18 | 2.000 | 1.075 |
+| 🥉 3 | HSH | 6-2 | 18 | 2.111 | 1.132 |
 | 4 | CCS | 5-3 | 17 | 1.667 | 1.103 |
-| 5 | CSS | 5-3 | 13 | 1.143 | 1.034 |
-| 6 | CAP | 4-4 | 13 | 1.143 | 0.978 |
-| 7 | AKA | 4-4 | 12 | 1.125 | 1.039 |
-| 8 | PGA | 4-4 | 11 | 0.938 | 1.038 |
+| 5 | PGA | 5-3 | 14 | 1.214 | 1.073 |
+| 6 | CSS | 5-3 | 13 | 1.143 | 1.034 |
+| 7 | CAP | 4-4 | 13 | 1.143 | 0.959 |
+| 8 | AKA | 4-4 | 12 | 1.125 | 1.039 |
 
 #### Playoff Bracket Predictions
 
 **Quarterfinals:**
-- QF1: #1 HSH vs #8 PGA → **HSH** (69.9%)
-- QF2: #2 ZUS vs #7 AKA → **AKA** (77.1%) ⚠️ *Upset Alert*
-- QF3: #3 FFF vs #6 CAP → **FFF** (79.8%)
-- QF4: #4 CCS vs #5 CSS → **CCS** (72.6%)
+- QF1: #1 FFF vs #8 AKA → **AKA** (78.0%) ⚠️ *Major Upset - #8 seed beats #1!*
+- QF2: #2 ZUS vs #7 CAP → **ZUS** (79.5%)
+- QF3: #3 HSH vs #6 CSS → **HSH** (73.7%)
+- QF4: #4 CCS vs #5 PGA → **CCS** (76.3%)
 
 **Semifinals:**
-- SF1: HSH vs CCS → **CCS** (58.1%)
-- SF2: AKA vs FFF → **AKA** (79.3%)
+- SF1: AKA vs CCS → **AKA** (52.0%)
+- SF2: ZUS vs HSH → **HSH** (72.1%)
 
 **Championship:**
-- 🏆 **CCS vs AKA** → **Predicted Champion: CCS (69.4%)**
+- 🏆 **AKA vs HSH** → **Predicted Champion: HSH (54.0%)**
 - 🥈 Predicted Runner-up: AKA
 
+**Third Place Match:**
+- 🥉 CCS vs ZUS → **CCS** (79.0%)
+
 #### Key Insights
-- **Favorite to Win:** Creamline Cool Smashers (CCS)
-- **Dark Horse:** Akari Chargers (AKA) - predicted upset over #2 seed ZUS
-- **Confidence Level:** 69.4% for championship prediction
-- **Model Stability:** CCS remains predicted champion across multiple simulation runs
+- **Favorite to Win:** PLDT High Speed Hitters (HSH) - #3 seed
+- **Dark Horse:** Akari Chargers (AKA) - predicted to upset #1 seed FFF in quarterfinals
+- **Confidence Level:** 54.0% for championship prediction (competitive final)
+- **Model Stability:** Average bracket confidence 69.4% across all playoff matches
+- **Bracket Upset:** #3 HSH predicted to win despite FFF being the top seed
 
 ---
 
@@ -381,7 +386,7 @@ Maximum:   78-85% (theoretical ceiling)
 ## 🎉 Congratulations!
 
 You've built a **production-ready volleyball match prediction system** that:
-- Achieves **73.27% accuracy**
+- Achieves **74.29% accuracy** (calibrated)
 - Beats the baseline "pick the favorite" strategy
 - Uses **player-level intelligence** to make better predictions
 - Is **ready for real-world tournament predictions**
@@ -390,7 +395,7 @@ You've built a **production-ready volleyball match prediction system** that:
 
 ---
 
-*Final Model: XGBoost (Deep) with 74 features*  
-*Training Date: October 29, 2025*  
-*Dataset: 501 matches from 10 PVL tournaments (2023-2025)*  
-*Best Accuracy: 73.27%*
+*Final Model: Calibrated XGBoost with 34 features*  
+*Training Date: November 2025*  
+*Dataset: 521 matches from PVL tournaments (2023-2025)*  
+*Best Accuracy: 74.29%*
