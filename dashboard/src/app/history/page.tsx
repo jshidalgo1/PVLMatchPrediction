@@ -121,7 +121,6 @@ export default function HistoryPage() {
             {/* Tournament Name & Champion */}
             <div className="text-center space-y-4">
                 <h2 className="text-3xl font-bold text-indigo-900">{selectedTournament.name}</h2>
-                <p className="text-sm text-slate-500">Code: {selectedTournament.code}</p>
 
                 {history.champion && (
                     <Card className="max-w-md mx-auto border-amber-500 bg-amber-50">

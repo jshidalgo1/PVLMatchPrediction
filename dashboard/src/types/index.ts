@@ -1,9 +1,29 @@
+export interface TeamStatistics {
+    total_matches: number;
+    wins: number;
+    losses: number;
+    win_percentage: number;
+    sets_won: number;
+    sets_lost: number;
+    set_ratio: number;
+    last_5_results: string[];  // ["W", "L", "W", "W", "W"]
+    current_elo: number | null;
+}
+
+export interface TopPlayer {
+    name: string;
+    total_points: number;
+    role: string;  // "scorer" | "blocker" | "server" | "libero"
+}
+
 export interface Team {
     id: number;
     code: string;
     name: string;
     coach: string | null;
     assistant_coach: string | null;
+    statistics?: TeamStatistics;
+    top_players?: TopPlayer[];
 }
 
 export interface PlayerStats {

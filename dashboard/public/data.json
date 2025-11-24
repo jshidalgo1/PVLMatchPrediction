@@ -5,161 +5,701 @@
       "code": "CCS",
       "name": "CREAMLINE COOL SMASHERS",
       "coach": "SHERWIN MENESES",
-      "assistant_coach": "KARLO MARTIN SANTOS"
+      "assistant_coach": "KARLO MARTIN SANTOS",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 5,
+        "losses": 3,
+        "win_percentage": 62.5,
+        "sets_won": 20,
+        "sets_lost": 12,
+        "set_ratio": 1.667,
+        "last_5_results": [
+          "L",
+          "W",
+          "W",
+          "W",
+          "L"
+        ],
+        "current_elo": 1749.2
+      },
+      "top_players": [
+        {
+          "name": "Courtney Rose SCHWAN",
+          "total_points": 168,
+          "role": "scorer"
+        },
+        {
+          "name": "Diana Mae CARLOS",
+          "total_points": 87,
+          "role": "scorer"
+        },
+        {
+          "name": "Alyssa VALDEZ",
+          "total_points": 73,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 2,
       "code": "PGA",
       "name": "PETRO GAZZ ANGELS",
       "coach": "OLIVER ALLAN ALMADRO",
-      "assistant_coach": "STEPHENJONES PATRONA"
+      "assistant_coach": "STEPHENJONES PATRONA",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 5,
+        "losses": 3,
+        "win_percentage": 62.5,
+        "sets_won": 17,
+        "sets_lost": 14,
+        "set_ratio": 1.214,
+        "last_5_results": [
+          "W",
+          "W",
+          "L",
+          "L",
+          "W"
+        ],
+        "current_elo": 1631.9
+      },
+      "top_players": [
+        {
+          "name": "Lindsey Mae VANDER WEIDE",
+          "total_points": 167,
+          "role": "scorer"
+        },
+        {
+          "name": "Brooke Makena VAN SICKLE",
+          "total_points": 160,
+          "role": "scorer"
+        },
+        {
+          "name": "Mar Jana PHILLIPS",
+          "total_points": 92,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 3,
       "code": "CTC",
       "name": "CHERY TIGGO CROSSOVERS",
       "coach": "REYES Emilio Jr.",
-      "assistant_coach": "ESQUIBEL Brian"
+      "assistant_coach": "ESQUIBEL Brian",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 2,
+        "losses": 6,
+        "win_percentage": 25.0,
+        "sets_won": 12,
+        "sets_lost": 20,
+        "set_ratio": 0.6,
+        "last_5_results": [
+          "L",
+          "L",
+          "W",
+          "L",
+          "W"
+        ],
+        "current_elo": 1513.2
+      },
+      "top_players": [
+        {
+          "name": "Yunieska ROBLES-BATISTA",
+          "total_points": 198,
+          "role": "scorer"
+        },
+        {
+          "name": "Victonara GALANG",
+          "total_points": 78,
+          "role": "scorer"
+        },
+        {
+          "name": "Princess ROBLES",
+          "total_points": 59,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 4,
       "code": "FFF",
       "name": "FARM FRESH CORPORATION",
       "coach": "SATO Shuta",
-      "assistant_coach": "MEDALLA Ron"
+      "assistant_coach": "MEDALLA Ron",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 7,
+        "losses": 1,
+        "win_percentage": 87.5,
+        "sets_won": 22,
+        "sets_lost": 7,
+        "set_ratio": 3.143,
+        "last_5_results": [
+          "W",
+          "W",
+          "W",
+          "W",
+          "L"
+        ],
+        "current_elo": 1429.0
+      },
+      "top_players": [
+        {
+          "name": "Helene ROUSSEAUX",
+          "total_points": 209,
+          "role": "scorer"
+        },
+        {
+          "name": "Trisha Gayle TUBU",
+          "total_points": 116,
+          "role": "scorer"
+        },
+        {
+          "name": "Frances Xinia MOLINA",
+          "total_points": 81,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 5,
       "code": "AKA",
       "name": "AKARI CHARGERS",
       "coach": "JORGE SOUZA DE BRITO",
-      "assistant_coach": "NORMAN MIGUEL"
+      "assistant_coach": "NORMAN MIGUEL",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 4,
+        "losses": 4,
+        "win_percentage": 50.0,
+        "sets_won": 18,
+        "sets_lost": 16,
+        "set_ratio": 1.125,
+        "last_5_results": [
+          "L",
+          "W",
+          "L",
+          "L",
+          "W"
+        ],
+        "current_elo": 1550.3
+      },
+      "top_players": [
+        {
+          "name": "Annie MITCHEM",
+          "total_points": 195,
+          "role": "scorer"
+        },
+        {
+          "name": "Christine Joy SOYUD",
+          "total_points": 103,
+          "role": "scorer"
+        },
+        {
+          "name": "Celine DOMINGO",
+          "total_points": 76,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 6,
       "code": "FTL",
       "name": "F2 LOGISTICS CARGO MOVERS",
       "coach": "DIEGO REGINE",
-      "assistant_coach": "BOCBOC BENSON"
+      "assistant_coach": "BOCBOC BENSON",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1559.7
+      },
+      "top_players": []
     },
     {
       "id": 7,
       "code": "KOB",
       "name": "KOBE SHINWA UNIVERSITY",
       "coach": "YAMAMOTO Kiyokazu",
-      "assistant_coach": "MUKU Shion"
+      "assistant_coach": "MUKU Shion",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1518.5
+      },
+      "top_players": []
     },
     {
       "id": 8,
       "code": "ZUS",
       "name": "ZUS COFFEE THUNDERBELLES",
       "coach": "YEE Jerry",
-      "assistant_coach": "GETIGAN Onyok"
+      "assistant_coach": "GETIGAN Onyok",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 7,
+        "losses": 1,
+        "win_percentage": 87.5,
+        "sets_won": 21,
+        "sets_lost": 8,
+        "set_ratio": 2.625,
+        "last_5_results": [
+          "W",
+          "L",
+          "W",
+          "W",
+          "W"
+        ],
+        "current_elo": 1504.1
+      },
+      "top_players": [
+        {
+          "name": "Anna DEBEER",
+          "total_points": 210,
+          "role": "scorer"
+        },
+        {
+          "name": "Alexis MINER",
+          "total_points": 82,
+          "role": "scorer"
+        },
+        {
+          "name": "Riza NOGALES",
+          "total_points": 45,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 9,
       "code": "NXL",
       "name": "NXLED CHAMELEONS",
       "coach": "ETTORE Guidetti",
-      "assistant_coach": "TIU L/SALAK C"
+      "assistant_coach": "TIU L/SALAK C",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 0,
+        "losses": 8,
+        "win_percentage": 0.0,
+        "sets_won": 5,
+        "sets_lost": 24,
+        "set_ratio": 0.208,
+        "last_5_results": [
+          "L",
+          "L",
+          "L",
+          "L",
+          "L"
+        ],
+        "current_elo": 1373.7
+      },
+      "top_players": [
+        {
+          "name": "Paola MARTINEZ",
+          "total_points": 165,
+          "role": "scorer"
+        },
+        {
+          "name": "Chiara May PERMENTILLA",
+          "total_points": 100,
+          "role": "scorer"
+        },
+        {
+          "name": "Lyann Marie Loise DE GUZMAN",
+          "total_points": 52,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 10,
       "code": "HSH",
       "name": "PLDT HIGH SPEED HITTERS",
       "coach": "RICAFORT Rald Benson",
-      "assistant_coach": "LANIOG Arnold"
+      "assistant_coach": "LANIOG Arnold",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 6,
+        "losses": 2,
+        "win_percentage": 75.0,
+        "sets_won": 19,
+        "sets_lost": 9,
+        "set_ratio": 2.111,
+        "last_5_results": [
+          "L",
+          "W",
+          "W",
+          "W",
+          "W"
+        ],
+        "current_elo": 1648.1
+      },
+      "top_players": [
+        {
+          "name": "Savannah Dawn DAVISON",
+          "total_points": 178,
+          "role": "scorer"
+        },
+        {
+          "name": "Anastasiia BAVYKINA",
+          "total_points": 125,
+          "role": "scorer"
+        },
+        {
+          "name": "Kim Kianna DY",
+          "total_points": 68,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 11,
       "code": "CSS",
       "name": "CIGNAL HD SPIKERS",
       "coach": "DELOS SANTOS CESAEL",
-      "assistant_coach": "DE GUZMAN RICO"
+      "assistant_coach": "DE GUZMAN RICO",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 5,
+        "losses": 3,
+        "win_percentage": 62.5,
+        "sets_won": 16,
+        "sets_lost": 14,
+        "set_ratio": 1.143,
+        "last_5_results": [
+          "W",
+          "W",
+          "W",
+          "L",
+          "W"
+        ],
+        "current_elo": 1611.1
+      },
+      "top_players": [
+        {
+          "name": "Erika Mae SANTOS",
+          "total_points": 102,
+          "role": "scorer"
+        },
+        {
+          "name": "Katrin TREBICHAVSKA",
+          "total_points": 101,
+          "role": "scorer"
+        },
+        {
+          "name": "Roselyn DORIA-AQUINO",
+          "total_points": 60,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 12,
       "code": "GFD",
       "name": "GERFLOR DEFENDERS",
       "coach": "ACAYLAR SINFRONIO",
-      "assistant_coach": "CARINO MICHAEL"
+      "assistant_coach": "CARINO MICHAEL",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1351.7
+      },
+      "top_players": []
     },
     {
       "id": 13,
       "code": "KSU",
       "name": "KOBE SHINWA UNIVERSITY",
       "coach": "YAMAMOTO Kiyokazu",
-      "assistant_coach": "MUKU Shion"
+      "assistant_coach": "MUKU Shion",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1526.8
+      },
+      "top_players": []
     },
     {
       "id": 14,
       "code": "SGA",
       "name": "STRONG GROUP ATHLETICS CORP",
       "coach": "GETIGAN Rogelio",
-      "assistant_coach": "CHUA Jay"
+      "assistant_coach": "CHUA Jay",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1408.3
+      },
+      "top_players": []
     },
     {
       "id": 15,
       "code": "GTH",
       "name": "GALERIES TOWER HIGHRISERS",
       "coach": "GIRON Lerma",
-      "assistant_coach": "OKUMU Godfrey"
+      "assistant_coach": "OKUMU Godfrey",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 0,
+        "losses": 8,
+        "win_percentage": 0.0,
+        "sets_won": 2,
+        "sets_lost": 24,
+        "set_ratio": 0.083,
+        "last_5_results": [
+          "L",
+          "L",
+          "L",
+          "L",
+          "L"
+        ],
+        "current_elo": 1264.3
+      },
+      "top_players": [
+        {
+          "name": "Jelena CVIJOVIC",
+          "total_points": 87,
+          "role": "scorer"
+        },
+        {
+          "name": "Jean ASIS",
+          "total_points": 66,
+          "role": "scorer"
+        },
+        {
+          "name": "France Elize RONQUILLO",
+          "total_points": 63,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 16,
       "code": "CMF",
       "name": "CHOCO MUCHO FLYING TITANS",
       "coach": "ALINSUNURIN DANTE JR",
-      "assistant_coach": "LOPEZ JESSIE"
+      "assistant_coach": "LOPEZ JESSIE",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_percentage": 37.5,
+        "sets_won": 11,
+        "sets_lost": 17,
+        "set_ratio": 0.647,
+        "last_5_results": [
+          "W",
+          "L",
+          "L",
+          "L",
+          "L"
+        ],
+        "current_elo": 1550.3
+      },
+      "top_players": [
+        {
+          "name": "Anyse Marlee SMITH",
+          "total_points": 86,
+          "role": "scorer"
+        },
+        {
+          "name": "Maria Lina Isabel MOLDE",
+          "total_points": 75,
+          "role": "scorer"
+        },
+        {
+          "name": "Madeleine Yrenea MADAYAG",
+          "total_points": 73,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 17,
       "code": "VIE",
       "name": "KINH BAC-BAC NINH",
       "coach": "PHAM LONG",
-      "assistant_coach": "PHAM HA"
+      "assistant_coach": "PHAM HA",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1457.6
+      },
+      "top_players": []
     },
     {
       "id": 18,
       "code": "JPN",
       "name": "KURASHIKI ABLAZE",
       "coach": "HIDEO SUZUKI",
-      "assistant_coach": "SHOTA SATO"
+      "assistant_coach": "SHOTA SATO",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1570.3
+      },
+      "top_players": []
     },
     {
       "id": 19,
       "code": "CAP",
       "name": "CAPITAL1 SOLAR SPIKERS",
       "coach": "GORAYEB Roger",
-      "assistant_coach": "MALASO Clint"
+      "assistant_coach": "MALASO Clint",
+      "statistics": {
+        "total_matches": 8,
+        "wins": 4,
+        "losses": 4,
+        "win_percentage": 50.0,
+        "sets_won": 16,
+        "sets_lost": 14,
+        "set_ratio": 1.143,
+        "last_5_results": [
+          "W",
+          "L",
+          "L",
+          "W",
+          "W"
+        ],
+        "current_elo": 1365.9
+      },
+      "top_players": [
+        {
+          "name": "Oleksandra BYTSENKO",
+          "total_points": 211,
+          "role": "scorer"
+        },
+        {
+          "name": "Michaela BELEN",
+          "total_points": 124,
+          "role": "scorer"
+        },
+        {
+          "name": "Leila Jane CRUZ",
+          "total_points": 43,
+          "role": "scorer"
+        }
+      ]
     },
     {
       "id": 20,
       "code": "FOT",
       "name": "FOTON TORNADOES",
       "coach": "ESQUIBEL BRIAN",
-      "assistant_coach": "FERNANDEZ CHRISTIAN"
+      "assistant_coach": "FERNANDEZ CHRISTIAN",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1482.5
+      },
+      "top_players": []
     },
     {
       "id": 21,
       "code": "EST",
       "name": "EST COLA",
       "coach": "BUAKAEW Wanna",
-      "assistant_coach": "APINYAPONG Wilavan"
+      "assistant_coach": "APINYAPONG Wilavan",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1475.8
+      },
+      "top_players": []
     },
     {
       "id": 22,
       "code": "KUR",
       "name": "KURASHIKI ABLAZE",
       "coach": "HIDEO Susuki",
-      "assistant_coach": "SHOICHIRO Tamaru"
+      "assistant_coach": "SHOICHIRO Tamaru",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1514.9
+      },
+      "top_players": []
     },
     {
       "id": 23,
       "code": "ABM",
       "name": "ARMY-BLACK MAMBA",
       "coach": "RANDY FALLORINA",
-      "assistant_coach": "JOANNE BUNAG"
+      "assistant_coach": "JOANNE BUNAG",
+      "statistics": {
+        "total_matches": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_percentage": 0,
+        "sets_won": 0,
+        "sets_lost": 0,
+        "set_ratio": 0,
+        "last_5_results": [],
+        "current_elo": 1442.6
+      },
+      "top_players": []
     }
   ],
   "players": [
@@ -18049,5 +18589,5 @@
       }
     }
   ],
-  "last_updated": "2025-11-24T10:20:09.664399"
+  "last_updated": "2025-11-24T10:40:45.675964"
 }

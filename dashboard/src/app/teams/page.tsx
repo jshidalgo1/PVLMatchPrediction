@@ -1,64 +1,157 @@
-import { getDashboardData } from "@/lib/data";
-import Link from "next/link";
+"use client";
 
-export const revalidate = 0;
+import { useEffect, useState } from "react";
+import { DashboardData, Team } from "@/types";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Trophy } from "lucide-react";
 
-export default async function TeamsPage() {
-    const data = await getDashboardData();
+export default function TeamsPage() {
+    const [data, setData] = useState<DashboardData | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    if (!data) return <div>Loading...</div>;
+    useEffect(() => {
+        fetch("/data.json?t=" + Date.now())
+            .then(res => res.json())
+            .then((jsonData: DashboardData) => {
+                setData(jsonData);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Failed to load data:", err);
+                setLoading(false);
+            });
+    }, []);
 
-    const { teams, tournaments } = data;
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-lg font-medium text-slate-600">Loading teams...</div>
+            </div>
+        );
+    }
 
-    // Get current tournament (TEST_PVLR25)
-    const currentTournament = tournaments?.find(t => t.code === "TEST_PVLR25");
-    const simulation = currentTournament?.simulation;
-    const pools = simulation?.pools;
+    if (!data || !data.teams) {
+        return (
+            <Card className="max-w-md mx-auto mt-20">
+                <CardHeader>
+                    <CardTitle className="text-red-600">Data not found</CardTitle>
+                    <CardDescription>No team data available.</CardDescription>
+                </CardHeader>
+            </Card>
+        );
+    }
 
-    // Helper to find pool (only if pools exist)
-    const getPool = (code: string) => {
-        if (!pools) return null;
-        if (pools.pool_a?.includes(code)) return "Pool A";
-        if (pools.pool_b?.includes(code)) return "Pool B";
-        return null;
+    return (
+        <div className="container mx-auto p-4 space-y-8">
+            <div className="text-center space-y-4 pb-8 border-b">
+                <div className="flex items-center justify-center gap-3">
+                    <Trophy className="h-10 w-10 text-indigo-600" />
+                    <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+                        Team Statistics
+                    </h1>
+                </div>
+                <p className="text-lg text-slate-600">Performance metrics, top players, and recent form</p>
+                <Badge variant="outline" className="text-xs">
+                    Last Updated: {new Date(data.last_updated).toLocaleString()}
+                </Badge>
+            </div>
+
+            <TeamsGrid teams={data.teams || []} />
+        </div>
+    );
+}
+
+function TeamsGrid({ teams }: { teams: Team[] }) {
+    const teamsWithStats = teams.filter(t => t.statistics).sort((a, b) => (b.statistics?.wins || 0) - (a.statistics?.wins || 0));
+    if (teamsWithStats.length === 0) return <div className="text-center text-slate-500 py-8">No team statistics available</div>;
+
+    // Rank-based styling
+    const getRankStyle = (index: number) => {
+        if (index === 0) return "border-2 border-amber-400 bg-gradient-to-br from-amber-50 to-white shadow-lg"; // Gold
+        if (index === 1) return "border-2 border-slate-300 bg-gradient-to-br from-slate-50 to-white shadow-md"; // Silver
+        if (index === 2) return "border-2 border-orange-300 bg-gradient-to-br from-orange-50 to-white shadow-md"; // Bronze
+        return "border border-slate-200 bg-white shadow-sm";
+    };
+
+    const getRankBadge = (index: number) => {
+        if (index === 0) return <Badge className="bg-amber-500 text-white hover:bg-amber-600 font-bold">🏆 #1</Badge>;
+        if (index === 1) return <Badge className="bg-slate-400 text-white hover:bg-slate-500 font-bold">🥈 #2</Badge>;
+        if (index === 2) return <Badge className="bg-orange-400 text-white hover:bg-orange-500 font-bold">🥉 #3</Badge>;
+        return <Badge variant="secondary" className="font-semibold">#{index + 1}</Badge>;
     };
 
     return (
-        <div className="space-y-8">
-            <h1 className="text-3xl font-bold text-slate-900">Teams</h1>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {teamsWithStats.map((team, index) => (
+                <div key={team.id} className={`${getRankStyle(index)} rounded-xl p-5 hover:shadow-xl hover:scale-[1.02] transition-all duration-300`}>
+                    {/* Header with Rank Badge */}
+                    <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                            <h3 className="font-bold text-xl text-slate-900">{team.code}</h3>
+                            <p className="text-xs text-slate-500 line-clamp-1 mt-0.5">{team.name}</p>
+                        </div>
+                        <div className="flex flex-col items-end gap-1">
+                            {getRankBadge(index)}
+                            <Badge variant="outline" className="text-sm font-bold border-2">{team.statistics!.wins}-{team.statistics!.losses}</Badge>
+                        </div>
+                    </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {teams.map((team) => {
-                    const pool = getPool(team.code);
-                    return (
-                        <div key={team.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="bg-indigo-600 px-6 py-4">
-                                <div className="flex justify-between items-center">
-                                    <h2 className="text-xl font-bold text-white">{team.name}</h2>
-                                    <span className="bg-indigo-800 text-indigo-100 text-xs px-2 py-1 rounded-full">{team.code}</span>
-                                </div>
-                                {pool && <p className="text-indigo-200 text-sm mt-1">{pool}</p>}
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b-2 border-slate-100">
+                        <div>
+                            <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Win %</p>
+                            <p className="text-2xl font-bold text-indigo-600">{team.statistics!.win_percentage.toFixed(1)}%</p>
+                        </div>
+                        {team.statistics!.current_elo && (
+                            <div>
+                                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">ELO</p>
+                                <p className="text-2xl font-bold text-slate-800">{team.statistics!.current_elo.toFixed(0)}</p>
                             </div>
-                            <div className="p-6 space-y-4">
-                                <div>
-                                    <p className="text-xs text-slate-500 uppercase font-semibold">Coach</p>
-                                    <p className="text-slate-800">{team.coach || "N/A"}</p>
-                                </div>
-                                {team.assistant_coach && (
-                                    <div>
-                                        <p className="text-xs text-slate-500 uppercase font-semibold">Assistant Coach</p>
-                                        <p className="text-slate-800">{team.assistant_coach}</p>
-                                    </div>
-                                )}
-                                <div className="pt-4 border-t border-slate-100 flex justify-end">
-                                    {/* Placeholder for individual team details page link if we implement it */}
-                                    <span className="text-indigo-600 text-sm font-medium cursor-not-allowed opacity-50">View Details</span>
-                                </div>
+                        )}
+                        <div>
+                            <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Set Ratio</p>
+                            <p className="text-lg font-semibold text-slate-700">{team.statistics!.set_ratio.toFixed(2)}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Matches</p>
+                            <p className="text-lg font-semibold text-slate-700">{team.statistics!.total_matches}</p>
+                        </div>
+                    </div>
+
+                    {/* Last 5 Results */}
+                    {team.statistics!.last_5_results && team.statistics!.last_5_results.length > 0 && (
+                        <div className="mb-4">
+                            <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-2">Recent Form</p>
+                            <div className="flex gap-1.5">
+                                {team.statistics!.last_5_results.map((result: string, idx: number) => (
+                                    <Badge
+                                        key={idx}
+                                        className={`text-sm px-3 py-1 font-bold ${result === 'W' ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-red-500 text-white hover:bg-red-600'}`}
+                                    >
+                                        {result}
+                                    </Badge>
+                                ))}
                             </div>
                         </div>
-                    );
-                })}
-            </div>
+                    )}
+
+                    {/* Top Scorers */}
+                    {team.top_players && team.top_players.length > 0 && (
+                        <div>
+                            <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-2">Top Scorers</p>
+                            <div className="space-y-2">
+                                {team.top_players.slice(0, 3).map((player, idx: number) => (
+                                    <div key={idx} className="flex justify-between items-center text-sm bg-slate-50 rounded-md px-3 py-1.5">
+                                        <span className="text-slate-700 font-medium truncate">{player.name}</span>
+                                        <span className="font-bold text-indigo-600 ml-2">{player.total_points}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            ))}
         </div>
     );
 }

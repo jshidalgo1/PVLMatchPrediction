@@ -40,6 +40,113 @@ def get_teams_data(conn):
         })
     return teams
 
+def get_team_statistics(conn, team_id, tournament_id=None):
+    """Calculate comprehensive statistics for a team."""
+    cursor = conn.cursor()
+    
+    # Build query with optional tournament filter
+    query = """
+        SELECT 
+            COUNT(*) as total_matches,
+            SUM(CASE WHEN m.winner_id = ? THEN 1 ELSE 0 END) as wins,
+            SUM(CASE WHEN m.winner_id != ? AND m.winner_id IS NOT NULL THEN 1 ELSE 0 END) as losses,
+            SUM(CASE WHEN m.team_a_id = ? THEN m.team_a_sets_won ELSE m.team_b_sets_won END) as sets_won,
+            SUM(CASE WHEN m.team_a_id = ? THEN m.team_b_sets_won ELSE m.team_a_sets_won END) as sets_lost
+        FROM matches m
+        WHERE (m.team_a_id = ? OR m.team_b_id = ?)
+        AND m.winner_id IS NOT NULL
+    """
+    params = [team_id, team_id, team_id, team_id, team_id, team_id]
+    
+    if tournament_id:
+        query += " AND m.tournament_id = ?"
+        params.append(tournament_id)
+    
+    cursor.execute(query, params)
+    row = cursor.fetchone()
+    
+    total_matches = row[0] or 0
+    wins = row[1] or 0
+    losses = row[2] or 0
+    sets_won = row[3] or 0
+    sets_lost = row[4] or 0
+    
+    # Calculate ratios
+    win_percentage = (wins / total_matches * 100) if total_matches > 0 else 0
+    set_ratio = (sets_won / sets_lost) if sets_lost > 0 else (sets_won if sets_won > 0 else 0)
+    
+    # Get last 5 match results
+    last_5_query = """
+        SELECT 
+            CASE WHEN m.winner_id = ? THEN 'W' ELSE 'L' END as result
+        FROM matches m
+        WHERE (m.team_a_id = ? OR m.team_b_id = ?)
+        AND m.winner_id IS NOT NULL
+    """
+    last_5_params = [team_id, team_id, team_id]
+    
+    if tournament_id:
+        last_5_query += " AND m.tournament_id = ?"
+        last_5_params.append(tournament_id)
+    
+    last_5_query += " ORDER BY m.date DESC, m.match_no DESC LIMIT 5"
+    
+    cursor.execute(last_5_query, last_5_params)
+    last_5_results = [r[0] for r in cursor.fetchall()]
+    
+    # Get current ELO (use team_id directly from elo_map which maps team_id -> elo)
+    elo_map = _compute_current_elo(conn)
+    current_elo = elo_map.get(team_id, ELO_DEFAULT)
+    
+    return {
+        "total_matches": total_matches,
+        "wins": wins,
+        "losses": losses,
+        "win_percentage": round(win_percentage, 1),
+        "sets_won": sets_won,
+        "sets_lost": sets_lost,
+        "set_ratio": round(set_ratio, 3),
+        "last_5_results": last_5_results,
+        "current_elo": round(current_elo, 1) if current_elo else None
+    }
+
+def get_team_top_players(conn, team_id, tournament_id=None):
+    """Get top performers for a team."""
+    cursor = conn.cursor()
+    
+    # Get top 3 scorers
+    query = """
+        SELECT p.full_name, 
+               SUM(pms.attack_points + pms.block_points + pms.serve_points) as total_points
+        FROM player_match_stats pms
+        JOIN players p ON pms.player_id = p.id  
+        JOIN matches m ON pms.match_id = m.id
+        WHERE pms.team_id = ?
+        AND pms.player_id IS NOT NULL
+    """
+    params = [team_id]
+    
+    if tournament_id:
+        query += " AND m.tournament_id = ?"
+        params.append(tournament_id)
+    
+    query += """
+        GROUP BY pms.player_id, p.full_name
+        ORDER BY total_points DESC
+        LIMIT 3
+    """
+    
+    cursor.execute(query, params)
+    top_players = []
+    for row in cursor.fetchall():
+        top_players.append({
+            "name": row[0],
+            "total_points": row[1],
+            "role": "scorer"
+        })
+    
+    return top_players
+
 def get_players_data(conn, tournament_id=None):
     """Fetch all players and their stats, optionally filtered by tournament."""
     cursor = conn.cursor()
@@ -767,8 +874,14 @@ def main():
     row = cursor.fetchone()
     current_tournament_id = row[0] if row else None
 
+    # Get teams and enrich with statistics
+    teams = get_teams_data(conn)
+    for team in teams:
+        team["statistics"] = get_team_statistics(conn, team["id"], tournament_id=current_tournament_id)
+        team["top_players"] = get_team_top_players(conn, team["id"], tournament_id=current_tournament_id)
+
     data = {
-        "teams": get_teams_data(conn),
+        "teams": teams,
         "players": get_players_data(conn, tournament_id=current_tournament_id),
         "tournaments": tournaments_data,
         "last_updated": datetime.now().isoformat()

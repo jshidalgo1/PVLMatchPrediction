@@ -62,7 +62,6 @@ export default function Home() {
 
     return (
         <div className="container mx-auto p-4 space-y-8">
-            <div className="bg-red-500 text-white p-4 font-bold">DEBUG: Players count: {data?.players?.length ?? 'undefined'}</div>
             <div className="text-center space-y-4 pb-8 border-b">
                 <div className="flex items-center justify-center gap-3">
                     <Trophy className="h-10 w-10 text-indigo-600" />
@@ -79,7 +78,6 @@ export default function Home() {
             {/* Current Tournament Display */}
             <div className="text-center pb-4">
                 <h2 className="text-2xl font-bold text-indigo-900">{currentTournament.name}</h2>
-                <p className="text-sm text-slate-500">Code: {currentTournament.code}</p>
             </div>
 
             {/* Tournament Phase Status */}
@@ -109,19 +107,6 @@ export default function Home() {
                 </Card>
             )}
 
-            {/* Top Players */}
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <TrendingUp className="h-5 w-5" />
-                        Top Players
-                    </CardTitle>
-                    <CardDescription>Leading scorers by total points (Attack + Block + Serve)</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <PlayerStatsTable players={data.players || []} />
-                </CardContent>
-            </Card>
 
             <Card>
                 <CardHeader>
@@ -365,3 +350,4 @@ function PlayerStatsTable({ players }: { players: any[] }) {
         </div>
     );
 }
+
