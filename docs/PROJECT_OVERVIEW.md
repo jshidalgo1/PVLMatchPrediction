@@ -1,333 +1,112 @@
-# 🏐 Volleyball AI Project - Complete Setup
-
-## ✅ What Has Been Created
-
-Your complete volleyball match prediction system is now ready! Here's everything that was built:
-
-### 📁 Core Scripts (highlights)
-
-1. **parse_volleyball_data.py** (10.3 KB)
-   - Parses PVL XML match files
-   - Extracts teams, players, statistics
-   - Saves to JSON format
-
-2. **feature_engineering.py** (10.9 KB)
-   - Engineers 84+ ML features
-   - Calculates efficiency metrics
-   - Tracks historical performance
-   - Creates training dataset
-
-3. **database_manager.py** (12.8 KB)
-   - SQLite database management
-   - 6 relational tables
-   - Stores matches, teams, players, stats
-
-4. **batch_processor.py** (6.0 KB)
-   - Complete automation pipeline
-   - Processes all XML files at once
-   - Generates all output files
-
-5. **train_xgboost.py** (8.2 KB)
-   - XGBoost model training
-   - Performance evaluation
-   - Feature importance analysis
-   - Model persistence
-
-6. **train_xgboost_with_players.py**
-   - Player-aware features
-   - Time-aware chronological split + probability calibration (Platt)
-   - Rich metrics (AUC, LogLoss, Brier)
-   - Saves calibrated and uncalibrated artifacts
-
-6. **download_matches.py** (4.0 KB)
-   - Helper to download PVL matches
-   - Batch and interactive modes
-   - Automatic file validation
-
-7. **quickstart.py** (7.4 KB)
-   - Interactive setup wizard
-   - Dependency checking
-   - Automated workflow
-   - Guided training
-
-8. **requirements.txt** (41 bytes)
-   - Python dependencies list
-   - Ready for pip install
-
-9. **README.md** (7.1 KB)
-   - Complete documentation
-   - API examples
-   - Customization guide
-
-### 📊 Generated Data Files
-
-✓ **volleyball_matches.json** (13.4 KB)
-  - Raw parsed match data
-  - 1 match processed
-
-✓ **volleyball_data.db** (49.2 KB)
-  - SQLite database
-  - 1 tournament, 2 teams, 27 players
-  - Fully queryable
-
-✓ **volleyball_features.csv** (2.2 KB)
-  - Complete dataset with metadata
-  - 84 features per match
-
-✓ **X_features.csv** (2.1 KB)
-  - ML feature matrix
-  - Ready for training
-
-✓ **y_target.csv** (13 bytes)
-  - Target labels (winner)
-
-### 🎯 Features Extracted (84 total)
-
-**Match Statistics (per team):**
-- Attack: points, faults, continues
-- Block: points, faults, continues  
-- Serve: points, faults, continues
-- Reception: excellent, faults, continues
-- Dig: excellent, faults, continues
-- Set: excellent, faults, continues
-- Opponent errors
-
-**Derived Metrics:**
-- Attack efficiency rate
-- Serve efficiency rate
-- Reception efficiency rate
-- Error rates per skill
-- Points per set averages
-- Sets won above threshold
-
-**Historical Features:**
-- Previous win rate
-- Previous set win rate
-- Average points scored/conceded
-- Performance trends
-
-## 🚀 Quick Start (3 Steps)
-
-### Step 1: Get More Match Data
-```bash
-# You need multiple matches for training
-python download_matches.py
-```
-
-**Or download manually:**
-```bash
-curl -o match.xml 'https://dashboard.pvl.ph/assets/match_results/xml/MATCH_ID.xml'
-```
-
-### Step 2: Process All Data
-```bash
-# One command to do everything
-python batch_processor.py
-```
-
-This will:
-- Parse all XML files
-- Create database
-- Generate features
-- Prepare for ML
-
-### Step 3: Train Model
-```bash
-# Train XGBoost predictor
-python train_xgboost.py
-```
-
-**Or use the wizard:**
-```bash
-python quickstart.py
-```
-
-## 📈 Current Status
-
-| Item | Status | Count |
-|------|--------|-------|
-| XML Files | ✓ Processed | 1 |
-| Matches | ✓ Loaded | 1 |
-| Teams | ✓ Registered | 2 |
-| Players | ✓ Registered | 27 |
-| Features | ✓ Generated | 84 |
-| Database | ✓ Created | Yes |
-| Model | ⚠️ Need More Data | - |
-
-### ⚠️ Important Note
-You currently have only **1 match** in your dataset. 
-
-**To train a working model, you need:**
-- Minimum: 2 matches (to split train/test)
-- Recommended: 20+ matches (for decent accuracy)
-- Ideal: 50+ matches (for good predictions)
-
-## 🎓 How to Get More Matches
-
-### Option 1: Use the Downloader
-```python
-# Edit download_matches.py and add match IDs to SAMPLE_MATCHES:
-SAMPLE_MATCHES = [
-    'PVL2023A-W01-AKAvCMF-XML',
-    'PVL2023A-W02-PTNvCIG-XML',  # Add more like this
-    'PVL2023A-W03-XXXvYYY-XML',
-]
-```
-
-### Option 2: Find Match IDs
-1. Visit: https://dashboard.pvl.ph/
-2. Browse match results
-3. Inspect network tab for XML URLs
-4. Note the match ID format: `PVLYYYYC-WXX-TTTvTTT-XML`
-
-### Option 3: Script Multiple Downloads
-```bash
-# Create a simple loop
-for i in {01..10}; do
-  curl -o "match_$i.xml" "https://dashboard.pvl.ph/assets/match_results/xml/MATCH_ID_$i.xml"
-done
-```
-
-## 🔄 Workflow After Adding Data
-
-Every time you add new XML files:
-
-```bash
-# 1. Process the new data
-python batch_processor.py
-
-# 2. Train updated model
-python train_xgboost.py
-```
-
-The system automatically:
-- Detects new XML files
-- Skips duplicates in database
-- Appends new features
-- Retrains with all data
-
-## 💡 What You Can Do Now
-
-### 1. Explore the Database
-```bash
-# Open SQLite database
-sqlite3 volleyball_data.db
-
-# Example queries:
-SELECT * FROM teams;
-SELECT * FROM matches;
-SELECT * FROM team_match_stats;
-```
-
-### 2. Analyze Features
-```python
-import pandas as pd
-
-# Load features
-df = pd.read_csv('volleyball_features.csv')
-
-# Explore data
-print(df.head())
-print(df.describe())
-print(df.columns)
-```
-
-### 3. Customize Features
-Edit `feature_engineering.py` to add:
-Additionally, `feature_engineering_with_players.py` includes chronological ELO rating computation (base 1500, K=20) and adds ELO-derived features used by the time-aware pipeline.
-
-- Player-specific features
-- Team form over last N matches
-- Home/away advantages
-- Head-to-head records
-
-### 4. Tune Model Parameters
-Edit `train_xgboost.py` params:
-```python
-params = {
-    'max_depth': 8,           # Try different depths
-    'learning_rate': 0.05,    # Lower for better accuracy
-    'n_estimators': 200,      # More trees
-}
-```
-
-## 📊 Database Schema
-
-**6 Tables Created:**
-- `tournaments` - Competition info
-- `teams` - Team details, coaches
-- `players` - Player roster
-- `matches` - Match metadata, results
-- `team_match_stats` - Detailed statistics
-- `set_scores` - Individual set results
-
-## 🎯 Model Architecture
-
-**Pipelines:**
-- Baseline (random-split) multi-model: XGBoost, LightGBM, CatBoost, RandomForest, GradientBoosting, Voting, Stacking (OOF + LogisticRegression)
-- Time-aware (chronological) + calibrated + ELO: same models, calibrated probabilities; includes Voting and Stacking
-
-**Inputs:** 80+ engineered features + ELO-derived features (when using time-aware pipeline)
-**Outputs:** Winner prediction with calibrated probabilities (time-aware)
-**Confidence:** Probability scores (0-100%) suitable for simulation decisions
-
-## 🛠️ File Structure
-
-```
-VolleyballAIProject/
-├── Core Scripts/
-│   ├── parse_volleyball_data.py
-│   ├── feature_engineering.py
-│   ├── database_manager.py
-│   ├── batch_processor.py
-│   └── train_xgboost.py
-│
-├── Helper Scripts/
-│   ├── download_matches.py
-│   └── quickstart.py
-│
-├── Data Files/
-│   ├── *.xml (source data)
-│   ├── volleyball_matches.json
-│   ├── volleyball_data.db
-│   ├── volleyball_features.csv
-│   ├── X_features.csv
-│   └── y_target.csv
-│
-├── Model Files/ (after training)
-│   ├── best_model_with_players_random.pkl
-│   ├── best_model_with_players_timeaware.pkl
-│   ├── best_model_with_players_random_stacking.pkl
-│   ├── best_model_with_players_timeaware_stacking.pkl
-│   ├── calibrated_xgboost_with_players.pkl
-│   └── feature_importance_with_players.csv
-│
-└── Documentation/
-    ├── README.md
-    ├── PROJECT_OVERVIEW.md (this file)
-    └── requirements.txt
-```
-
-## 📞 Next Steps Checklist
-
-- [ ] Download 10+ more match XML files
-- [ ] Run batch_processor.py to process all matches
-- [ ] Train initial model with train_xgboost.py
-- [ ] Review feature_importance.csv
-- [ ] Add custom features if needed
-- [ ] Collect 50+ matches for production model
-- [ ] Tune hyperparameters for best accuracy
-- [ ] Compare random vs time-aware summaries (`outputs/simulation_output_random.txt` vs `outputs/simulation_output_timeaware.txt`)
-- [ ] Create prediction API/interface
-- [ ] Deploy model for real predictions
-
-## 🎉 You're All Set!
-
-Your volleyball prediction system infrastructure is complete. The scripts are tested and working. Now you just need more match data to train an accurate model.
-
-**Start with:** `python download_matches.py` or manually download more XML files.
+# 🏐 PVL Match Prediction System - Project Overview
+
+## ✅ Project Status
+The PVL Match Prediction System is a comprehensive end-to-end solution for predicting volleyball match outcomes. It includes data ingestion, feature engineering, machine learning modeling, tournament simulation, and a modern interactive dashboard.
+
+### 🚀 Key Capabilities
+- **Automated Data Ingestion**: Fetches match data directly from the PVL website.
+- **Advanced Analytics**: Calculates 80+ features including player efficiency, team form, and ELO ratings.
+- **Machine Learning**: Uses XGBoost with time-aware validation and probability calibration.
+- **Tournament Simulation**: Simulates entire tournaments (Preliminary -> Playoffs) to predict champions.
+- **Interactive Dashboard**: A Next.js web application to visualize stats, predictions, and brackets.
 
 ---
 
-Built with: Python, Pandas, XGBoost, SQLite
-Last Updated: October 29, 2025
+## 📁 System Architecture
+
+### 1. Data Pipeline (`scripts/`)
+The core logic resides in the `scripts/` directory, handling everything from raw data to model predictions.
+
+| Script | Description |
+|--------|-------------|
+| **`fetch_all_matches.py`** | **Data Ingestion**. Scrapes match IDs and downloads XML data from the PVL dashboard. |
+| **`parse_volleyball_data.py`** | **Parsing**. Converts raw XML into structured JSON and stores it in the SQLite database. |
+| **`feature_engineering_with_players.py`** | **Feature Engineering**. Calculates stats, efficiency metrics, and ELO ratings. Generates training datasets. |
+| **`train_xgboost_with_players.py`** | **Modeling**. Trains the XGBoost model using time-aware splits and calibrates probabilities. |
+| **`simulate_tournament.py`** | **Simulation**. Simulates the remaining matches of a tournament using the trained model to predict final standings. |
+| **`export_dashboard_data.py`** | **Integration**. Exports processed data (matches, stats, predictions) to JSON for the dashboard. |
+| **`database_manager.py`** | **Storage**. Manages the SQLite database schema and operations. |
+
+### 2. Dashboard (`dashboard/`)
+A modern web interface built with **Next.js**, **Tailwind CSS**, and **Shadcn UI**.
+
+- **Home (`/`)**: Tournament overview, recent results, and upcoming match predictions.
+- **Teams (`/teams`)**: Detailed team statistics, rosters, and performance metrics.
+- **Players (`/players`)**: Top player rankings and individual statistics.
+- **History (`/history`)**: Historical match results and model performance tracking.
+
+### 3. Data Storage
+- **`data/volleyball_data.db`**: SQLite database storing all relational data (teams, players, matches, stats).
+- **`data/volleyball_matches.json`**: Raw parsed match data.
+- **`dashboard/public/data.json`**: Exported data consumed by the frontend.
+
+---
+
+## 🔄 End-to-End Workflow
+
+### Step 1: Ingest Data
+Download the latest match results from the PVL website.
+```bash
+python scripts/fetch_all_matches.py
+```
+
+### Step 2: Process & Train
+Parse the data, engineer features, and retrain the model.
+```bash
+python scripts/batch_processor.py
+```
+*Note: `batch_processor.py` orchestrates parsing, feature engineering, and training.*
+
+### Step 3: Simulate Tournament
+Run Monte Carlo simulations to predict the tournament outcome based on current standings.
+```bash
+python scripts/simulate_tournament.py
+```
+
+### Step 4: Update Dashboard
+Export the latest data and predictions to the dashboard.
+```bash
+python scripts/export_dashboard_data.py
+```
+
+### Step 5: Launch Dashboard
+Start the local web server to view the results.
+```bash
+cd dashboard
+npm run dev
+```
+Visit `http://localhost:3000` to explore the insights.
+
+---
+
+## 📊 Data & Features
+
+### Extracted Features (80+)
+- **Skills**: Attack, Block, Serve, Reception, Dig, Set (Efficiency & Error rates).
+- **Context**: Home/Away (nominal), Set number, Match duration.
+- **Advanced**:
+    - **ELO Ratings**: Chronological team strength tracking.
+    - **Form**: Performance over the last N matches.
+    - **H2H**: Head-to-head historical records.
+
+### Database Schema
+- `tournaments`: Conference details.
+- `teams`: Team metadata.
+- `players`: Roster information.
+- `matches`: Match results and metadata.
+- `team_match_stats`: Aggregated stats per match.
+- `set_scores`: Set-by-set scores.
+
+---
+
+## 🛠️ Tech Stack
+- **Language**: Python 3.9+
+- **ML Framework**: XGBoost, Scikit-learn
+- **Database**: SQLite
+- **Frontend**: Next.js 14, React, Tailwind CSS, Recharts
+- **Utilities**: Pandas, NumPy, BeautifulSoup4
+
+## 📞 Next Steps
+- [ ] **Advanced Metrics**: Implement rotation-based analysis.
+- [ ] **Real-time**: Integrate live score updates.
+- [ ] **Deployment**: Deploy the dashboard to Vercel/Netlify.
